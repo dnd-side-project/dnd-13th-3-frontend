@@ -33,6 +33,9 @@ const config: Config = {
         '10': '36px',
         'screen-margin': '20px', // MINU 스크린 마진
         gutter: '16px', // MINU 컬럼 간격
+        'top-tab-switcher': '108px', // 탭 스위처 상단 위치
+        'top-tab-content': '152px', // 탭 콘텐츠 상단 위치
+        'top-tab-logo': '60px', // 탭 로고 상단 위치
       },
 
       // MINU Design System - Typography

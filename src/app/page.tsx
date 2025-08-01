@@ -1,9 +1,29 @@
-export default function Home() {
+'use client';
+
+import Image from 'next/image';
+import TabSwitcher from '@/components/TabSwitcher';
+import GoalTab from '@/components/GoalTab';
+import TimerTab from '@/components/TimerTab';
+import { useTabStore } from '@/store/tabStore';
+
+export default function HomePage() {
+  const { activeTab } = useTabStore();
+
   return (
-    <div className="w-full min-h-dvh flex flex-col items-center justify-center px-screen-margin">
-      <h1 className="text-title-1 font-bold mb-6 text-gray-900">
-        DND 13th 3 Frontend
-      </h1>
-    </div>
+    <main className="relative h-screen overflow-hidden">
+      <div className="px-screen-margin left-screen-margin absolute top-tab-logo">
+        <Image
+          src="/images/logos/MinuLogo.svg"
+          alt="MINU Logo"
+          width={84}
+          height={24}
+          priority
+        />
+      </div>
+      <TabSwitcher />
+
+      {activeTab === 'goal' && <GoalTab />}
+      {activeTab === 'timer' && <TimerTab />}
+    </main>
   );
 }
