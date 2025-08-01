@@ -1,7 +1,7 @@
 export default function GoalTab() {
   return (
-    <div className="absolute left-screen-margin top-tab-content">
-      <div className="max-w-content justify-start">
+    <div className="w-full">
+      <div className="max-w-content">
         <span className="text-heading-1 font-bold text-gray-900 font-pretendard">
           미누님,{' '}
         </span>

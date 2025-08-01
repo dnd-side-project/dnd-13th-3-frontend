@@ -1,6 +1,8 @@
 
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
@@ -45,21 +47,3 @@ html {
 html::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
-
-/* MINU Design System */
-.left-screen-margin { left: 20px; }
-.top-tab-switcher { top: 108px; }
-.top-tab-content { top: 152px; }
-.top-tab-logo { top: 60px; }
-.max-w-content { max-width: 335px; }
-.text-heading-1 { 
-  font-size: 22px; 
-  line-height: 30px; 
-  letter-spacing: -0.0194em; 
-}
-.text-heading-2 { 
-  font-size: 20px; 
-  line-height: 28px; 
-  letter-spacing: -0.012em; 
-}
-.font-pretendard { font-family: 'Pretendard', sans-serif; }

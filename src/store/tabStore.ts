@@ -1,5 +1,3 @@
-'use client';
-
 import { create } from 'zustand';
 
 type Tab = 'goal' | 'timer';

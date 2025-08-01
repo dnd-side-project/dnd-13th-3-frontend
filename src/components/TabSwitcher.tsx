@@ -1,12 +1,11 @@
 'use client';
-
 import { useTabStore } from '@/store/tabStore';
 
-export default function TabSwitcher() {
+export default function MainTabSwitcher() {
   const { activeTab, setTab } = useTabStore();
 
   return (
-    <div className="flex justify-start items-center gap-3 absolute left-screen-margin top-tab-switcher">
+    <div className="flex justify-start items-center gap-3">
       <button
         type="button"
         onClick={() => setTab('goal')}
@@ -27,4 +26,4 @@ export default function TabSwitcher() {
       </button>
     </div>
   );
-}
+} 

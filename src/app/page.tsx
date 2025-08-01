@@ -1,29 +1,24 @@
-'use client';
-
-import Image from 'next/image';
+import Logo from '@/components/Logo';
 import TabSwitcher from '@/components/TabSwitcher';
-import GoalTab from '@/components/GoalTab';
-import TimerTab from '@/components/TimerTab';
-import { useTabStore } from '@/store/tabStore';
+import TabContent from '@/components/TabContent';
 
 export default function HomePage() {
-  const { activeTab } = useTabStore();
-
   return (
-    <main className="relative h-screen overflow-hidden">
-      <div className="px-screen-margin left-screen-margin absolute top-tab-logo">
-        <Image
-          src="/images/logos/MinuLogo.svg"
-          alt="MINU Logo"
-          width={84}
-          height={24}
-          priority
-        />
+    <main className="flex flex-col h-screen overflow-hidden px-screen-margin">
+      {/* 로고 영역 */}
+      <div className="pt-tab-logo">
+        <Logo />
       </div>
-      <TabSwitcher />
-
-      {activeTab === 'goal' && <GoalTab />}
-      {activeTab === 'timer' && <TimerTab />}
+      
+      {/* 탭 스위처 영역 */}
+      <div className="flex pt-tab-switcher">
+        <TabSwitcher />
+      </div>
+      
+      {/* 탭 컨텐츠 영역 */}
+      <div className="flex-1 overflow-hidden pt-tab-content">
+        <TabContent />
+      </div>
     </main>
   );
 }
