@@ -1,6 +1,6 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-type Tab = 'goal' | 'timer';
+type Tab = "goal" | "timer";
 
 interface TabStore {
   activeTab: Tab;
@@ -8,6 +8,6 @@ interface TabStore {
 }
 
 export const useTabStore = create<TabStore>((set) => ({
-  activeTab: 'goal',
+  activeTab: "goal",
   setTab: (tab) => set({ activeTab: tab }),
 }));
