@@ -1,6 +1,6 @@
 import Logo from "@/components/Logo";
-import TabSwitcher from "@/components/TabSwitcher";
 import TabContent from "@/components/TabContent";
+import TabSwitcher from "@/components/TabSwitcher";
 
 export default function HomePage() {
   return (

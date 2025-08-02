@@ -1,7 +1,7 @@
 "use client";
-import { useTabStore } from "@/store/tabStore";
 import GoalTab from "@/components/GoalTab";
 import TimerTab from "@/components/TimerTab";
+import { useTabStore } from "@/store/tabStore";
 
 export default function MainTabContent() {
   const { activeTab } = useTabStore();
