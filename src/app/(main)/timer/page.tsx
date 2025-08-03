@@ -1,5 +1,5 @@
 import TabSwitcher from "@/components/TabSwitcher";
-import TimerTab from "@/components/TimerTab";
+import TimerContainer from "@/components/TimerContainer";
 
 export default function TimerPage() {
   return (
@@ -8,7 +8,7 @@ export default function TimerPage() {
         <TabSwitcher />
       </div>
       <div className='flex-1 overflow-hidden pt-[16px]'>
-        <TimerTab />
+        <TimerContainer />
       </div>
     </>
   );
