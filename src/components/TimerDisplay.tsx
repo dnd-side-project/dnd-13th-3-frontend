@@ -35,7 +35,7 @@ export default function TimerDisplay({
         onClick={onSelectMission}
       />
 
-      <div className='relative flex items-center justify-center mb-8'>
+      <div className='relative flex items-center justify-center'>
         <CircularTimer
           elapsedTime={elapsedTime}
           progressPercentage={progressPercentage}

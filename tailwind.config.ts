@@ -12,6 +12,10 @@ const config: Config = {
       maxWidth: {
         mobile: "375px", // MINU 디바이스 너비
         content: "335px", // MINU 콘텐츠 너비
+        tablet: "768px", //  최대 너비
+      },
+      minWidth: {
+        mobile: "375px", // 최소 너비
       },
       screens: {
         mobile: "375px",

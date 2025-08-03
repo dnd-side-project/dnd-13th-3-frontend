@@ -197,7 +197,7 @@ export default function TimerContainer() {
           <button
             type='button'
             onClick={startTimer}
-            className='flex-1 btn-medium btn-primary'
+            className='flex-1 btn-medium btn-primary mb-4'
           >
             시작
           </button>
