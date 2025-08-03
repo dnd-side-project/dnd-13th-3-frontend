@@ -11,7 +11,7 @@ export default function ConfirmEndModal({
 }: ConfirmEndModalProps) {
   return (
     <div className='fixed inset-0 bg-dim-background flex items-center justify-center z-50 p-4'>
-      <div className='bg-white rounded-2xl p-6 w-full max-w-sm mx-4'>
+      <div className='bg-white rounded-2xl p-6 min-w-screen-mobile w-[70%] mx-4'>
         <h2 className='text-lg font-semibold text-gray-900 mb-2'>
           정말로 타이머를 끝내시겠습니까?
         </h2>
