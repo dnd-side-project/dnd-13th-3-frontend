@@ -53,7 +53,7 @@ export default function MissionSelectModal({
       aria-modal='true'
     >
       <div
-        className='bg-white w-full max-w-mobile mx-auto rounded-t-[39px] max-h-[70vh] overflow-y-auto animate-slide-up'
+        className='bg-white w-full min-w-mobile max-w-tablet mx-auto rounded-t-[39px] max-h-[70vh] overflow-y-auto animate-slide-up'
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => e.stopPropagation()}
         role='document'
