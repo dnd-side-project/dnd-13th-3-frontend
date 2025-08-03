@@ -1,7 +1,7 @@
 "use client";
 import { useMemo } from "react";
-import MissionSelectButton from "./MissionSelectButton";
 import CircularTimer from "./CircularTimer";
+import MissionSelectButton from "./MissionSelectButton";
 import TimeDisplay from "./TimeDisplay";
 
 interface TimerDisplayProps {
@@ -11,11 +11,19 @@ interface TimerDisplayProps {
   isModalOpen: boolean;
 }
 
-export default function TimerDisplay({ elapsedTime, selectedMission, onSelectMission, isModalOpen }: TimerDisplayProps) {
+export default function TimerDisplay({
+  elapsedTime,
+  selectedMission,
+  onSelectMission,
+  isModalOpen,
+}: TimerDisplayProps) {
   const { progressPercentage } = useMemo(() => {
     const totalSeconds = Math.floor(elapsedTime / 1000);
-    const progressPercentage = Math.min((totalSeconds % 3600) / 3600 * 100, 100);
-    
+    const progressPercentage = Math.min(
+      ((totalSeconds % 3600) / 3600) * 100,
+      100
+    );
+
     return { progressPercentage };
   }, [elapsedTime]);
 
@@ -26,7 +34,7 @@ export default function TimerDisplay({ elapsedTime, selectedMission, onSelectMis
         isModalOpen={isModalOpen}
         onClick={onSelectMission}
       />
-      
+
       <div className='relative flex items-center justify-center mb-8'>
         <CircularTimer
           elapsedTime={elapsedTime}
@@ -36,4 +44,4 @@ export default function TimerDisplay({ elapsedTime, selectedMission, onSelectMis
       </div>
     </div>
   );
-} 
+}

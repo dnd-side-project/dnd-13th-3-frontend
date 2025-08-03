@@ -10,8 +10,8 @@ export default function TimeDisplay({ elapsedTime }: TimeDisplayProps) {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-    
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -20,8 +20,8 @@ export default function TimeDisplay({ elapsedTime }: TimeDisplayProps) {
         {formatTime(elapsedTime)}
       </div>
       <div className='text-sm text-gray-600'>
-        {elapsedTime === 0 ? '함께 시작해볼까요?' : '잘하고있어요!'}
+        {elapsedTime === 0 ? "함께 시작해볼까요?" : "잘하고있어요!"}
       </div>
     </div>
   );
-} 
+}

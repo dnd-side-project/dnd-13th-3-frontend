@@ -5,7 +5,10 @@ interface ConfirmEndModalProps {
   onCancel: () => void;
 }
 
-export default function ConfirmEndModal({ onConfirm, onCancel }: ConfirmEndModalProps) {
+export default function ConfirmEndModal({
+  onConfirm,
+  onCancel,
+}: ConfirmEndModalProps) {
   return (
     <div className='fixed inset-0 bg-dim-background flex items-center justify-center z-50 p-4'>
       <div className='bg-white rounded-2xl p-6 w-full max-w-sm mx-4'>
@@ -34,4 +37,4 @@ export default function ConfirmEndModal({ onConfirm, onCancel }: ConfirmEndModal
       </div>
     </div>
   );
-} 
+}

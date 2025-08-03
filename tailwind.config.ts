@@ -24,7 +24,7 @@ const config: Config = {
         "1": "4px",
         "2": "8px",
         "3": "12px",
-        "4": "16px", 
+        "4": "16px",
         "5": "20px",
         "6": "20px",
         "7": "24px",
@@ -213,31 +213,45 @@ const config: Config = {
     },
   },
   plugins: [
-    function({ addComponents }: any) {
+    ({
+      addComponents,
+    }: {
+      addComponents: (
+        components: Record<
+          string,
+          Record<string, string | Record<string, string>>
+        >
+      ) => void;
+    }) => {
       addComponents({
-        '.btn-main': {
-          '@apply px-2.5 py-3.5 rounded-xl font-semibold text-base leading-normal tracking-tight h-[52px]': {},
+        ".btn-main": {
+          "@apply px-2.5 py-3.5 rounded-xl font-semibold text-base leading-normal tracking-tight h-[52px]":
+            {},
         },
-        '.btn-medium': {
-          '@apply px-2.5 py-3 rounded-[10px] font-medium text-sm leading-tight tracking-tight h-[44px]': {},
+        ".btn-medium": {
+          "@apply px-2.5 py-3 rounded-[10px] font-medium text-sm leading-tight tracking-tight h-[44px]":
+            {},
         },
-        '.btn-small': {
-          '@apply px-3 py-2 rounded-[46px] font-medium text-xs leading-none tracking-tight h-[32px]': {},
+        ".btn-small": {
+          "@apply px-3 py-2 rounded-[46px] font-medium text-xs leading-none tracking-tight h-[32px]":
+            {},
         },
-        '.btn-extra-small': {
-          '@apply px-2.5 py-1 rounded font-semibold text-[10px] leading-3 tracking-tight h-[32px]': {},
+        ".btn-extra-small": {
+          "@apply px-2.5 py-1 rounded font-semibold text-[10px] leading-3 tracking-tight h-[32px]":
+            {},
         },
-        '.btn-primary': {
-          '@apply bg-primary text-white': {},
+        ".btn-primary": {
+          "@apply bg-primary text-white": {},
         },
-        '.btn-secondary': {
-          '@apply bg-white outline outline-1 outline-offset-[-1px] outline-primary text-primary': {},
+        ".btn-secondary": {
+          "@apply bg-white outline outline-1 outline-offset-[-1px] outline-primary text-primary":
+            {},
         },
-        '.btn-disabled': {
-          '@apply bg-gray-100 text-gray-400 cursor-not-allowed': {},
+        ".btn-disabled": {
+          "@apply bg-gray-100 text-gray-400 cursor-not-allowed": {},
         },
-      })
-    }
+      });
+    },
   ],
 };
 

@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, useState, useCallback, useEffect, useMemo } from "react";
-import TimerDisplay from "./TimerDisplay";
-import MissionSelectModal from "./MissionSelectModal";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ConfirmEndModal from "./ConfirmEndModal";
+import MissionSelectModal from "./MissionSelectModal";
 import ResultModal from "./ResultModal";
+import TimerDisplay from "./TimerDisplay";
 
 interface TimerState {
   isRunning: boolean;
@@ -29,55 +29,58 @@ const INITIAL_STATE: TimerState = {
 export default function TimerContainer() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
-  
+
   const [state, setState] = useState<TimerState>(INITIAL_STATE);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-    localStorage.removeItem('timerState');
+    localStorage.removeItem("timerState");
   }, []);
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (state.isRunning || state.isPaused) {
         e.preventDefault();
-        e.returnValue = '';
+        e.returnValue = "";
       }
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [state.isRunning, state.isPaused]);
 
   useEffect(() => {
     if (isMounted && (state.isRunning || state.isPaused)) {
-      localStorage.setItem('timerState', JSON.stringify({
-        ...state,
-        startTime: startTimeRef.current
-      }));
+      localStorage.setItem(
+        "timerState",
+        JSON.stringify({
+          ...state,
+          startTime: startTimeRef.current,
+        })
+      );
     }
   }, [state, isMounted]);
 
   const startTimer = useCallback(() => {
     if (!state.selectedMission) {
-      setState(prev => ({ ...prev, showMissionModal: true }));
+      setState((prev) => ({ ...prev, showMissionModal: true }));
       return;
     }
 
     const now = Date.now();
     startTimeRef.current = state.isPaused ? now - state.elapsedTime : now;
-    
-    setState(prev => ({ 
-      ...prev, 
-      isRunning: true, 
+
+    setState((prev) => ({
+      ...prev,
+      isRunning: true,
       isPaused: false,
-      showMissionModal: false 
+      showMissionModal: false,
     }));
 
     intervalRef.current = setInterval(() => {
       const elapsed = Date.now() - startTimeRef.current;
-      setState(prev => ({ ...prev, elapsedTime: elapsed }));
+      setState((prev) => ({ ...prev, elapsedTime: elapsed }));
     }, 100);
   }, [state.selectedMission, state.isPaused, state.elapsedTime]);
 
@@ -86,7 +89,7 @@ export default function TimerContainer() {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    setState(prev => ({ ...prev, isRunning: false, isPaused: true }));
+    setState((prev) => ({ ...prev, isRunning: false, isPaused: true }));
   }, []);
 
   const endTimer = useCallback(() => {
@@ -94,25 +97,25 @@ export default function TimerContainer() {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    
+
     console.log("타이머 종료:", {
       mission: state.selectedMission,
       elapsedTime: state.elapsedTime,
-      totalSeconds: Math.floor(state.elapsedTime / 1000)
+      totalSeconds: Math.floor(state.elapsedTime / 1000),
     });
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isRunning: false,
       isPaused: false,
       showConfirmModal: false,
-      showResultModal: true
+      showResultModal: true,
     }));
   }, [state.selectedMission, state.elapsedTime]);
 
   const confirmResult = useCallback(() => {
     setState(INITIAL_STATE);
-    localStorage.removeItem('timerState');
+    localStorage.removeItem("timerState");
     startTimeRef.current = 0;
   }, []);
 
@@ -121,46 +124,46 @@ export default function TimerContainer() {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    
-    setState(prev => ({ 
-      ...prev, 
-      isRunning: false, 
+
+    setState((prev) => ({
+      ...prev,
+      isRunning: false,
       isPaused: true,
-      showConfirmModal: true 
+      showConfirmModal: true,
     }));
   }, []);
 
   const handleContinueClick = useCallback(() => {
     const now = Date.now();
     startTimeRef.current = now - state.elapsedTime;
-    
-    setState(prev => ({ 
-      ...prev, 
-      isRunning: true, 
+
+    setState((prev) => ({
+      ...prev,
+      isRunning: true,
       isPaused: false,
-      showConfirmModal: false 
+      showConfirmModal: false,
     }));
 
     intervalRef.current = setInterval(() => {
       const elapsed = Date.now() - startTimeRef.current;
-      setState(prev => ({ ...prev, elapsedTime: elapsed }));
+      setState((prev) => ({ ...prev, elapsedTime: elapsed }));
     }, 100);
   }, [state.elapsedTime]);
 
   const handleMissionSelect = useCallback(() => {
     if (state.isRunning || state.isPaused) {
-      alert('타이머 실행 중에는 모드를 변경할 수 없습니다.');
+      alert("타이머 실행 중에는 모드를 변경할 수 없습니다.");
       return;
     }
-    setState(prev => ({ ...prev, showMissionModal: true }));
+    setState((prev) => ({ ...prev, showMissionModal: true }));
   }, [state.isRunning, state.isPaused]);
 
   const selectMission = useCallback((mission: string) => {
-    setState(prev => ({ ...prev, selectedMission: mission }));
+    setState((prev) => ({ ...prev, selectedMission: mission }));
   }, []);
 
   const closeMissionModal = useCallback(() => {
-    setState(prev => ({ ...prev, showMissionModal: false }));
+    setState((prev) => ({ ...prev, showMissionModal: false }));
   }, []);
 
   const buttonState = useMemo(() => {
@@ -168,7 +171,7 @@ export default function TimerContainer() {
     return {
       showStartButton: !isActive,
       showActionButtons: isActive,
-      isPaused: state.isPaused
+      isPaused: state.isPaused,
     };
   }, [state.isRunning, state.isPaused]);
 
@@ -227,10 +230,7 @@ export default function TimerContainer() {
       )}
 
       {state.showConfirmModal && (
-        <ConfirmEndModal
-          onConfirm={endTimer}
-          onCancel={handleContinueClick}
-        />
+        <ConfirmEndModal onConfirm={endTimer} onCancel={handleContinueClick} />
       )}
 
       {state.showResultModal && (
@@ -242,4 +242,4 @@ export default function TimerContainer() {
       )}
     </div>
   );
-} 
+}
