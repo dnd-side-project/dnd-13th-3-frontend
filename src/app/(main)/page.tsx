@@ -1,5 +1,5 @@
-import GoalTab from "@/components/GoalTab";
-import TabSwitcher from "@/components/TabSwitcher";
+import { GoalTab } from "@/components/common";
+import { TabSwitcher } from "@/components/timer";
 
 export default function HomePage() {
   return (

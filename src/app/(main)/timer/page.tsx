@@ -1,5 +1,4 @@
-import TabSwitcher from "@/components/TabSwitcher";
-import TimerContainer from "@/components/TimerContainer";
+import { TabSwitcher, TimerContainer } from "@/components/timer";
 
 export default function TimerPage() {
   return (

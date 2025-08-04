@@ -1,11 +1,11 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
+import { useTimer } from "../../hooks/useTimer";
 import ConfirmEndModal from "./ConfirmEndModal";
 import MissionSelectModal from "./MissionSelectModal";
 import ResultModal from "./ResultModal";
 import TimerDisplay from "./TimerDisplay";
-import { useTimer } from "../hooks/useTimer";
 
 interface ModalState {
   showMissionModal: boolean;
@@ -83,9 +83,12 @@ export default function TimerContainer() {
     setModalState((prev) => ({ ...prev, showMissionModal: true }));
   }, [isRunning, isPaused]);
 
-  const selectMission = useCallback((mission: string) => {
-    setSelectedMission(mission);
-  }, [setSelectedMission]);
+  const selectMission = useCallback(
+    (mission: string) => {
+      setSelectedMission(mission);
+    },
+    [setSelectedMission]
+  );
 
   const closeMissionModal = useCallback(() => {
     setModalState((prev) => ({ ...prev, showMissionModal: false }));
