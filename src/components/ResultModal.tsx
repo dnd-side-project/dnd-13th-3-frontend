@@ -22,7 +22,7 @@ export default function ResultModal({
 
   return (
     <div className='fixed inset-0 bg-dim-background flex items-center justify-center z-50 p-4'>
-      <div className='bg-white rounded-2xl p-6 min-w-screen-mobile w-[60%] mx-4'>
+      <div className='bg-white rounded-2xl p-6 min-w-screen-mobile mx-4'>
         <h2 className='text-lg font-semibold text-gray-900 mb-2'>미션 완료!</h2>
         <div className='mb-6'>
           <p className='text-sm text-gray-600 mb-2'>
