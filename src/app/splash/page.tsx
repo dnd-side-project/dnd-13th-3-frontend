@@ -16,9 +16,7 @@ export default function SplashPage() {
 
   return (
     <main className='flex flex-col min-h-screen bg-[#557AF3] relative items-center justify-center'>
-      <div className='flex flex-col items-center justify-center text-center mb-[348px] px-4'>
-        <LoginContent />
-      </div>
+      <LoginContent />
     </main>
   );
 }

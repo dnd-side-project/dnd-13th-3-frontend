@@ -15,7 +15,7 @@ export default function LoginPage() {
         <MinuCharacter />
       </div>
 
-      <LoginContent />
+      <LoginContent className='mt-[72px]' />
 
       <GoogleLoginButton />
     </main>
