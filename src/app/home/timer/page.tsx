@@ -6,7 +6,7 @@ export default function TimerPage() {
       <div className='flex pt-[20px]'>
         <TabSwitcher />
       </div>
-      <div className='flex-1 overflow-hidden pt-[16px]'>
+      <div className='flex-1 pt-[16px]'>
         <TimerContainer />
       </div>
     </>

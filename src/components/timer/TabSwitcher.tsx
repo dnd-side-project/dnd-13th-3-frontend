@@ -5,14 +5,14 @@ export default function MainTabSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const isGoalActive = pathname === "/";
-  const isTimerActive = pathname === "/timer";
+  const isGoalActive = pathname === "/home";
+  const isTimerActive = pathname === "/home/timer";
 
   return (
     <div className='flex justify-start items-center gap-3'>
       <button
         type='button'
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/home")}
         className={`text-heading-2 font-bold ${
           isGoalActive ? "text-gray-900" : "text-gray-400"
         }`}
@@ -21,7 +21,7 @@ export default function MainTabSwitcher() {
       </button>
       <button
         type='button'
-        onClick={() => router.push("/timer")}
+        onClick={() => router.push("/home/timer")}
         className={`text-heading-2 font-bold ${
           isTimerActive ? "text-gray-900" : "text-gray-400"
         }`}

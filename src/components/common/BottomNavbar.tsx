@@ -5,16 +5,16 @@ export default function BottomNavbar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const isHomeActive = pathname === "/" || pathname === "/timer";
-  const isChallengeActive = pathname === "/challenge";
-  const isRecordActive = pathname === "/record";
+  const isHomeActive = pathname === "/home" || pathname === "/home/timer";
+  const isChallengeActive = pathname === "/home/challenge";
+  const isRecordActive = pathname === "/home/record";
 
   return (
     <div className='h-20 bg-gray-100 border-t border-gray-200'>
       <div className='flex justify-around items-center h-full'>
         <button
           type='button'
-          onClick={() => router.push("/challenge")}
+          onClick={() => router.push("/home/challenge")}
           className={`flex flex-col items-center justify-center flex-1 h-full ${
             isChallengeActive ? "text-blue-600" : "text-gray-600"
           }`}
@@ -28,7 +28,7 @@ export default function BottomNavbar() {
         </button>
         <button
           type='button'
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/home")}
           className={`flex flex-col items-center justify-center flex-1 h-full ${
             isHomeActive ? "text-blue-600" : "text-gray-600"
           }`}
@@ -42,7 +42,7 @@ export default function BottomNavbar() {
         </button>
         <button
           type='button'
-          onClick={() => router.push("/record")}
+          onClick={() => router.push("/home/record")}
           className={`flex flex-col items-center justify-center flex-1 h-full ${
             isRecordActive ? "text-blue-600" : "text-gray-600"
           }`}

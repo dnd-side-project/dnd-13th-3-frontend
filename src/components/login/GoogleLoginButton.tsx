@@ -1,13 +1,18 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 interface GoogleLoginButtonProps {
   onClick?: () => void;
 }
 
 export default function GoogleLoginButton({ onClick }: GoogleLoginButtonProps) {
+  const router = useRouter();
+
   const handleClick = () => {
     console.log("클릭 이벤트 핸들");
     onClick?.();
+    router.push("/home");
   };
 
   return (
