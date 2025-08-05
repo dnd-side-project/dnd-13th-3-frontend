@@ -1,12 +1,23 @@
+import { MinuCharacter } from "@/components";
+import {
+  CloudLayer,
+  GoogleLoginButton,
+  LoginContent,
+} from "@/components/login";
+
 export default function LoginPage() {
   return (
-    <div className='flex flex-col items-center justify-center h-full'>
-      <h1 className='text-title-1 font-bold text-gray-900 mb-8'>로그인</h1>
-      <div className='w-full max-w-sm'>
-        <div className='bg-gray-100 p-4 rounded-lg'>
-          <p className='text-body-1 text-gray-600'>로그인 폼이 들어갈 자리</p>
-        </div>
+    <main className='flex flex-col min-h-screen bg-[#557AF3] relative items-center justify-between'>
+      <CloudLayer />
+
+      {/* 미누 캐릭터 */}
+      <div className='absolute top-[385px] left-1/2 translate-x-[35px] z-20'>
+        <MinuCharacter />
       </div>
-    </div>
+
+      <LoginContent />
+
+      <GoogleLoginButton />
+    </main>
   );
 }
