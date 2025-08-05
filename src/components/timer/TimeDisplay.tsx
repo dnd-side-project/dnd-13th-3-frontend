@@ -16,7 +16,7 @@ export default function TimeDisplay({ elapsedTime }: TimeDisplayProps) {
 
   return (
     <div className='absolute flex flex-col items-center justify-center'>
-      <div className='text-4xl font-bold text-gray-900 mb-2'>
+      <div className='text-center justify-start text-gray-600 text-5xl font-normal mb-2'>
         {formatTime(elapsedTime)}
       </div>
       <div className='text-sm text-gray-600'>
