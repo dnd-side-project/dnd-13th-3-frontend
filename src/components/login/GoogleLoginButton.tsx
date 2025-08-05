@@ -12,7 +12,7 @@ export default function GoogleLoginButton({ onClick }: GoogleLoginButtonProps) {
   const handleClick = () => {
     console.log("클릭 이벤트 핸들");
     onClick?.();
-    router.push("/home");
+    router.push("/onboarding");
   };
 
   return (
