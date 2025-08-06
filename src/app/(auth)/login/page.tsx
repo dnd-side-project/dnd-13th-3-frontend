@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { MinuCharacter } from "@/components";
 import {
   CloudLayer,
@@ -7,11 +8,15 @@ import {
 
 export default function LoginPage() {
   return (
-    <main className='flex flex-col min-h-screen bg-primary relative items-center justify-between'>
+    <main
+      className={clsx(
+        "flex flex-col min-h-screen bg-primary relative items-center justify-between"
+      )}
+    >
       <CloudLayer />
 
       {/* 미누 캐릭터 */}
-      <div className='absolute top-[385px] left-1/2 translate-x-[35px] z-20'>
+      <div className='absolute top-[385px] left-1/2 z-20 transform translate-x-[35px]'>
         <MinuCharacter />
       </div>
 

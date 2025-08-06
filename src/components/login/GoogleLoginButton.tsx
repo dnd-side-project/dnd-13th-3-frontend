@@ -1,6 +1,8 @@
 "use client";
 
+import clsx from "clsx";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface GoogleLoginButtonProps {
   onClick?: () => void;
@@ -8,6 +10,12 @@ interface GoogleLoginButtonProps {
 
 export default function GoogleLoginButton({ onClick }: GoogleLoginButtonProps) {
   const router = useRouter();
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleClick = () => {
     console.log("클릭 이벤트 핸들");
@@ -16,11 +24,20 @@ export default function GoogleLoginButton({ onClick }: GoogleLoginButtonProps) {
   };
 
   return (
-    <div className='absolute bottom-6 left-0 right-0 px-6 z-50'>
+    <div
+      className={clsx(
+        "absolute bottom-6 left-0 right-0 px-6 z-50",
+        "transition-opacity duration-700 ease-out",
+        isVisible ? "opacity-100" : "opacity-0"
+      )}
+    >
       <div className='max-w-md mx-auto'>
         <button
           type='button'
-          className='w-full flex items-center justify-center gap-3 bg-white py-3 px-4 rounded-xl hover:shadow-md transition-all duration-200'
+          className={clsx(
+            "w-full flex items-center justify-center gap-3 bg-white py-3 px-4 rounded-xl",
+            "hover:shadow-md transition-all duration-200"
+          )}
           onClick={handleClick}
         >
           <div className='flex-shrink-0 w-5 h-5'>
