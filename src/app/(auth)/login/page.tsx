@@ -15,12 +15,11 @@ export default function LoginPage() {
     >
       <CloudLayer />
 
-      {/* 미누 캐릭터 */}
+      <LoginContent className='mt-[76px]' />
+
       <div className='absolute top-[385px] left-1/2 z-20 transform translate-x-[35px]'>
         <MinuCharacter />
       </div>
-
-      <LoginContent className='mt-[72px]' />
 
       <GoogleLoginButton />
     </main>

@@ -8,16 +8,16 @@ export default function MinuCharacter() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 700);
+    const timer = setTimeout(() => setIsVisible(true), 500);
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <div
       className={clsx(
-        "inline-block animate-fade-in-bounce",
+        "inline-block",
         "transition-opacity duration-500 ease-out",
-        isVisible ? "opacity-100" : "opacity-0"
+        isVisible ? "opacity-100 animate-fade-in-bounce" : "opacity-0"
       )}
     >
       <Image
