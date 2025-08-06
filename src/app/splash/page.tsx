@@ -15,7 +15,7 @@ export default function SplashPage() {
   }, [router]);
 
   return (
-    <main className='flex flex-col min-h-screen bg-[#557AF3] relative items-center justify-center'>
+    <main className='flex flex-col min-h-screen bg-primary relative items-center justify-center'>
       <LoginContent />
     </main>
   );
