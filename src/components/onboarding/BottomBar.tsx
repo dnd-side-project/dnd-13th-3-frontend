@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { MINU_CONTENT_WIDTH_PX } from "@/lib/onboarding";
 
 interface BottomBarProps {
   disabled: boolean;
@@ -10,21 +9,23 @@ interface BottomBarProps {
 export default function BottomBar({ disabled, onNext, label }: BottomBarProps) {
   return (
     <div className='fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-20'>
-      <div className='py-3 mx-auto' style={{ width: MINU_CONTENT_WIDTH_PX }}>
-        <button
-          type='button'
-          onClick={onNext}
-          disabled={disabled}
-          className={clsx(
-            "w-full py-3.5 rounded-xl font-semibold text-base leading-normal tracking-tight",
-            "transition-all duration-200",
-            disabled
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "bg-primary text-white hover:shadow-md"
-          )}
-        >
-          {label}
-        </button>
+      <div className='py-3 w-full px-screen-margin'>
+        <div className='max-w-content mx-auto'>
+          <button
+            type='button'
+            onClick={onNext}
+            disabled={disabled}
+            className={clsx(
+              "w-full py-3.5 rounded-xl font-semibold text-base leading-normal tracking-tight",
+              "transition-all duration-200",
+              disabled
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-primary text-white hover:shadow-md"
+            )}
+          >
+            {label}
+          </button>
+        </div>
       </div>
     </div>
   );

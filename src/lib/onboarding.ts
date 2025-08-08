@@ -1,4 +1,3 @@
-export const MINU_CONTENT_WIDTH_PX = 335;
 export const TOTAL_STEPS = 3;
 
 // 허용 문자: 한글 음절, 영문, 공백
