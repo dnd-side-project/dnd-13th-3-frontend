@@ -120,7 +120,7 @@ export function useTimer() {
     isPaused: state.isPaused,
     elapsedTime: state.elapsedTime,
     selectedMission: state.selectedMission,
-    
+
     // 액션
     startTimer,
     pauseTimer,
