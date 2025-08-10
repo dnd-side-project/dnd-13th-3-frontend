@@ -55,9 +55,9 @@ export function useTimer() {
     }
   }, [state, isMounted]);
 
-  useAnimationFrame((deltaTime) => {
+  useAnimationFrame((_deltaTime) => {
     if (!state.isRunning) return;
-    
+
     const now = performance.now();
     if (now - lastUpdateTimeRef.current >= 100) {
       const elapsed = Date.now() - startTimeRef.current;
@@ -83,7 +83,6 @@ export function useTimer() {
   }, []);
 
   const endTimer = useCallback(() => {
-
     console.log("타이머 종료:", {
       mission: state.selectedMission,
       elapsedTime: state.elapsedTime,

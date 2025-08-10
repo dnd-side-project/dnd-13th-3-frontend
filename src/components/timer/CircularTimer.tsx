@@ -12,7 +12,12 @@ export default function CircularTimer({
   return (
     <div className='relative flex items-center justify-center mb-8'>
       <div className='w-76 h-76 rounded-full relative'>
-        <svg className='w-full h-full rotate-[-90deg]' viewBox='0 0 100 100'>
+        <svg
+          className='w-full h-full rotate-[-90deg]'
+          viewBox='0 0 100 100'
+          role='img'
+          aria-label='타이머 진행률'
+        >
           <circle
             cx='50'
             cy='50'

@@ -119,9 +119,9 @@ export default function TimerContainer() {
             onClick={startTimer}
             disabled={!selectedMission}
             className={`flex-1 btn-medium mb-4 ${
-              selectedMission 
-                ? 'btn-primary' 
-                : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+              selectedMission
+                ? "btn-primary"
+                : "bg-gray-200 text-gray-500 cursor-not-allowed"
             }`}
           >
             시작
@@ -132,9 +132,9 @@ export default function TimerContainer() {
               type='button'
               onClick={buttonState.isPaused ? startTimer : pauseTimer}
               className={`flex-1 btn-medium ${
-                buttonState.isPaused 
-                  ? 'bg-gray-500 text-white' 
-                  : 'btn-secondary'
+                buttonState.isPaused
+                  ? "bg-gray-500 text-white"
+                  : "btn-secondary"
               }`}
             >
               {buttonState.isPaused ? "이어서 시작" : "일시정지"}

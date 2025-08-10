@@ -178,7 +178,7 @@ const config: Config = {
           300: "#3FD599",
           400: "#15C47E",
           500: "#02A262",
-          600: "#02A262", 
+          600: "#02A262",
           700: "#029359",
           800: "#028450",
           900: "#027648",
@@ -219,7 +219,7 @@ const config: Config = {
         // MINU Brand Colors
         primary: "#557AF3", // 메인 컬러
         secondary: "#839DF1", // secondary 컬러
-        point:"#B1C1FF",
+        point: "#B1C1FF",
         "light-blue": "#B1C1FF", // light blue 컬러
       },
 
