@@ -12,13 +12,13 @@ export default function BottomNavbar() {
   const isRecordActive = pathname === "/record";
 
   return (
-    <div className="max-w-[272px] mx-auto pb-4 sticky bottom-0 bg-transparent">
-      <div className="w-full px-4 bg-white rounded-[32px] outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex justify-between items-center">
+    <div className='max-w-[272px] mx-auto pb-4 sticky bottom-0 bg-transparent'>
+      <div className='w-full px-4 bg-white rounded-[32px] outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex justify-between items-center'>
         <button
-          type="button"
+          type='button'
           onClick={() => router.push("/challenge")}
           aria-current={isChallengeActive ? "page" : undefined}
-          className="h-16 min-w-20 px-4 py-2.5 inline-flex flex-col justify-center items-center gap-0.5"
+          className='h-16 min-w-20 px-4 py-2.5 inline-flex flex-col justify-center items-center gap-0.5'
         >
           <Image
             src={
@@ -26,7 +26,7 @@ export default function BottomNavbar() {
                 ? "/images/logos/MedalActive.svg"
                 : "/images/logos/Medal.svg"
             }
-            alt="challenge"
+            alt='challenge'
             width={24}
             height={24}
             priority
@@ -42,10 +42,10 @@ export default function BottomNavbar() {
           </span>
         </button>
         <button
-          type="button"
+          type='button'
           onClick={() => router.push("/main")}
           aria-current={isHomeActive ? "page" : undefined}
-          className="h-16 min-w-20 px-4 py-2.5 inline-flex flex-col justify-center items-center gap-0.5"
+          className='h-16 min-w-20 px-4 py-2.5 inline-flex flex-col justify-center items-center gap-0.5'
         >
           <Image
             src={
@@ -53,7 +53,7 @@ export default function BottomNavbar() {
                 ? "/images/logos/HomeActive.svg"
                 : "/images/logos/Home.svg"
             }
-            alt="home"
+            alt='home'
             width={24}
             height={24}
             priority
@@ -69,10 +69,10 @@ export default function BottomNavbar() {
           </span>
         </button>
         <button
-          type="button"
+          type='button'
           onClick={() => router.push("/record")}
           aria-current={isRecordActive ? "page" : undefined}
-          className="h-16 min-w-20 px-4 py-2.5 inline-flex flex-col justify-center items-center gap-0.5"
+          className='h-16 min-w-20 px-4 py-2.5 inline-flex flex-col justify-center items-center gap-0.5'
         >
           <Image
             src={
@@ -80,7 +80,7 @@ export default function BottomNavbar() {
                 ? "/images/logos/RecordActive.svg"
                 : "/images/logos/Record.svg"
             }
-            alt="record"
+            alt='record'
             width={24}
             height={24}
             priority
