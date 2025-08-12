@@ -1,5 +1,3 @@
-import { Timer, Pencil, Star } from "lucide-react";
-
 export default function StatsCards() {
   return (
     <div className="w-full flex justify-center items-center gap-2">
@@ -8,7 +6,7 @@ export default function StatsCards() {
         <div className="flex flex-col justify-start items-start gap-2">
           {/* 타이머 + 텍스트 */}
           <div className="flex justify-start items-center gap-1">
-            <Timer size={16} strokeWidth={1.8} className="stroke-gray-400" />
+            <img src="/images/logos/Icon/Normal/Clock.svg" alt="목표 시간" width={16} height={16} />
             <div className="text-gray-400 text-sm font-medium font-pretendard leading-tight tracking-tight">
               목표 시간
             </div>
@@ -18,7 +16,7 @@ export default function StatsCards() {
             <div className="text-gray-900 text-xl font-semibold font-pretendard leading-7">
               7시간
             </div>
-            <Pencil size={18} strokeWidth={1.8} className="stroke-gray-400" />
+            <img src="/images/logos/Icon/Normal/Pencil.svg" alt="수정" width={18} height={18} />
           </div>
         </div>
       </div>
@@ -28,7 +26,7 @@ export default function StatsCards() {
         <div className="flex flex-col justify-start items-start gap-2">
           {/* 별 + 텍스트 */}
           <div className="flex justify-start items-center gap-1">
-            <Star size={16} strokeWidth={1.8} className="stroke-gray-400" />
+            <img src="/images/logos/Icon/Normal/Star.svg" alt="오늘의 성공률" width={16} height={16} />
             <div className="text-gray-400 text-sm font-medium font-pretendard leading-tight tracking-tight">
               오늘의 성공률
             </div>
