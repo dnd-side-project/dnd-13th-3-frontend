@@ -6,7 +6,7 @@ export default function ProgressSection() {
       <div className="h-3 bg-white rounded-lg flex relative w-[303px]">
         <div className="w-1/2 h-3 bg-indigo-500 rounded-lg" />
         {/* 미누 캐릭터 */}
-        <div className="absolute -top-6 left-1/4 transform -translate-x-1/2 z-30">
+        <div className="absolute bottom-1 left-0 z-30">
           <Image
             src="/images/logos/MinuDefault.svg"
             alt="Minu Default"
