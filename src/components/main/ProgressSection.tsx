@@ -1,6 +1,13 @@
 import Image from "next/image";
 
-export default function ProgressSection() {
+interface ProgressSectionProps {
+  targetTime: {
+    hours: number;
+    minutes: number;
+  };
+}
+
+export default function ProgressSection({ targetTime }: ProgressSectionProps) {
   return (
     <div className='relative w-full flex flex-col items-center w-[303px] left-1/2 transform -translate-x-1/2 mt-[243px]'>
       <div className='h-3 bg-white rounded-lg flex relative w-[303px]'>
@@ -20,7 +27,9 @@ export default function ProgressSection() {
             치유중
           </div>
           <div className='text-gray-500 text-sm font-medium font-pretendard'>
-            7시간
+            {targetTime.minutes > 0
+              ? `${targetTime.hours}시간 ${targetTime.minutes}분`
+              : `${targetTime.hours}시간`}
           </div>
         </div>
       </div>

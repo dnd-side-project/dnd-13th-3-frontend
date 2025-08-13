@@ -1,9 +1,30 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 import { GoalTab } from "@/components/common";
-import { ProgressSection, ScreenTimeInfo, StatsCards } from "@/components/main";
+import {
+  ProgressSection,
+  ScreenTimeInfo,
+  StatsCards,
+  TimeEditModal,
+} from "@/components/main";
 import { TabSwitcher } from "@/components/timer";
 
 export default function HomePage() {
+  const [isTimeEditModalOpen, setTimeEditModalOpen] = useState(false);
+  const [targetTime, setTargetTime] = useState({ hours: 7, minutes: 0 });
+
+  const openTimeEditModal = () => setTimeEditModalOpen(true);
+  const closeTimeEditModal = () => setTimeEditModalOpen(false);
+
+  const handleSaveTime = (newHours: string, newMinutes: string) => {
+    setTargetTime({
+      hours: parseInt(newHours, 10) || 0,
+      minutes: parseInt(newMinutes, 10) || 0,
+    });
+    closeTimeEditModal();
+  };
   return (
     <div className='w-full h-full bg-white overflow-hidden flex flex-col'>
       {/* 상단 탭 스위처 */}
@@ -33,15 +54,22 @@ export default function HomePage() {
           {/* 스크린타임 & 진행률 */}
           <div className='absolute z-20 flex-col items-center justify-center w-[335px] h-[335px]'>
             <ScreenTimeInfo />
-            <ProgressSection />
+            <ProgressSection targetTime={targetTime} />
           </div>
         </div>
 
         {/* 통계 카드 (배경 이미지 아래) */}
         <div className='flex justify-center mt-3'>
-          <StatsCards />
+          <StatsCards targetTime={targetTime} openModal={openTimeEditModal} />
         </div>
       </div>
+      <TimeEditModal
+        isOpen={isTimeEditModalOpen}
+        onClose={closeTimeEditModal}
+        onSave={handleSaveTime}
+        initialHours={targetTime.hours}
+        initialMinutes={targetTime.minutes}
+      />
     </div>
   );
 }
