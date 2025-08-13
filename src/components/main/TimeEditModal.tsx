@@ -27,6 +27,18 @@ export default function TimeEditModal({ isOpen, onClose, onSave, initialHours, i
   const [hours, setHours] = useState(String(initialHours));
   const [minutes, setMinutes] = useState(String(initialMinutes));
 
+  const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (parseInt(value, 10) > 23) return;
+    setHours(value);
+  };
+
+  const handleMinutesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (parseInt(value, 10) > 59) return;
+    setMinutes(value);
+  };
+
   useEffect(() => {
     if (isOpen) {
       setHours(String(initialHours));
@@ -52,8 +64,8 @@ export default function TimeEditModal({ isOpen, onClose, onSave, initialHours, i
         <div className="w-80 py-4 flex flex-col items-center gap-2">
           <p className="w-full text-gray-800 text-xs font-medium font-pretendard leading-none tracking-tight">목표 시간 수정</p>
           <div className="w-full h-16 flex justify-start items-start gap-3 mt-2">
-            <TimeInput value={hours} onChange={(e) => setHours(e.target.value)} label="시간" />
-            <TimeInput value={minutes} onChange={(e) => setMinutes(e.target.value)} label="분" />
+            <TimeInput value={hours} onChange={handleHoursChange} label="시간" />
+            <TimeInput value={minutes} onChange={handleMinutesChange} label="분" />
           </div>
         </div>
 
