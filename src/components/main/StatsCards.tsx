@@ -1,5 +1,23 @@
+"use client";
+
+import { useState } from 'react';
+import TimeEditModal from './TimeEditModal';
+
 export default function StatsCards() {
+    const [isModalOpen, setModalOpen] = useState(false);
+  const [targetTime, setTargetTime] = useState({ hours: 7, minutes: 0 });
+
+  const openModal = () => setModalOpen(true);
+    const closeModal = () => setModalOpen(false);
+
+  const handleSaveTime = (newHours: string, newMinutes: string) => {
+    setTargetTime({
+      hours: parseInt(newHours, 10) || 0,
+      minutes: parseInt(newMinutes, 10) || 0,
+    });
+  };
   return (
+    <>
     <div className="w-full flex justify-center items-center gap-2">
       {/* 목표 시간 카드 */}
       <div className="w-40 px-5 py-3 bg-gray-100 rounded-2xl flex justify-start items-start gap-1">
@@ -14,9 +32,9 @@ export default function StatsCards() {
           {/* 시간 + 연필 */}
           <div className="w-32 flex justify-between items-center">
             <div className="text-gray-900 text-xl font-semibold font-pretendard leading-7">
-              7시간
+              {targetTime.minutes > 0 ? `${targetTime.hours}시간 ${targetTime.minutes}분` : `${targetTime.hours}시간`}
             </div>
-            <img src="/images/logos/Icon/Normal/Pencil.svg" alt="수정" width={18} height={18} />
+            <img src="/images/logos/Icon/Normal/Pencil.svg" alt="수정" width={18} height={18} onClick={openModal} className="cursor-pointer" />
           </div>
         </div>
       </div>
@@ -38,5 +56,13 @@ export default function StatsCards() {
         </div>
       </div>
     </div>
+      <TimeEditModal 
+        isOpen={isModalOpen} 
+        onClose={closeModal} 
+        onSave={handleSaveTime}
+        initialHours={targetTime.hours}
+        initialMinutes={targetTime.minutes}
+      />
+    </>
   );
 }
