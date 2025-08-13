@@ -39,7 +39,7 @@ export default function HomePage() {
         </div>
 
         {/* 통계 카드 (배경 이미지 아래) */}
-        <div className="z-20 flex justify-center mt-3">
+        <div className="flex justify-center mt-3">
           <StatsCards />
         </div>
       </div>
