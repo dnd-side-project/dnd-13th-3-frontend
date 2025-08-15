@@ -1,38 +1,42 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 interface ProgressSectionProps {
-  targetTime: {
-    hours: number;
-    minutes: number;
-  };
+  todayScreenTime: number;
+  goalScreenTime: number;
 }
 
-export default function ProgressSection({ targetTime }: ProgressSectionProps) {
+const ProgressSection = ({ todayScreenTime, goalScreenTime }: ProgressSectionProps) => {
+  const progressPercentage = goalScreenTime > 0 ? (todayScreenTime / goalScreenTime) * 100 : 0;
+
   return (
-    <div className='relative w-full flex flex-col items-center w-[303px] left-1/2 transform -translate-x-1/2 mt-[243px]'>
-      <div className='h-3 bg-white rounded-lg flex relative w-[303px]'>
-        <div className='w-1/2 h-3 bg-indigo-500 rounded-lg' />
-        {/* 미누 캐릭터 */}
-        <div className='absolute bottom-1 left-0 z-30'>
-          <Image
-            src='/images/logos/MinuDefault.svg'
-            alt='Minu Default'
-            width={51.5}
-            height={51.5}
-            priority
-          />
-        </div>
+    <div className='relative w-full max-w-full flex flex-col items-center mt-[243px]'>
+      <div className={`relative h-4 w-full rounded-full ${progressPercentage <= 100 ? 'bg-white' : ''}`}
+        style={progressPercentage > 100 ? {
+          backgroundImage: `url('/images/logos/screentimeOver.svg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        } : {}}>
         <div className='absolute -bottom-5 w-full flex justify-between items-center'>
           <div className='text-gray-500 text-sm font-medium font-pretendard'>
             치유중
           </div>
           <div className='text-gray-500 text-sm font-medium font-pretendard'>
-            {targetTime.minutes > 0
-              ? `${targetTime.hours}시간 ${targetTime.minutes}분`
-              : `${targetTime.hours}시간`}
+            {Math.floor(goalScreenTime / 60)}시간 {goalScreenTime % 60 > 0 ? `${goalScreenTime % 60}분` : ''}
           </div>
+        </div>
+        <div
+          className={`absolute h-4 rounded-full ${progressPercentage > 100 ? 'bg-red-500' : 'bg-blue-500'}`}
+          style={{ width: `${Math.min(progressPercentage, 100)}%` }}
+        ></div>
+        <div
+          className="absolute -top-8 transition-all duration-500 z-30"
+          style={{ left: `calc(${progressPercentage}% - 16px)` }}
+        >
+          <Image src="/images/logos/MinuDefault.svg" alt="character" width={32} height={32} />
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default ProgressSection;
