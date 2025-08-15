@@ -8,9 +8,41 @@ interface StatsCardsProps {
     minutes: number;
   };
   openModal: () => void;
+  isOverTime: boolean;
+  todayScreenTime: number;
+  goalScreenTime: number;
 }
 
-export default function StatsCards({ targetTime, openModal }: StatsCardsProps) {
+export default function StatsCards({
+  targetTime,
+  openModal,
+  isOverTime,
+  todayScreenTime,
+  goalScreenTime,
+}: StatsCardsProps) {
+  const successRateIconSrc = isOverTime
+    ? '/images/logos/Fire.svg'
+    : '/images/logos/Icon/Normal/Star.svg';
+  const successRateAltText = isOverTime ? '목표 시간 초과' : '오늘의 성공률';
+
+  const cardTitle = isOverTime ? '초과시간' : '오늘의 성공률';
+
+  const formatTime = (minutes: number) => {
+    if (minutes < 0) minutes = 0;
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return m > 0 ? `${h}시간 ${m}분` : `${h}시간`;
+  };
+
+  const cardValue = (() => {
+    if (isOverTime) {
+      return formatTime(todayScreenTime - goalScreenTime);
+    }
+    if (goalScreenTime > 0) {
+      return `${Math.round((todayScreenTime / goalScreenTime) * 100)}%`;
+    }
+    return '0%';
+  })();
   return (
     <div className='w-full flex justify-center items-center gap-2'>
       {/* 목표 시간 카드 */}
@@ -57,18 +89,18 @@ export default function StatsCards({ targetTime, openModal }: StatsCardsProps) {
           {/* 별 + 텍스트 */}
           <div className='flex justify-start items-center gap-1'>
             <Image
-              src='/images/logos/Icon/Normal/Star.svg'
-              alt='오늘의 성공률'
+              src={successRateIconSrc}
+              alt={successRateAltText}
               width={16}
               height={16}
             />
             <div className='text-gray-400 text-sm font-medium font-pretendard leading-tight tracking-tight'>
-              오늘의 성공률
+              {cardTitle}
             </div>
           </div>
           {/* 성공률 */}
           <div className='text-gray-900 text-xl font-semibold font-pretendard leading-7'>
-            83%
+            {cardValue}
           </div>
         </div>
       </div>

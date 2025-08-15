@@ -82,7 +82,13 @@ export default function MainContent() {
 
         {/* 통계 카드 (배경 이미지 아래) */}
         <div className='flex justify-center mt-3'>
-          <StatsCards targetTime={targetTime} openModal={openTimeEditModal} />
+          <StatsCards
+            targetTime={targetTime}
+            openModal={openTimeEditModal}
+            isOverTime={isOverTime}
+            todayScreenTime={todayScreenTime}
+            goalScreenTime={goalScreenTime}
+          />
         </div>
       </div>
       <TimeEditModal
