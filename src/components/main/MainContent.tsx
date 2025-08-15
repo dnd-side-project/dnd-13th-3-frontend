@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { GoalTab } from "@/components/common";
 import {
+  GoalEditModal,
   ProgressSection,
   ScreenTimeInfo,
   StatsCards,
@@ -13,11 +14,16 @@ import { TabSwitcher } from "@/components/timer";
 
 export default function MainContent() {
   const [isTimeEditModalOpen, setTimeEditModalOpen] = useState(false);
+  const [isGoalEditModalOpen, setGoalEditModalOpen] = useState(false);
+  const [goal, setGoal] = useState("혼자 있는 시간 디지털 없이 보내기");
   const [targetTime, setTargetTime] = useState({ hours: 7, minutes: 0 });
   const [todayScreenTime, setTodayScreenTime] = useState(210); // 3시간 30분을 분으로 환산, 임시 데이터
 
   const openTimeEditModal = () => setTimeEditModalOpen(true);
   const closeTimeEditModal = () => setTimeEditModalOpen(false);
+
+  const openGoalEditModal = () => setGoalEditModalOpen(true);
+  const closeGoalEditModal = () => setGoalEditModalOpen(false);
 
   const handleSaveTime = (newHours: string, newMinutes: string) => {
     setTargetTime({
@@ -25,6 +31,11 @@ export default function MainContent() {
       minutes: parseInt(newMinutes, 10) || 0,
     });
     closeTimeEditModal();
+  };
+
+  const handleSaveGoal = (newGoal: string) => {
+    setGoal(newGoal);
+    closeGoalEditModal();
   };
 
   const goalScreenTime = targetTime.hours * 60 + targetTime.minutes;
@@ -61,7 +72,7 @@ export default function MainContent() {
 
           {/* 스크린타임 & 진행률 */}
           <div className='absolute z-20 flex-col items-center justify-center w-[303px] h-[335px] overflow-visible left-1/2 transform -translate-x-1/2'>
-            <ScreenTimeInfo />
+            <ScreenTimeInfo goal={goal} openModal={openGoalEditModal} />
             <ProgressSection 
             todayScreenTime={todayScreenTime}
             goalScreenTime={targetTime.hours * 60 + targetTime.minutes}
@@ -80,6 +91,12 @@ export default function MainContent() {
         onSave={handleSaveTime}
         initialHours={targetTime.hours}
         initialMinutes={targetTime.minutes}
+      />
+      <GoalEditModal
+        isOpen={isGoalEditModalOpen}
+        onClose={closeGoalEditModal}
+        onSave={handleSaveGoal}
+        initialGoal={goal}
       />
     </div>
   );

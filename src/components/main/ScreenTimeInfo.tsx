@@ -1,19 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import GoalEditModal from "./GoalEditModal";
 
-export default function ScreenTimeInfo() {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [goal, setGoal] = useState("혼자 있는 시간 디지털 없이 보내기");
+interface ScreenTimeInfoProps {
+  goal: string;
+  openModal: () => void;
+}
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
-
-  const handleSaveGoal = (newGoal: string) => {
-    setGoal(newGoal);
-  };
+export default function ScreenTimeInfo({ goal, openModal }: ScreenTimeInfoProps) {
   return (
     <>
       <button
@@ -43,12 +37,7 @@ export default function ScreenTimeInfo() {
           />
         </div>
       </button>
-      <GoalEditModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onSave={handleSaveGoal}
-        initialGoal={goal}
-      />
+
     </>
   );
 }
