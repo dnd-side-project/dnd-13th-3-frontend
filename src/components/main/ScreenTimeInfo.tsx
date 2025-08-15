@@ -7,7 +7,10 @@ interface ScreenTimeInfoProps {
   openModal: () => void;
 }
 
-export default function ScreenTimeInfo({ goal, openModal }: ScreenTimeInfoProps) {
+export default function ScreenTimeInfo({
+  goal,
+  openModal,
+}: ScreenTimeInfoProps) {
   return (
     <>
       <button
@@ -37,7 +40,6 @@ export default function ScreenTimeInfo({ goal, openModal }: ScreenTimeInfoProps)
           />
         </div>
       </button>
-
     </>
   );
 }

@@ -32,14 +32,17 @@ export default function GoalEditModal({
 
   return (
     <div
-      className={`fixed inset-0 bg-black bg-opacity-50 flex justify-center items-end z-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+      className={`fixed inset-0 bg-black bg-opacity-50 flex justify-center items-end z-50 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`}
+    >
       <div
-        className={`w-full bg-white rounded-t-2xl flex flex-col items-center transform transition-transform duration-300 ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}>
+        className={`w-full bg-white rounded-t-2xl flex flex-col items-center transform transition-transform duration-300 ${isOpen ? "translate-y-0" : "translate-y-full"}`}
+      >
         {/* Modal Handle */}
         <button
           type='button'
           className='w-full h-8 flex justify-center items-center cursor-pointer'
-          onClick={onClose}>
+          onClick={onClose}
+        >
           <div className='w-12 h-1 bg-neutral-200 rounded-full' />
         </button>
 
@@ -70,7 +73,8 @@ export default function GoalEditModal({
           <button
             type='button'
             className='w-full h-12 bg-indigo-500 rounded-xl text-white text-base font-semibold font-pretendard leading-normal tracking-tight'
-            onClick={handleSave}>
+            onClick={handleSave}
+          >
             완료
           </button>
         </div>

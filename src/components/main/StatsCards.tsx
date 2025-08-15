@@ -21,11 +21,11 @@ export default function StatsCards({
   goalScreenTime,
 }: StatsCardsProps) {
   const successRateIconSrc = isOverTime
-    ? '/images/logos/Fire.svg'
-    : '/images/logos/Icon/Normal/Star.svg';
-  const successRateAltText = isOverTime ? '목표 시간 초과' : '오늘의 성공률';
+    ? "/images/logos/Fire.svg"
+    : "/images/logos/Icon/Normal/Star.svg";
+  const successRateAltText = isOverTime ? "목표 시간 초과" : "오늘의 성공률";
 
-  const cardTitle = isOverTime ? '초과시간' : '오늘의 성공률';
+  const cardTitle = isOverTime ? "초과시간" : "오늘의 성공률";
 
   const formatTime = (minutes: number) => {
     if (minutes < 0) minutes = 0;
@@ -41,7 +41,7 @@ export default function StatsCards({
     if (goalScreenTime > 0) {
       return `${Math.round((todayScreenTime / goalScreenTime) * 100)}%`;
     }
-    return '0%';
+    return "0%";
   })();
   return (
     <div className='w-full flex justify-center items-center gap-2'>

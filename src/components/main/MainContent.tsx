@@ -41,8 +41,8 @@ export default function MainContent() {
   const goalScreenTime = targetTime.hours * 60 + targetTime.minutes;
   const isOverTime = goalScreenTime > 0 && todayScreenTime > goalScreenTime;
   const backgroundImageSrc = isOverTime
-    ? '/images/logos/screentimeOver.svg'
-    : '/images/logos/screentime.svg';
+    ? "/images/logos/screentimeOver.svg"
+    : "/images/logos/screentime.svg";
 
   return (
     <div className='w-full h-full bg-white overflow-hidden flex flex-col'>
@@ -73,10 +73,10 @@ export default function MainContent() {
           {/* 스크린타임 & 진행률 */}
           <div className='absolute z-20 flex-col items-center justify-center w-[303px] h-[335px] overflow-visible left-1/2 transform -translate-x-1/2'>
             <ScreenTimeInfo goal={goal} openModal={openGoalEditModal} />
-            <ProgressSection 
-            todayScreenTime={todayScreenTime}
-            goalScreenTime={targetTime.hours * 60 + targetTime.minutes}
-          />
+            <ProgressSection
+              todayScreenTime={todayScreenTime}
+              goalScreenTime={targetTime.hours * 60 + targetTime.minutes}
+            />
           </div>
         </div>
 
