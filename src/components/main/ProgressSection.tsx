@@ -8,7 +8,12 @@ interface ProgressSectionProps {
 const ProgressSection = ({ todayScreenTime, goalScreenTime }: ProgressSectionProps) => {
   const progressPercentage = goalScreenTime > 0 ? (todayScreenTime / goalScreenTime) * 100 : 0;
 
-  const characterPosition = progressPercentage > 94 ? 94 : progressPercentage;
+    const characterPosition = progressPercentage > 92 ? 92 : progressPercentage;
+
+  const isOverTime = progressPercentage > 100;
+  const characterImageSrc = isOverTime
+    ? '/images/logos/Error.svg'
+    : '/images/logos/MinuDefault.svg';
 
   return (
     <div className='relative w-full max-w-full flex flex-col items-center mt-[243px]'>
@@ -31,10 +36,10 @@ const ProgressSection = ({ todayScreenTime, goalScreenTime }: ProgressSectionPro
           style={{ width: `${Math.min(progressPercentage, 100)}%` }}
         ></div>
         <div
-          className="absolute -top-8 transition-all duration-500 z-30"
-          style={{ left: `calc(${characterPosition}% - 16px)` }}
+          className={`absolute ${isOverTime ? 'bottom-4' : 'bottom-2'} transition-all duration-500 z-30`}
+          style={{ left: `calc(${characterPosition}% - 23.5px)` }}
         >
-          <Image src="/images/logos/MinuDefault.svg" alt="character" width={32} height={32} />
+          <Image src={characterImageSrc} alt="character" width={47} height={37} />
         </div>
       </div>
     </div>
