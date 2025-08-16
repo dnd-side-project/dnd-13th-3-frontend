@@ -17,7 +17,7 @@ export default function MainContent() {
   const [isGoalEditModalOpen, setGoalEditModalOpen] = useState(false);
   const [goal, setGoal] = useState("혼자 있는 시간 디지털 없이 보내기");
   const [targetTime, setTargetTime] = useState({ hours: 7, minutes: 0 });
-  const [todayScreenTime, setTodayScreenTime] = useState(210); // 3시간 30분을 분으로 환산, 임시 데이터
+  const [todayScreenTime, setTodayScreenTime] = useState(210); // 더미데이터 (3시간 30분)
 
   const openTimeEditModal = () => setTimeEditModalOpen(true);
   const closeTimeEditModal = () => setTimeEditModalOpen(false);
@@ -53,12 +53,10 @@ export default function MainContent() {
 
       {/* 메인 콘텐츠 */}
       <div className='pt-[16px] flex flex-col relative'>
-        {/* 인사말 */}
         <div className='z-20 relative'>
           <GoalTab />
         </div>
 
-        {/* 중앙 영역 (배경 이미지 + 스크린타임 + 진행률) */}
         <div className='flex flex-col items-center justify-center relative mt-5'>
           {/* 배경 이미지 */}
           <div className='justify-center items-center z-0'>
@@ -72,7 +70,11 @@ export default function MainContent() {
 
           {/* 스크린타임 & 진행률 */}
           <div className='absolute z-20 flex-col items-center justify-center w-[303px] h-[335px] overflow-visible left-1/2 transform -translate-x-1/2'>
-            <ScreenTimeInfo goal={goal} openModal={openGoalEditModal} />
+            <ScreenTimeInfo
+              goal={goal}
+              openModal={openGoalEditModal}
+              todayScreenTime={todayScreenTime}
+            />
             <ProgressSection
               todayScreenTime={todayScreenTime}
               goalScreenTime={targetTime.hours * 60 + targetTime.minutes}
@@ -80,7 +82,7 @@ export default function MainContent() {
           </div>
         </div>
 
-        {/* 통계 카드 (배경 이미지 아래) */}
+        {/* 통계 카드 */}
         <div className='flex justify-center mt-3'>
           <StatsCards
             targetTime={targetTime}

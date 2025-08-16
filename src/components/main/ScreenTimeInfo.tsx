@@ -5,11 +5,13 @@ import Image from "next/image";
 interface ScreenTimeInfoProps {
   goal: string;
   openModal: () => void;
+  todayScreenTime: number;
 }
 
 export default function ScreenTimeInfo({
   goal,
   openModal,
+  todayScreenTime,
 }: ScreenTimeInfoProps) {
   return (
     <>
@@ -23,7 +25,7 @@ export default function ScreenTimeInfo({
             오늘의 스크린타임
           </div>
           <div className='text-gray-900 text-3xl font-semibold font-pretendard leading-10 whitespace-nowrap'>
-            3시간 32분
+            {`${Math.floor(todayScreenTime / 60)}시간 ${todayScreenTime % 60}분`}
           </div>
         </div>
 
