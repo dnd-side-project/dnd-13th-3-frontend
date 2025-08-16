@@ -47,14 +47,20 @@ export default function TimeEditModal({
 
   const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (parseInt(value, 10) > 23) return;
-    setHours(value);
+    if (value === "") return setHours("");
+    const n = Number.parseInt(value, 10);
+    if (Number.isNaN(n)) return;
+    if (n < 0 || n > 23) return;
+    setHours(String(n));
   };
 
   const handleMinutesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (parseInt(value, 10) > 59) return;
-    setMinutes(value);
+    if (value === "") return setMinutes("");
+    const n = Number.parseInt(value, 10);
+    if (Number.isNaN(n)) return;
+    if (n < 0 || n > 59) return;
+    setMinutes(String(n));
   };
 
   useEffect(() => {
