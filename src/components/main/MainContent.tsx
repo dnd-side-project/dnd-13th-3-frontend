@@ -40,11 +40,11 @@ export default function MainContent() {
 
   const goalScreenTime = useMemo(
     () => targetTime.hours * 60 + targetTime.minutes,
-    [targetTime],
+    [targetTime]
   );
   const isOverTime = useMemo(
     () => goalScreenTime > 0 && todayScreenTime > goalScreenTime,
-    [goalScreenTime, todayScreenTime],
+    [goalScreenTime, todayScreenTime]
   );
   const backgroundImageSrc = isOverTime
     ? "/images/logos/screentimeOver.svg"
