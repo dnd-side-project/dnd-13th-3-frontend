@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { GoalTab } from "@/components/common";
 import {
   GoalEditModal,
@@ -38,8 +38,14 @@ export default function MainContent() {
     closeGoalEditModal();
   };
 
-  const goalScreenTime = targetTime.hours * 60 + targetTime.minutes;
-  const isOverTime = goalScreenTime > 0 && todayScreenTime > goalScreenTime;
+  const goalScreenTime = useMemo(
+    () => targetTime.hours * 60 + targetTime.minutes,
+    [targetTime],
+  );
+  const isOverTime = useMemo(
+    () => goalScreenTime > 0 && todayScreenTime > goalScreenTime,
+    [goalScreenTime, todayScreenTime],
+  );
   const backgroundImageSrc = isOverTime
     ? "/images/logos/screentimeOver.svg"
     : "/images/logos/screentime.svg";
