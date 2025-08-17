@@ -44,22 +44,35 @@ export default function TimeEditModal({
 }: TimeEditModalProps) {
   const [hours, setHours] = useState(String(initialHours));
   const [minutes, setMinutes] = useState(String(initialMinutes));
+  const [error, setError] = useState<string | null>(null);
 
   const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value === "") return setHours("");
+    const { value } = e.target;
+    setError(null);
+    if (value === "") {
+      setHours("");
+      return;
+    }
     const n = Number.parseInt(value, 10);
-    if (Number.isNaN(n)) return;
-    if (n < 0 || n > 23) return;
+    if (Number.isNaN(n) || n < 0 || n > 23) {
+      setError("시간은 0에서 23 사이로 입력해주세요.");
+      return;
+    }
     setHours(String(n));
   };
 
   const handleMinutesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value === "") return setMinutes("");
+    const { value } = e.target;
+    setError(null);
+    if (value === "") {
+      setMinutes("");
+      return;
+    }
     const n = Number.parseInt(value, 10);
-    if (Number.isNaN(n)) return;
-    if (n < 0 || n > 59) return;
+    if (Number.isNaN(n) || n < 0 || n > 59) {
+      setError("분은 0에서 59 사이로 입력해주세요.");
+      return;
+    }
     setMinutes(String(n));
   };
 
@@ -67,13 +80,17 @@ export default function TimeEditModal({
     if (isOpen) {
       setHours(String(initialHours));
       setMinutes(String(initialMinutes));
+      setError(null);
     }
   }, [isOpen, initialHours, initialMinutes]);
 
   const handleSave = () => {
+    if (error || hours === "" || minutes === "") return;
     onSave(hours, minutes);
     onClose();
   };
+
+  const isSaveDisabled = error !== null || hours === "" || minutes === "";
   if (!isOpen) return null;
 
   return (
@@ -105,14 +122,18 @@ export default function TimeEditModal({
               label='분'
             />
           </div>
+          {error && <p className='text-red-500 text-xs mt-1'>{error}</p>}
         </div>
 
         {/* 완료버튼 */}
         <div className='w-full p-2.5 flex justify-center'>
           <button
             type='button'
-            className='w-80 h-12 bg-indigo-500 rounded-xl text-white text-base font-semibold font-pretendard leading-normal tracking-tight'
+            className={`w-80 h-12 rounded-xl text-white text-base font-semibold font-pretendard leading-normal tracking-tight ${
+              isSaveDisabled ? "bg-gray-300" : "bg-indigo-500"
+            }`}
             onClick={handleSave}
+            disabled={isSaveDisabled}
           >
             완료
           </button>
