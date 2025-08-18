@@ -1,8 +1,9 @@
-import { 
-  CreateChallengeRequest, 
+import type {
+  Challenge,
+  CreateChallengeRequest,
   CreateChallengeResponse,
   GetChallengeResponse,
-  InviteUrlResponse 
+  InviteUrlResponse,
 } from "@/lib/challenge";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
@@ -78,26 +79,31 @@ export async function generateInviteUrl(
 export async function checkOngoingChallenge(
   type: "personal" | "share" = "personal",
   accessToken?: string
-): Promise<{ hasChallenge: boolean; challengeData: any }> {
+): Promise<{ hasChallenge: boolean; challengeData: Challenge | null }> {
   try {
-    const response = await getChallenge(type, undefined, undefined, accessToken);
-    
+    const response = await getChallenge(
+      type,
+      undefined,
+      undefined,
+      accessToken
+    );
+
     if (response.success && response.data) {
       return {
         hasChallenge: true,
-        challengeData: response.data
+        challengeData: response.data,
       };
     } else {
       return {
         hasChallenge: false,
-        challengeData: null
+        challengeData: null,
       };
     }
   } catch (error) {
     console.error("챌린지 상태 확인 실패:", error);
     return {
       hasChallenge: false,
-      challengeData: null
+      challengeData: null,
     };
   }
 }
@@ -107,7 +113,7 @@ export function mockChallengeAPI() {
     noOngoingChallenge: {
       success: false,
       message: "진행 중인 챌린지가 없습니다.",
-      data: null
+      data: null,
     },
     hasOngoingChallenge: {
       success: true,
@@ -125,10 +131,10 @@ export function mockChallengeAPI() {
             nickname: "미누",
             current_time_minutes: 80,
             achievement_rate: 73.33,
-            status: "진행 중"
-          }
-        ]
-      }
-    }
+            status: "진행 중",
+          },
+        ],
+      },
+    },
   };
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import { BottomNavbar, Logo } from "@/components";
-import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { BottomNavbar, Logo } from "@/components";
 
 export default function MainLayout({
   children,
@@ -14,20 +14,22 @@ export default function MainLayout({
 
   return (
     <div className='flex flex-col'>
-      <div className={`pt-4 px-screen-margin ${isChallengePage ? 'bg-primary' : ''}`}>
+      <div
+        className={`pt-4 px-screen-margin ${isChallengePage ? "bg-primary" : ""}`}
+      >
         {isChallengePage ? (
-          <div className="flex justify-between items-center">
+          <div className='flex justify-between items-center'>
             <Image
-              src="/images/logos/MinuLogoWhite.svg"
-              alt="MINU Logo"
+              src='/images/logos/MinuLogoWhite.svg'
+              alt='MINU Logo'
               width={84}
               height={24}
               priority
             />
-            <button className="">
+            <button type='button'>
               <Image
-                src="/images/logos/Setting.svg"
-                alt="Settings"
+                src='/images/logos/Setting.svg'
+                alt='Settings'
                 width={24}
                 height={24}
               />
