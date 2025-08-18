@@ -49,6 +49,8 @@ export async function getChallenge(
   const response = await fetch(`${API_BASE_URL}/api/challenge?${params}`, {
     method: "GET",
     headers,
+    cache: "no-store",
+    next: { revalidate: 0 },
   });
 
   if (!response.ok) {
@@ -120,7 +122,7 @@ export function mockChallengeAPI() {
       message: "챌린지 조회가 성공했습니다.",
       data: {
         challengeId: 1,
-        type: "PERSONAL",
+        type: "personal",
         start_date: "2025-01-20",
         end_date: "2025-01-27",
         title: "유튜브 줄이기 챌린지",

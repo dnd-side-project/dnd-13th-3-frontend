@@ -3,12 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
-export interface ChallengeFormData {
-  title: string;
-  goalTimeHours: number;
-  startDate: string;
-  endDate: string;
-}
+import type { ChallengeFormData } from "@/lib/challenge";
 
 export default function ChallengeCreateForm() {
   const router = useRouter();
@@ -17,23 +12,34 @@ export default function ChallengeCreateForm() {
 
   const { startDate, endDate } = useMemo(() => {
     const today = new Date();
-    const endDate = new Date(today);
-    endDate.setDate(today.getDate() + 7);
-
-    return {
-      startDate: today.toISOString().split("T")[0],
-      endDate: endDate.toISOString().split("T")[0],
-    };
+    const start = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+    const end = new Date(start);
+    end.setDate(start.getDate() + 7);
+    const toYMD = (d: Date) =>
+      `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+        d.getDate()
+      ).padStart(2, "0")}`;
+    return { startDate: toYMD(start), endDate: toYMD(end) };
   }, []);
 
   const handleSubmit = () => {
-    if (!title.trim() || !goalTimeHours) return;
-
-    const goalTime = parseInt(goalTimeHours);
+    const trimmedTitle = title.trim();
+    const goalTime = parseInt(goalTimeHours, 10);
+    if (
+      !trimmedTitle ||
+      Number.isNaN(goalTime) ||
+      goalTime < 1 ||
+      goalTime > 24
+    )
+      return;
 
     // 챌린지 데이터 localStorage 저장 (API 연결 전 단순 테스트)
     const challengeData: ChallengeFormData = {
-      title: title.trim(),
+      title: trimmedTitle,
       goalTimeHours: goalTime,
       startDate,
       endDate,
@@ -97,16 +103,12 @@ export default function ChallengeCreateForm() {
             </div>
             <div className='flex flex-col gap-2'>
               <input
-                type='text'
+                type='tel'
+                inputMode='numeric'
                 value={goalTimeHours}
                 onChange={(e) => {
                   const value = e.target.value.replace(/[^0-9]/g, "");
                   setGoalTimeHours(value);
-                }}
-                onKeyPress={(e) => {
-                  if (!/[0-9]/.test(e.key)) {
-                    e.preventDefault();
-                  }
                 }}
                 placeholder='3'
                 className='w-full px-4 py-3.5 rounded-xl outline outline-1 outline-offset-[-1px] outline-gray-200 text-gray-400 text-base font-normal leading-normal tracking-tight focus:outline-primary focus:outline-2 focus:text-gray-900'

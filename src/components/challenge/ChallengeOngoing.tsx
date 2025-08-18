@@ -8,15 +8,16 @@ interface ChallengeOngoingProps {
 
 export default function ChallengeOngoing({ challenge }: ChallengeOngoingProps) {
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date
-      .toLocaleDateString("ko-KR", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })
-      .replace(/\. /g, ".")
-      .replace(".", "");
+    const [y, m, d] = dateString.split("-").map(Number);
+    const date = new Date(y, (m ?? 1) - 1, d ?? 1);
+    return new Intl.DateTimeFormat("ko-KR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+      .format(date)
+      .replace(/\.\s/g, ".")
+      .replace(/\.$/, "");
   };
 
   const formatTime = (minutes: number) => {
@@ -53,7 +54,9 @@ export default function ChallengeOngoing({ challenge }: ChallengeOngoingProps) {
             <div className='flex justify-between'>
               <span className='text-gray-600'>챌린지 타입</span>
               <span className='font-medium'>
-                {challenge.type === "personal" ? "개인" : "공유"}
+                {String(challenge.type).toLowerCase() === "personal"
+                  ? "개인"
+                  : "공유"}
               </span>
             </div>
           </div>
