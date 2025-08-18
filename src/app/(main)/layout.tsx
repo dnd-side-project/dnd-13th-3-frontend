@@ -26,7 +26,7 @@ export default function MainLayout({
               height={24}
               priority
             />
-            <button type='button'>
+            <button type='button' disabled>
               <Image
                 src='/images/logos/Setting.svg'
                 alt='Settings'

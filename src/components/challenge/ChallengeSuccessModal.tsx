@@ -121,7 +121,7 @@ export default function ChallengeSuccess() {
           <button
             type='button'
             onClick={handleCopyLink}
-            className='flex-1 px-2.5 py-3.5 bg-indigo-500 rounded-xl inline-flex justify-center items-center gap-2.5'
+            className='flex-1 px-2.5 py-3.5 bg-primary rounded-xl inline-flex justify-center items-center gap-2.5'
           >
             <div className='text-white text-base font-semibold'>링크 복사</div>
           </button>
