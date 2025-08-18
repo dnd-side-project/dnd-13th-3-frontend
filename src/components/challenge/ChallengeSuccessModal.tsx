@@ -128,7 +128,7 @@ export default function ChallengeSuccess() {
         </div>
       </div>
       {isLinkCopied && (
-        <div className='fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50'>
+        <div className='fixed bottom-10 left-1/2 transform -translate-x-1/2 z-50'>
           <div className='w-80 py-3 bg-neutral-900/90 rounded-lg inline-flex justify-center items-center gap-1.5'>
             <Image
               src='/images/logos/CopyLink.svg'
