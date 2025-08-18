@@ -1,15 +1,14 @@
 "use client";
 
 import clsx from "clsx";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "@/lib/config";
 
 interface GoogleLoginButtonProps {
   onClick?: () => void;
 }
 
 export default function GoogleLoginButton({ onClick }: GoogleLoginButtonProps) {
-  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -18,9 +17,10 @@ export default function GoogleLoginButton({ onClick }: GoogleLoginButtonProps) {
   }, []);
 
   const handleClick = () => {
-    console.log("클릭 이벤트 핸들");
     onClick?.();
-    router.push("/onboarding");
+    const redirectUri = `${window.location.origin}/auth/google/callback`;
+    const url = `${API_BASE_URL}/api/auth/login/google?${new URLSearchParams({ redirectUrl: redirectUri }).toString()}`;
+    window.location.href = url;
   };
 
   return (
