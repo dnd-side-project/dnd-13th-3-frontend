@@ -2,7 +2,6 @@
 
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { API_BASE_URL } from "@/lib/config";
 
 interface GoogleLoginButtonProps {
   onClick?: () => void;
@@ -18,9 +17,26 @@ export default function GoogleLoginButton({ onClick }: GoogleLoginButtonProps) {
 
   const handleClick = () => {
     onClick?.();
-    const redirectUri = `${window.location.origin}/auth/google/callback`;
-    const url = `${API_BASE_URL}/api/auth/login/google?${new URLSearchParams({ redirectUrl: redirectUri }).toString()}`;
-    window.location.href = url;
+    const googleAuthUrl = new URL(
+      "https://accounts.google.com/o/oauth2/v2/auth"
+    );
+    googleAuthUrl.searchParams.set(
+      "client_id",
+      "781984674-ck704o05ufch72klqtmm5bovj483b7gs.apps.googleusercontent.com"
+    );
+    googleAuthUrl.searchParams.set(
+      "redirect_uri",
+      "https://minu.site/login/oauth2/code/google"
+    );
+    googleAuthUrl.searchParams.set("response_type", "code");
+    googleAuthUrl.searchParams.set(
+      "scope",
+      "profile email https://www.googleapis.com/auth/youtube.readonly"
+    );
+    googleAuthUrl.searchParams.set("access_type", "offline");
+    googleAuthUrl.searchParams.set("include_granted_scopes", "true");
+
+    window.location.href = googleAuthUrl.toString();
   };
 
   return (
