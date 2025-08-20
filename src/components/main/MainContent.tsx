@@ -59,7 +59,7 @@ export default function MainContent() {
     : "/images/logos/screentime.svg";
 
   return (
-    <div className='w-full h-[calc(100dvh-120px)] px-screen-margin bg-white overflow-hidden flex flex-col'>
+    <div className='w-full h-[calc(100dvh-120px)] px-screen-margin bg-white overflow-y-auto flex flex-col'>
       {/* 상단 탭 스위처 */}
       <div className='flex pt-[20px]'>
         <TabSwitcher />

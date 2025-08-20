@@ -6,6 +6,8 @@ interface LogoProps {
 
 export default function Logo({ isChallengePage = false }: LogoProps) {
   return (
+    <div className="w-full bg-white">
+      <div className="pt-4 px-screen-margin">
     <Image
       src={
         isChallengePage
@@ -17,5 +19,7 @@ export default function Logo({ isChallengePage = false }: LogoProps) {
       height={24}
       priority
     />
+    </div>
+    </div>
   );
 }
