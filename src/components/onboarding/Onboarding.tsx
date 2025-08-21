@@ -77,7 +77,10 @@ export default function Onboarding() {
     }
 
     // Save onboarding data and navigate to result page
-    const goalText = selectionType === "preset" && selectedIndex !== null ? presets[selectedIndex] : customGoal;
+    const goalText =
+      selectionType === "preset" && selectedIndex !== null
+        ? presets[selectedIndex]
+        : customGoal;
 
     // Determine final hours/minutes based on time selection
     let finalHours = parsedHours;
@@ -110,7 +113,20 @@ export default function Onboarding() {
       });
     } catch {}
     router.push("/onboarding/result");
-  }, [currentStep, selectionType, selectedIndex, presets, customGoal, nickname, parsedHours, parsedMinutes, timeSelectionType, selectedPresetIndex, presetHours, router]);
+  }, [
+    currentStep,
+    selectionType,
+    selectedIndex,
+    presets,
+    customGoal,
+    nickname,
+    parsedHours,
+    parsedMinutes,
+    timeSelectionType,
+    selectedPresetIndex,
+    presetHours,
+    router,
+  ]);
 
   const isStep1Valid = nickname.trim().length > 0;
   const isStep2Valid = isGoalValid;

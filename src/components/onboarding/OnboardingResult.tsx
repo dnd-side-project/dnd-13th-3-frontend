@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { loadOnboardingData } from "@/lib/onboardingStorage";
 import { Container } from ".";
-import { clearOnboardingData, loadOnboardingData } from "@/lib/onboardingStorage";
 
 export default function OnboardingResult() {
   const router = useRouter();
@@ -40,17 +40,17 @@ export default function OnboardingResult() {
   if (!mounted) return null;
 
   const handleStart = () => {
-    clearOnboardingData();
+    // Keep data so Main can read it; consider clearing later inside Main after reading if desired
     router.push("/main");
   };
 
   return (
     <div className='w-full h-full bg-white relative overflow-hidden pt-10 pb-28'>
-
       <Container>
         <div className='px-screen-margin text-center pt-[70px] text-gray-900 text-heading-1 font-semibold'>
           준비완료!
-          <br />목표를 향해 도전을 시작할게요.
+          <br />
+          목표를 향해 도전을 시작할게요.
         </div>
 
         <div className='mt-8 flex items-center justify-center'>
@@ -66,23 +66,31 @@ export default function OnboardingResult() {
         <div className='mt-10 w-full px-screen-margin'>
           <div className='w-full bg-gray-100 rounded-xl py-4 px-4 flex flex-col gap-4'>
             <div className='w-full flex items-start justify-between'>
-              <div className='text-gray-400 text-sm font-medium leading-tight tracking-tight'>목표</div>
+              <div className='text-gray-400 text-sm font-medium leading-tight tracking-tight'>
+                목표
+              </div>
               <div className='w-[90%] text-right text-gray-800 text-sm font-medium leading-tight tracking-tight'>
                 {goal}
               </div>
             </div>
             <div className='w-full flex items-center justify-between'>
-              <div className='text-gray-400 text-sm font-medium leading-tight tracking-tight'>목표 시간</div>
-              <div className='text-gray-800 text-sm font-medium leading-tight tracking-tight'>{timeLabel}</div>
+              <div className='text-gray-400 text-sm font-medium leading-tight tracking-tight'>
+                목표 시간
+              </div>
+              <div className='text-gray-800 text-sm font-medium leading-tight tracking-tight'>
+                {timeLabel}
+              </div>
             </div>
           </div>
         </div>
       </Container>
 
-      <div className={clsx(
-        "fixed bottom-0 left-0 right-0 bg-white z-20 border-t border-gray-100",
-        "max-w-tablet mx-auto"
-      )}>
+      <div
+        className={clsx(
+          "fixed bottom-0 left-0 right-0 bg-white z-20 border-t border-gray-100",
+          "max-w-tablet mx-auto"
+        )}
+      >
         <div className='py-3 w-full px-screen-margin'>
           <button
             type='button'
