@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import { OAUTH_START_URL } from "@/lib/config";
 
 interface GoogleLoginButtonProps {
   onClick?: () => void;
@@ -17,10 +18,7 @@ export default function GoogleLoginButton({ onClick }: GoogleLoginButtonProps) {
 
   const handleClick = () => {
     onClick?.();
-    const backendOAuthStartUrl =
-      process.env.NEXT_PUBLIC_OAUTH_START_URL ??
-      "https://minu.site/oauth2/authorization/google";
-    window.location.href = backendOAuthStartUrl;
+    window.location.replace(OAUTH_START_URL);
   };
 
   return (

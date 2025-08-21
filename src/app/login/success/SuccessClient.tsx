@@ -13,6 +13,8 @@ export default function SuccessClient() {
     const accessToken = searchParams.get("accessToken");
     const refreshToken = searchParams.get("refreshToken");
     const userParam = searchParams.get("user");
+    const characterIndexParam = searchParams.get("characterIndex");
+    const isNewUserParam = searchParams.get("isNewUser");
 
     if (!accessToken || !refreshToken) {
       setMessage("필수 토큰이 없어 로그인 처리를 완료할 수 없습니다.");
@@ -25,12 +27,18 @@ export default function SuccessClient() {
       if (userParam) {
         try {
           localStorage.setItem("user", userParam);
-        } catch (_) {
-          // ignore malformed user param
-        }
+        } catch (_) {}
       }
-      // 성공 시 바로 온보딩으로 이동
-      router.replace("/onboarding");
+      if (characterIndexParam) {
+        localStorage.setItem("characterIndex", characterIndexParam);
+      }
+      if (isNewUserParam) {
+        localStorage.setItem("isNewUser", isNewUserParam);
+      }
+
+      // 새 유저면 온보딩, 아니면 메인으로
+      const isNew = isNewUserParam === "true";
+      router.replace(isNew ? "/onboarding" : "/main");
     } catch (_e) {
       setMessage("로그인 정보 저장 중 오류가 발생했습니다.");
     }

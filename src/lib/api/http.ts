@@ -8,6 +8,17 @@ export const http = axios.create({
   },
 });
 
+http.interceptors.request.use((config) => {
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      config.headers = config.headers ?? {};
+      (config.headers as any).Authorization = `Bearer ${token}`;
+    }
+  }
+  return config;
+});
+
 http.interceptors.response.use(
   (res) => res,
   (error) => {
