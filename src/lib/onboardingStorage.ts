@@ -42,6 +42,9 @@ export function clearOnboardingData() {
     sessionStorage.removeItem(KEY);
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error("Failed to remove onboarding data from sessionStorage:", error);
+    console.error(
+      "Failed to remove onboarding data from sessionStorage:",
+      error
+    );
   }
 }
