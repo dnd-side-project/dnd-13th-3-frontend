@@ -11,7 +11,9 @@ export function saveOnboardingData(data: OnboardingData) {
   if (typeof window === "undefined") return;
   try {
     sessionStorage.setItem(KEY, JSON.stringify(data));
-  } catch {}
+  } catch (error) {
+    console.error("세션 저장 실패", error);
+  }
 }
 
 export function loadOnboardingData(): OnboardingData | null {
@@ -38,5 +40,8 @@ export function clearOnboardingData() {
   if (typeof window === "undefined") return;
   try {
     sessionStorage.removeItem(KEY);
-  } catch {}
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("Failed to remove onboarding data from sessionStorage:", error);
+  }
 }

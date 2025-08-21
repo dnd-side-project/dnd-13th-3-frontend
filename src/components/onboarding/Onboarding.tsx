@@ -89,17 +89,6 @@ export default function Onboarding() {
       finalMinutes = total % 60;
     }
 
-    console.log("[Onboarding] Saving data", {
-      goalText,
-      timeSelectionType,
-      selectedPresetIndex,
-      presetHours,
-      parsedHours,
-      parsedMinutes,
-      finalHours,
-      finalMinutes,
-    });
-
     try {
       saveOnboardingData({
         nickname,
@@ -107,7 +96,10 @@ export default function Onboarding() {
         hours: finalHours,
         minutes: finalMinutes,
       });
-    } catch {}
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Failed to save onboarding data:", error);
+    }
     router.push("/onboarding/result");
   }, [
     currentStep,

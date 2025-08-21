@@ -10,7 +10,6 @@ import { Container } from ".";
 export default function OnboardingResult() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-  const [nickname, setNickname] = useState("");
   const [goal, setGoal] = useState("");
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -22,8 +21,6 @@ export default function OnboardingResult() {
       router.replace("/onboarding");
       return;
     }
-    console.log("[OnboardingResult] Loaded data", data);
-    setNickname(data.nickname);
     setGoal(data.goal);
     setHours(data.hours);
     setMinutes(data.minutes);
