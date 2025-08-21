@@ -20,13 +20,11 @@ export default function MainContent() {
   const [targetTime, setTargetTime] = useState({ hours: 7, minutes: 0 });
   const [todayScreenTime, _setTodayScreenTime] = useState(210); // 더미데이터 (3시간 30분)
 
-  // Prefill from onboarding result if available
   useEffect(() => {
     const data = loadOnboardingData();
     if (!data) return;
     if (data.goal) setGoal(data.goal);
     setTargetTime({ hours: data.hours ?? 0, minutes: data.minutes ?? 0 });
-    // Note: we intentionally keep the data for now; if you want to clear it after applying, we can do so here.
   }, []);
 
   const openTimeEditModal = () => setTimeEditModalOpen(true);

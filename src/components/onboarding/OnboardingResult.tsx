@@ -40,7 +40,6 @@ export default function OnboardingResult() {
   if (!mounted) return null;
 
   const handleStart = () => {
-    // Keep data so Main can read it; consider clearing later inside Main after reading if desired
     router.push("/main");
   };
 

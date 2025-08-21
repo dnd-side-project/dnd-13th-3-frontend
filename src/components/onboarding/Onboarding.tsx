@@ -76,13 +76,11 @@ export default function Onboarding() {
       return;
     }
 
-    // Save onboarding data and navigate to result page
     const goalText =
       selectionType === "preset" && selectedIndex !== null
         ? presets[selectedIndex]
         : customGoal;
 
-    // Determine final hours/minutes based on time selection
     let finalHours = parsedHours;
     let finalMinutes = parsedMinutes;
     if (timeSelectionType === "preset" && selectedPresetIndex !== null) {
@@ -91,8 +89,6 @@ export default function Onboarding() {
       finalMinutes = total % 60;
     }
 
-    // Debug: verify what we are saving
-    // eslint-disable-next-line no-console
     console.log("[Onboarding] Saving data", {
       goalText,
       timeSelectionType,
