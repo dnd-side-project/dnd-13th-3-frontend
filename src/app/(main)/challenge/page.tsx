@@ -1,8 +1,6 @@
 import { ChallengeEmptyState } from "@/components/challenge";
 import { checkOngoingChallenge } from "@/lib/api/challenge";
 
-export const dynamic = "force-dynamic";
-
 export default async function ChallengePage() {
   const { hasChallenge, challengeData } = await checkOngoingChallenge();
 
