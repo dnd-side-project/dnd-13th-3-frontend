@@ -17,31 +17,10 @@ export default function GoogleLoginButton({ onClick }: GoogleLoginButtonProps) {
 
   const handleClick = () => {
     onClick?.();
-    const googleAuthUrl = new URL(
-      "https://accounts.google.com/o/oauth2/v2/auth"
-    );
-    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-
-    if (!clientId) {
-      console.error("Missing NEXT_PUBLIC_GOOGLE_CLIENT_ID env variable");
-      alert("Google 로그인 설정이 누락");
-      return;
-    }
-    googleAuthUrl.searchParams.set("client_id", clientId!);
-
-    const redirectUri =
-      process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI ??
-      `${window.location.origin}/auth/google/callback`;
-    googleAuthUrl.searchParams.set("redirect_uri", redirectUri);
-    googleAuthUrl.searchParams.set("response_type", "code");
-    googleAuthUrl.searchParams.set(
-      "scope",
-      "profile email https://www.googleapis.com/auth/youtube.readonly"
-    );
-    googleAuthUrl.searchParams.set("access_type", "offline");
-    googleAuthUrl.searchParams.set("include_granted_scopes", "true");
-
-    window.location.href = googleAuthUrl.toString();
+    const backendOAuthStartUrl =
+      process.env.NEXT_PUBLIC_OAUTH_START_URL ??
+      "https://minu.site/oauth2/authorization/google";
+    window.location.href = backendOAuthStartUrl;
   };
 
   return (
