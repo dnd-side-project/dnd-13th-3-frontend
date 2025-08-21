@@ -9,3 +9,4 @@ export { default as SelectedIndicator } from "./SelectedIndicator";
 export { default as StepProgress } from "./StepProgress";
 export { default as TimeTarget } from "./TimeTarget";
 export { default as TitleSection } from "./TitleSection";
+export { default as OnboardingResult } from "./OnboardingResult";
