@@ -73,12 +73,12 @@ export default function MainContent() {
 
         <div className='flex flex-col items-center justify-center relative mt-5'>
           {/* 배경 이미지 */}
-          <div className='justify-center items-center z-0'>
+          <div className='w-full min-h-96 relative z-0'>
             <Image
               src={backgroundImageSrc}
               alt='Screen Time Background'
-              width={335}
-              height={335}
+              fill
+              className='object-cover'
             />
           </div>
 
