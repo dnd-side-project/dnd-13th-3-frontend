@@ -88,7 +88,7 @@ export default function TimeEditModal({
         <div className='h-4 px-2.5 bg-white rounded-t-[39px] rounded-tr-[34px] flex flex-col justify-end items-center'>
           <div className='w-12 h-1 bg-neutral-200 rounded-[40px]'></div>
         </div>
-        
+
         <div className='px-screen-margin py-[20px] bg-white'>
           <h2 className='text-xl font-semibold text-gray-900 mb-1'>
             목표 시간 수정
