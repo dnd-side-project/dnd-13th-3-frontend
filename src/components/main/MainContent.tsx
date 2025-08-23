@@ -11,21 +11,42 @@ import {
   TimeEditModal,
 } from "@/components/main";
 import { TabSwitcher } from "@/components/timer";
-import { loadOnboardingData } from "@/lib/onboardingStorage";
+import { useUserStore } from "@/stores/userStore";
 
 export default function MainContent() {
+  const { user, onboardingData } = useUserStore();
+  
+  // 디버깅을 위한 로그
+  console.log("🔍 MainContent 렌더링:", { user, onboardingData });
+  
   const [isTimeEditModalOpen, setTimeEditModalOpen] = useState(false);
   const [isGoalEditModalOpen, setGoalEditModalOpen] = useState(false);
-  const [goal, setGoal] = useState("혼자 있는 시간 디지털 없이 보내기");
-  const [targetTime, setTargetTime] = useState({ hours: 7, minutes: 0 });
+  
+  // 사용자 정보에서 목표와 스크린타임 목표 가져오기
+  const goal = user?.goal?.type || onboardingData?.goal?.type || "혼자 있는 시간 디지털 없이 보내기";
+  const targetTime = useMemo(() => {
+    // 사용자 프로필에서 스크린타임 목표 가져오기
+    const screenTimeType = user?.screenTimeGoal?.type || onboardingData?.screenTimeGoal?.type;
+    
+    if (screenTimeType && screenTimeType !== "custom") {
+      // 분 단위로 저장된 값을 시간과 분으로 변환
+      const totalMinutes = parseInt(screenTimeType);
+      return {
+        hours: Math.floor(totalMinutes / 60),
+        minutes: totalMinutes % 60
+      };
+    } else if (user?.screenTimeGoal?.custom || onboardingData?.screenTimeGoal?.custom) {
+      // custom인 경우 custom 값 사용
+      const totalMinutes = parseInt(user?.screenTimeGoal?.custom || onboardingData?.screenTimeGoal?.custom || "0");
+      return {
+        hours: Math.floor(totalMinutes / 60),
+        minutes: totalMinutes % 60
+      };
+    }
+    return { hours: 7, minutes: 0 };
+  }, [user, onboardingData]);
+  
   const [todayScreenTime, _setTodayScreenTime] = useState(210); // 더미데이터 (3시간 30분)
-
-  useEffect(() => {
-    const data = loadOnboardingData();
-    if (!data) return;
-    if (data.goal) setGoal(data.goal);
-    setTargetTime({ hours: data.hours ?? 0, minutes: data.minutes ?? 0 });
-  }, []);
 
   const openTimeEditModal = () => setTimeEditModalOpen(true);
   const closeTimeEditModal = () => setTimeEditModalOpen(false);
@@ -34,15 +55,12 @@ export default function MainContent() {
   const closeGoalEditModal = () => setGoalEditModalOpen(false);
 
   const handleSaveTime = (newHours: string, newMinutes: string) => {
-    setTargetTime({
-      hours: parseInt(newHours, 10) || 0,
-      minutes: parseInt(newMinutes, 10) || 0,
-    });
+    // TODO: API 호출로 시간 업데이트
     closeTimeEditModal();
   };
 
   const handleSaveGoal = (newGoal: string) => {
-    setGoal(newGoal);
+    // TODO: API 호출로 목표 업데이트
     closeGoalEditModal();
   };
 
@@ -57,6 +75,17 @@ export default function MainContent() {
   const backgroundImageSrc = isOverTime
     ? "/images/logos/screentimeOver.svg"
     : "/images/logos/screentime.svg";
+
+  // 사용자 정보가 없으면 로딩 상태 표시
+  if (!user) {
+    return (
+      <div className='w-full h-[calc(100dvh-120px)] flex items-center justify-center'>
+        <div className='text-center'>
+          <p className='text-gray-700 text-sm'>사용자 정보를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='w-full h-[calc(100dvh-120px)] px-screen-margin bg-white overflow-y-auto flex flex-col'>
@@ -107,6 +136,8 @@ export default function MainContent() {
           />
         </div>
       </div>
+
+      {/* 모달들 */}
       <TimeEditModal
         isOpen={isTimeEditModalOpen}
         onClose={closeTimeEditModal}
@@ -114,6 +145,7 @@ export default function MainContent() {
         initialHours={targetTime.hours}
         initialMinutes={targetTime.minutes}
       />
+
       <GoalEditModal
         isOpen={isGoalEditModalOpen}
         onClose={closeGoalEditModal}

@@ -6,7 +6,8 @@ import { useGoalSelection } from "@/hooks/useGoalSelection";
 import { useNicknameInput } from "@/hooks/useNicknameInput";
 import { useTimeTarget } from "@/hooks/useTimeTarget";
 import { getOnboardingTitle, TOTAL_STEPS } from "@/lib/onboarding";
-import { saveOnboardingData } from "@/lib/onboardingStorage";
+import { registerUserProfile } from "@/lib/api/user";
+import { useUserStore } from "@/stores/userStore";
 import {
   BackHeader,
   BottomBar,
@@ -20,6 +21,8 @@ import {
 
 export default function Onboarding() {
   const router = useRouter();
+  const { setOnboardingData, completeOnboarding } = useUserStore();
+  
   const {
     nickname,
     handleChange,
@@ -70,37 +73,48 @@ export default function Onboarding() {
     else router.push("/login");
   }, [currentStep, router]);
 
-  const handleNextClick = useCallback(() => {
+  const handleNextClick = useCallback(async () => {
     if (currentStep < TOTAL_STEPS) {
       setCurrentStep((s) => s + 1);
       return;
     }
 
-    const goalText =
-      selectionType === "preset" && selectedIndex !== null
-        ? presets[selectedIndex]
-        : customGoal;
-
-    let finalHours = parsedHours;
-    let finalMinutes = parsedMinutes;
-    if (timeSelectionType === "preset" && selectedPresetIndex !== null) {
-      const total = presetHours[selectedPresetIndex] * 60;
-      finalHours = Math.floor(total / 60);
-      finalMinutes = total % 60;
-    }
-
+    // 온보딩 완료 처리
     try {
-      saveOnboardingData({
+      // API 호출하여 프로필 등록
+      await registerUserProfile({
         nickname,
-        goal: goalText,
-        hours: finalHours,
-        minutes: finalMinutes,
+        goal: {
+          type: selectionType === "preset" ? presets[selectedIndex!] : "custom",
+          custom: selectionType === "custom" ? customGoal : null,
+        },
+        screenTimeGoal: {
+          type: timeSelectionType === "preset" ? (presetHours[selectedPresetIndex!] * 60).toString() : "custom",
+          custom: timeSelectionType === "custom" ? (parsedHours * 60 + parsedMinutes).toString() : null,
+        },
       });
+
+      // Zustand 스토어에 온보딩 데이터 저장
+      setOnboardingData({
+        nickname,
+        goal: {
+          type: selectionType === "preset" ? presets[selectedIndex!] : "custom",
+          custom: selectionType === "custom" ? customGoal : null,
+        },
+        screenTimeGoal: {
+          type: timeSelectionType === "preset" ? (presetHours[selectedPresetIndex!] * 60).toString() : "custom",
+          custom: timeSelectionType === "custom" ? (parsedHours * 60 + parsedMinutes).toString() : null,
+        },
+      });
+
+      // 온보딩 완료 상태로 설정
+      completeOnboarding();
+
+      router.push("/onboarding/result");
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("Failed to save onboarding data:", error);
+      console.error("Failed to register user profile:", error);
+      // 에러 처리 (사용자에게 알림 등)
     }
-    router.push("/onboarding/result");
   }, [
     currentStep,
     selectionType,
@@ -114,6 +128,8 @@ export default function Onboarding() {
     selectedPresetIndex,
     presetHours,
     router,
+    setOnboardingData,
+    completeOnboarding,
   ]);
 
   const isStep1Valid = nickname.trim().length > 0;
