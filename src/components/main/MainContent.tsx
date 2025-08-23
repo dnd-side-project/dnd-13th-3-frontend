@@ -11,41 +11,46 @@ import {
   TimeEditModal,
 } from "@/components/main";
 import { TabSwitcher } from "@/components/timer";
+import { mapGoalEnumToLabel, parseScreenTimeValue } from "@/lib/goals";
 import { useUserStore } from "@/stores/userStore";
 
 export default function MainContent() {
   const { user, onboardingData } = useUserStore();
-  
+
   // 디버깅을 위한 로그
   console.log("🔍 MainContent 렌더링:", { user, onboardingData });
-  
+
   const [isTimeEditModalOpen, setTimeEditModalOpen] = useState(false);
   const [isGoalEditModalOpen, setGoalEditModalOpen] = useState(false);
-  
-  // 사용자 정보에서 목표와 스크린타임 목표 가져오기
-  const goal = user?.goal?.type || onboardingData?.goal?.type || "혼자 있는 시간 디지털 없이 보내기";
+
+  // 사용자 정보에서 목표(라벨)과 스크린타임 목표 가져오기
+  const goal = useMemo(() => {
+    const type = user?.goal?.type || onboardingData?.goal?.type;
+    const custom = user?.goal?.custom || onboardingData?.goal?.custom;
+    return (
+      mapGoalEnumToLabel(type, custom) ||
+      custom ||
+      type ||
+      "혼자 있는 시간 디지털 없이 보내기"
+    );
+  }, [user, onboardingData]);
+
   const targetTime = useMemo(() => {
-    // 사용자 프로필에서 스크린타임 목표 가져오기
-    const screenTimeType = user?.screenTimeGoal?.type || onboardingData?.screenTimeGoal?.type;
-    
-    if (screenTimeType && screenTimeType !== "custom") {
-      // 분 단위로 저장된 값을 시간과 분으로 변환
-      const totalMinutes = parseInt(screenTimeType);
-      return {
-        hours: Math.floor(totalMinutes / 60),
-        minutes: totalMinutes % 60
-      };
-    } else if (user?.screenTimeGoal?.custom || onboardingData?.screenTimeGoal?.custom) {
-      // custom인 경우 custom 값 사용
-      const totalMinutes = parseInt(user?.screenTimeGoal?.custom || onboardingData?.screenTimeGoal?.custom || "0");
-      return {
-        hours: Math.floor(totalMinutes / 60),
-        minutes: totalMinutes % 60
-      };
+    // screenTimeGoal 문자열 해석: `<N>HOURS` 또는 `<M>MINUTES` 또는 CUSTOM의 custom 값 동일 포맷
+    const type =
+      user?.screenTimeGoal?.type || onboardingData?.screenTimeGoal?.type;
+    const custom =
+      user?.screenTimeGoal?.custom || onboardingData?.screenTimeGoal?.custom;
+
+    if (type && type !== "CUSTOM" && type !== "custom") {
+      return parseScreenTimeValue(type);
+    }
+    if (custom) {
+      return parseScreenTimeValue(custom);
     }
     return { hours: 7, minutes: 0 };
   }, [user, onboardingData]);
-  
+
   const [todayScreenTime, _setTodayScreenTime] = useState(210); // 더미데이터 (3시간 30분)
 
   const openTimeEditModal = () => setTimeEditModalOpen(true);
@@ -76,8 +81,8 @@ export default function MainContent() {
     ? "/images/logos/screentimeOver.svg"
     : "/images/logos/screentime.svg";
 
-  // 사용자 정보가 없으면 로딩 상태 표시
-  if (!user) {
+  // 사용자 정보와 온보딩 데이터가 모두 없으면 로딩 상태 표시
+  if (!user && !onboardingData) {
     return (
       <div className='w-full h-[calc(100dvh-120px)] flex items-center justify-center'>
         <div className='text-center'>

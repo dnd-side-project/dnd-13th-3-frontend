@@ -24,7 +24,7 @@ export default function SuccessClient() {
       refreshToken: refreshToken?.substring(0, 20) + "...",
       userParam,
       characterIndexParam,
-      isNewUserParam
+      isNewUserParam,
     });
 
     if (!accessToken || !refreshToken) {
@@ -65,7 +65,7 @@ export default function SuccessClient() {
             console.log("📡 getUserProfile API 호출 시작");
             const profile = await getUserProfile();
             console.log("✅ 프로필 조회 성공:", profile);
-            
+
             // 프로필 정보를 사용자 정보와 합쳐서 저장
             const fullUserInfo = {
               id: profile.id,
@@ -75,16 +75,22 @@ export default function SuccessClient() {
               goal: profile.goal,
               screenTimeGoal: profile.screenTimeGoal,
             };
-            
+
             setUser(fullUserInfo);
             console.log("💾 Zustand 스토어에 사용자 정보 저장 완료");
             router.replace("/main");
           } catch (error: any) {
-            console.error("❌ 프로필 조회 실패:", error);
-            console.error("❌ 에러 상세:", error.response?.data);
-            console.error("❌ 에러 상태:", error.response?.status);
-            // 프로필 조회 실패해도 메인으로 이동 (기본 사용자 정보로)
-            router.replace("/main");
+            // Axios 인터셉터에서 Error(message + status)로 래핑됨
+            const msg: string = error?.message ?? "";
+            const is404 = msg.includes("(404)");
+            console.error("❌ 프로필 조회 실패:", msg);
+            if (is404) {
+              console.log("🔁 프로필이 없어 온보딩으로 이동");
+              router.replace("/onboarding");
+            } else {
+              console.log("➡️ 프로필 조회 실패이지만 메인으로 이동");
+              router.replace("/main");
+            }
           }
         }
       } catch (_e) {

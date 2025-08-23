@@ -9,7 +9,7 @@ export default function CallbackClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { setUser, setTokens } = useUserStore();
-  
+
   const code = searchParams.get("code");
   const error = searchParams.get("error");
   const [message, setMessage] = useState("구글 로그인 처리 중...");
@@ -31,11 +31,11 @@ export default function CallbackClient() {
     (async () => {
       try {
         const res = await loginWithGoogle({ code, redirectUrl });
-        
+
         // Zustand 스토어에 사용자 정보와 토큰 저장
         setTokens(res.accessToken, res.refreshToken);
         setUser(res.user);
-        
+
         // 기본적으로 온보딩으로 이동
         router.replace("/onboarding");
       } catch (e: unknown) {

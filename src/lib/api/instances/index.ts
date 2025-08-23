@@ -9,7 +9,7 @@ export const publicApi = axios.create({
   },
 });
 
-// 토큰이 필요한 API용 인스턴스 
+// 토큰이 필요한 API용 인스턴스
 export const privateApi = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -21,10 +21,12 @@ export const privateApi = axios.create({
 privateApi.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     // Zustand 스토어에서 토큰 가져오기
-    const { accessToken } = require("@/stores/userStore").useUserStore.getState();
+    const { accessToken } =
+      require("@/stores/userStore").useUserStore.getState();
     if (accessToken) {
       config.headers = config.headers ?? {};
-      (config.headers as Record<string, string>).Authorization = `Bearer ${accessToken}`;
+      (config.headers as Record<string, string>).Authorization =
+        `Bearer ${accessToken}`;
     }
   }
   return config;

@@ -5,8 +5,14 @@ import { useCallback, useMemo, useState } from "react";
 import { useGoalSelection } from "@/hooks/useGoalSelection";
 import { useNicknameInput } from "@/hooks/useNicknameInput";
 import { useTimeTarget } from "@/hooks/useTimeTarget";
-import { getOnboardingTitle, TOTAL_STEPS } from "@/lib/onboarding";
 import { registerUserProfile } from "@/lib/api/user";
+import {
+  formatScreenTimeCustom,
+  mapGoalPresetToEnum,
+  mapPresetHoursToEnum,
+} from "@/lib/goals";
+import { getOnboardingTitle, TOTAL_STEPS } from "@/lib/onboarding";
+import { saveOnboardingData } from "@/lib/onboardingStorage";
 import { useUserStore } from "@/stores/userStore";
 import {
   BackHeader,
@@ -22,7 +28,7 @@ import {
 export default function Onboarding() {
   const router = useRouter();
   const { setOnboardingData, completeOnboarding } = useUserStore();
-  
+
   const {
     nickname,
     handleChange,
@@ -81,34 +87,57 @@ export default function Onboarding() {
 
     // 온보딩 완료 처리
     try {
+      // 1) Goal 매핑 (Korean label -> Enum)
+      const goalType =
+        selectionType === "preset" && selectedIndex != null
+          ? mapGoalPresetToEnum(presets[selectedIndex])
+          : "CUSTOM";
+      const goalCustom = selectionType === "custom" ? customGoal : null;
+
+      // 2) ScreenTimeGoal 매핑 (preset hours -> `<N>HOURS`, custom -> `CUSTOM` + formatted custom)
+      const screenTimeType =
+        timeSelectionType === "preset" && selectedPresetIndex != null
+          ? mapPresetHoursToEnum(presetHours[selectedPresetIndex])
+          : "CUSTOM";
+      const totalMinutes = parsedHours * 60 + parsedMinutes;
+      const screenTimeCustom =
+        timeSelectionType === "custom"
+          ? formatScreenTimeCustom(parsedHours, parsedMinutes)
+          : null;
+
       // API 호출하여 프로필 등록
       await registerUserProfile({
         nickname,
-        goal: {
-          type: selectionType === "preset" ? presets[selectedIndex!] : "custom",
-          custom: selectionType === "custom" ? customGoal : null,
-        },
-        screenTimeGoal: {
-          type: timeSelectionType === "preset" ? (presetHours[selectedPresetIndex!] * 60).toString() : "custom",
-          custom: timeSelectionType === "custom" ? (parsedHours * 60 + parsedMinutes).toString() : null,
-        },
+        goal: { type: goalType, custom: goalCustom },
+        screenTimeGoal: { type: screenTimeType, custom: screenTimeCustom },
       });
 
       // Zustand 스토어에 온보딩 데이터 저장
       setOnboardingData({
         nickname,
-        goal: {
-          type: selectionType === "preset" ? presets[selectedIndex!] : "custom",
-          custom: selectionType === "custom" ? customGoal : null,
-        },
-        screenTimeGoal: {
-          type: timeSelectionType === "preset" ? (presetHours[selectedPresetIndex!] * 60).toString() : "custom",
-          custom: timeSelectionType === "custom" ? (parsedHours * 60 + parsedMinutes).toString() : null,
-        },
+        goal: { type: goalType, custom: goalCustom },
+        screenTimeGoal: { type: screenTimeType, custom: screenTimeCustom },
       });
 
       // 온보딩 완료 상태로 설정
       completeOnboarding();
+
+      // 결과 페이지에서 사용할 요약 정보를 세션에 저장
+      const goalLabel =
+        selectionType === "preset" && selectedIndex != null
+          ? presets[selectedIndex]
+          : (customGoal ?? "");
+      const summaryHours =
+        timeSelectionType === "preset" && selectedPresetIndex != null
+          ? presetHours[selectedPresetIndex]
+          : parsedHours;
+      const summaryMinutes = timeSelectionType === "preset" ? 0 : parsedMinutes;
+      saveOnboardingData({
+        nickname,
+        goal: goalLabel,
+        hours: summaryHours,
+        minutes: summaryMinutes,
+      });
 
       router.push("/onboarding/result");
     } catch (error) {

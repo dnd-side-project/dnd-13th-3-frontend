@@ -1,5 +1,9 @@
 import { privateApi } from "@/lib/api/instances";
-import type { ProfileRegistrationRequest, ProfileRegistrationResponse, UserProfileResponse } from "@/types/auth";
+import type {
+  ProfileRegistrationRequest,
+  ProfileRegistrationResponse,
+  UserProfileResponse,
+} from "@/types/auth";
 
 // 사용자 프로필 등록 (온보딩)
 export async function registerUserProfile(
@@ -12,9 +16,9 @@ export async function registerUserProfile(
   return data;
 }
 
-
 //사용자 프로필 조회
 export async function getUserProfile(): Promise<UserProfileResponse> {
-  const { data } = await privateApi.get<UserProfileResponse>("/api/user/profile");
+  const { data } =
+    await privateApi.get<UserProfileResponse>("/api/user/profile");
   return data;
 }
