@@ -62,7 +62,7 @@ interface UserState {
 
 export const useUserStore = create<UserState>()(
   persist(
-    (set, get) => ({
+    (set, _get) => ({
       // 초기 상태
       user: null,
       accessToken: null,
@@ -78,8 +78,8 @@ export const useUserStore = create<UserState>()(
 
       setTokens: (accessToken, refreshToken) => {
         console.log("🔄 Zustand: setTokens 호출됨", {
-          accessToken: accessToken?.substring(0, 20) + "...",
-          refreshToken: refreshToken?.substring(0, 20) + "...",
+          accessToken: `${accessToken?.substring(0, 20)}...`,
+          refreshToken: `${refreshToken?.substring(0, 20)}...`,
         });
         set({ accessToken, refreshToken });
       },

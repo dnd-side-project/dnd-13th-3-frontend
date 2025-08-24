@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { GoalTab } from "@/components/common";
 import {
   GoalEditModal,
@@ -59,12 +59,12 @@ export default function MainContent() {
   const openGoalEditModal = () => setGoalEditModalOpen(true);
   const closeGoalEditModal = () => setGoalEditModalOpen(false);
 
-  const handleSaveTime = (newHours: string, newMinutes: string) => {
+  const handleSaveTime = (_newHours: string, _newMinutes: string) => {
     // TODO: API 호출로 시간 업데이트
     closeTimeEditModal();
   };
 
-  const handleSaveGoal = (newGoal: string) => {
+  const handleSaveGoal = (_newGoal: string) => {
     // TODO: API 호출로 목표 업데이트
     closeGoalEditModal();
   };

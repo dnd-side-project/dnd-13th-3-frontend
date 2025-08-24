@@ -96,10 +96,10 @@ export default function Onboarding() {
 
       // 2) ScreenTimeGoal 매핑 (preset hours -> `<N>HOURS`, custom -> `CUSTOM` + formatted custom)
       const screenTimeType =
-        timeSelectionType === "preset" && selectedPresetIndex != null
+        timeSelectionType === "preset" && selectedPresetIndex !== null
           ? mapPresetHoursToEnum(presetHours[selectedPresetIndex])
           : "CUSTOM";
-      const totalMinutes = parsedHours * 60 + parsedMinutes;
+      const _totalMinutes = parsedHours * 60 + parsedMinutes;
       const screenTimeCustom =
         timeSelectionType === "custom"
           ? formatScreenTimeCustom(parsedHours, parsedMinutes)

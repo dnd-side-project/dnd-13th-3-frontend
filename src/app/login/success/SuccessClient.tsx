@@ -20,11 +20,11 @@ export default function SuccessClient() {
     const isNewUserParam = searchParams.get("isNewUser");
 
     console.log("🔍 SuccessClient 파라미터:", {
-      accessToken: accessToken?.substring(0, 20) + "...",
-      refreshToken: refreshToken?.substring(0, 20) + "...",
+      accessToken: `${accessToken?.substring(0, 20)}...`,
+      refreshToken: `${refreshToken?.substring(0, 20)}...`,
       userParam,
       characterIndexParam,
-      isNewUserParam,
+      isNewUserParam
     });
 
     if (!accessToken || !refreshToken) {
