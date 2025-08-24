@@ -75,10 +75,9 @@ export default function RecordPage() {
         aria-labelledby={segment === "today" ? "tab-today" : "tab-week"}
       >
         <div className='w-full max-w-[1100px] mx-auto flex flex-col gap-4 md:gap-6'>
-          {/* Top cards: responsive grid */}
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6'>
-            {/* Screentime Card */}
-            <article className='bg-white rounded-xl p-5 sm:p-6 flex flex-col items-center gap-3 border border-gray-200 shadow-xs'>
+          {/* Screentime centered */}
+          <div className='w-full flex justify-center'>
+            <article className='w-full bg-white rounded-xl p-5 sm:p-6 flex flex-col items-center gap-3 border border-gray-200 shadow-xs'>
               {/* Hourglass icon (rotating) */}
               <div className='w-9 h-9 rounded-md flex items-center justify-center'>
                 <img
@@ -101,9 +100,57 @@ export default function RecordPage() {
                 사용했어요!
               </div>
             </article>
+          </div>
+
+          {/* Insights and App Usage side-by-side */}
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6'>
+            {/* App Usage */}
+            <div className='flex flex-col gap-3 md:order-2'>
+              <h3 className='m-0 text-label-1 text-gray-600 px-1'>
+                앱 별 사용량
+              </h3>
+              <div className='bg-white rounded-xl px-4 py-2 flex flex-col border border-gray-200 shadow-xs'>
+                {/* KakaoTalk */}
+                <div className='flex items-center justify-between py-2'>
+                  <div className='flex items-center gap-2 text-label-1 font-medium text-gray-900'>
+                    <img src='/images/logos/KakaoTalk.svg' alt='카카오톡 로고' className='w-6 h-6' />
+                    <span>카카오톡</span>
+                  </div>
+                  <span className='text-caption-1 text-gray-500'>1시간 12분</span>
+                </div>
+
+                {/* Instagram */}
+                <div className='flex items-center justify-between py-2'>
+                  <div className='flex items-center gap-2 text-label-1 font-medium text-gray-900'>
+                    <img src='/images/logos/insta.svg' alt='인스타그램 로고' className='w-6 h-6' />
+                    <span>인스타그램</span>
+                  </div>
+                  <span className='text-caption-1 text-gray-500'>2시간 05분</span>
+                </div>
+
+                {/* Chrome */}
+                <div className='flex items-center justify-between py-2'>
+                  <div className='flex items-center gap-2 text-label-1 font-medium text-gray-900'>
+                    <img src='/images/logos/chrome.svg' alt='크롬 로고' className='w-6 h-6' />
+                    <span>크롬</span>
+                  </div>
+                  <span className='text-caption-1 text-gray-500'>48분</span>
+                </div>
+
+                {/* YouTube */}
+              <div className='flex items-center justify-between py-2'>
+                <div className='flex items-center gap-2 text-label-1 font-medium text-gray-900'>
+                  <img src='/images/logos/youtube.svg' alt='유튜브 로고' className='w-6 h-6' />
+                  <span>YouTube</span>
+                </div>
+                <span className='text-caption-1 text-gray-500'>4시간 28분</span>
+              </div>
+              
+              </div>
+            </div>
 
             {/* Insights Card */}
-            <article className='bg-white rounded-xl p-5 flex flex-col gap-6 border border-gray-200 shadow-xs'>
+            <article className='bg-white rounded-xl p-5 flex flex-col gap-6 border border-gray-200 shadow-xs md:order-1'>
               <div className='flex flex-col gap-2'>
                 <div className='flex items-center gap-1 text-label-1 text-gray-500'>
                   <img
@@ -132,50 +179,6 @@ export default function RecordPage() {
                 </p>
               </div>
             </article>
-          </div>
-
-          {/* App Usage */}
-          <div className='flex flex-col gap-3'>
-            <h3 className='m-0 text-label-1 text-gray-600 px-1'>
-              앱 별 사용량
-            </h3>
-            <div className='bg-white rounded-xl px-4 py-2 flex flex-col border border-gray-200 shadow-xs'>
-              {/* KakaoTalk */}
-              <div className='flex items-center justify-between py-2'>
-                <div className='flex items-center gap-2 text-label-1 font-medium text-gray-900'>
-                  <img src='/images/logos/KakaoTalk.svg' alt='카카오톡 로고' className='w-6 h-6' />
-                  <span>카카오톡</span>
-                </div>
-                <span className='text-caption-1 text-gray-500'>1시간 12분</span>
-              </div>
-
-              {/* Instagram */}
-              <div className='flex items-center justify-between py-2'>
-                <div className='flex items-center gap-2 text-label-1 font-medium text-gray-900'>
-                  <img src='/images/logos/insta.svg' alt='인스타그램 로고' className='w-6 h-6' />
-                  <span>인스타그램</span>
-                </div>
-                <span className='text-caption-1 text-gray-500'>2시간 05분</span>
-              </div>
-
-              {/* Chrome */}
-              <div className='flex items-center justify-between py-2'>
-                <div className='flex items-center gap-2 text-label-1 font-medium text-gray-900'>
-                  <img src='/images/logos/chrome.svg' alt='크롬 로고' className='w-6 h-6' />
-                  <span>크롬</span>
-                </div>
-                <span className='text-caption-1 text-gray-500'>48분</span>
-              </div>
-
-              {/* YouTube */}
-              <div className='flex items-center justify-between py-2'>
-                <div className='flex items-center gap-2 text-label-1 font-medium text-gray-900'>
-                  <img src='/images/logos/youtube.svg' alt='유튜브 로고' className='w-6 h-6' />
-                  <span>YouTube</span>
-                </div>
-                <span className='text-caption-1 text-gray-500'>4시간 28분</span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
