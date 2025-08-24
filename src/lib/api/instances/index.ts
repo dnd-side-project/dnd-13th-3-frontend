@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import { API_BASE_URL } from "@/lib/config";
 
 // 토큰이 필요없는 API용 인스턴스 (로그인 등)
@@ -33,11 +33,22 @@ privateApi.interceptors.request.use((config) => {
 });
 
 // 응답 인터셉터 추가
-const responseInterceptor = (res: any) => res;
-const errorInterceptor = (error: any) => {
-  const status = error?.response?.status;
-  const message = error?.response?.data?.message ?? error.message;
-  return Promise.reject(new Error(`${message}${status ? ` (${status})` : ""}`));
+const responseInterceptor = (res: AxiosResponse) => res;
+const errorInterceptor = (error: unknown) => {
+  if (error && typeof error === "object" && "response" in error) {
+    const axiosError = error as {
+      response?: { status?: number; data?: { message?: string } };
+    };
+    const status = axiosError.response?.status;
+    const message =
+      axiosError.response?.data?.message ??
+      (error instanceof Error ? error.message : "Unknown error");
+    return Promise.reject(
+      new Error(`${message}${status ? ` (${status})` : ""}`)
+    );
+  }
+  const message = error instanceof Error ? error.message : "Unknown error";
+  return Promise.reject(new Error(message));
 };
 
 publicApi.interceptors.response.use(responseInterceptor, errorInterceptor);

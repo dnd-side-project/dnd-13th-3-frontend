@@ -24,7 +24,7 @@ export default function SuccessClient() {
       refreshToken: `${refreshToken?.substring(0, 20)}...`,
       userParam,
       characterIndexParam,
-      isNewUserParam
+      isNewUserParam,
     });
 
     if (!accessToken || !refreshToken) {
@@ -79,9 +79,9 @@ export default function SuccessClient() {
             setUser(fullUserInfo);
             console.log("💾 Zustand 스토어에 사용자 정보 저장 완료");
             router.replace("/main");
-          } catch (error: any) {
+          } catch (error: unknown) {
             // Axios 인터셉터에서 Error(message + status)로 래핑됨
-            const msg: string = error?.message ?? "";
+            const msg: string = error instanceof Error ? error.message : "";
             const is404 = msg.includes("(404)");
             console.error("❌ 프로필 조회 실패:", msg);
             if (is404) {
