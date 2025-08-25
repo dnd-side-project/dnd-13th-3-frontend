@@ -29,7 +29,6 @@ export interface CreateChallengeRequest {
   start_date: string;
   end_date: string;
   goal_time_minutes: number;
-  type: ChallengeType;
   title: string;
 }
 
@@ -43,7 +42,9 @@ export interface CreateChallengeResponse {
 export interface GetChallengeResponse {
   success: boolean;
   message: string;
-  data: Challenge;
+  data: {
+    challenges: Challenge[];
+  };
 }
 
 // 공유 챌린지 링크 생성 응답
