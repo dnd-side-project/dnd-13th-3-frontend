@@ -35,7 +35,7 @@ export default async function ChallengePage() {
     return (
       <>
         <ChallengeHeader hasChallenge={true} />
-        <div className='h-[calc(100dvh-120px)] bg-secondary overflow-y-auto'>
+        <div className='h-[calc(100dvh-40px)] bg-secondary overflow-y-auto'>
           <ChallengeOngoing challenge={challengeData} userProfile={userProfile} />
         </div>
       </>
@@ -45,7 +45,7 @@ export default async function ChallengePage() {
   return (
     <>
       <ChallengeHeader hasChallenge={false} />
-      <div className='h-[calc(100dvh-120px)] bg-primary overflow-y-auto'>
+              <div className='h-[calc(100dvh-40px)] bg-primary overflow-y-auto'>
         <ChallengeEmptyState userProfile={userProfile} />
       </div>
     </>

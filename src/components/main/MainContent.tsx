@@ -53,14 +53,14 @@ export default function MainContent({ userProfile, screenTimeData }: MainContent
     : "/images/logos/screentime.svg";
 
   return (
-    <div className='w-full h-[calc(100dvh-120px)] px-screen-margin bg-white overflow-y-auto flex flex-col'>
+          <div className='w-full h-[calc(100dvh-40px)] px-screen-margin bg-white overflow-y-auto flex flex-col'>
       {/* 상단 탭 스위처 */}
       <div className='flex pt-[20px]'>
         <TabSwitcher />
       </div>
 
       {/* 메인 콘텐츠 */}
-      <div className='pt-[16px] flex flex-col relative'>
+      <div className='pt-[16px] mb-[100px] flex flex-col relative'>
         <div className='z-20 relative'>
           <GoalTab nickname={userProfile?.nickname || "미누"} />
         </div>
