@@ -34,8 +34,11 @@ export interface CreateChallengeRequest {
 
 // 챌린지 생성 응답
 export interface CreateChallengeResponse {
-  challenge_id: number;
+  success: boolean;
   message: string;
+  data: {
+    challenge_id: number;
+  };
 }
 
 // 챌린지 조회 응답
@@ -49,7 +52,11 @@ export interface GetChallengeResponse {
 
 // 공유 챌린지 링크 생성 응답
 export interface InviteUrlResponse {
-  url: string;
+  success: boolean;
+  message: string;
+  data: {
+    url: string;
+  };
 }
 
 // 챌린지 폼 데이터

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { createChallenge } from "@/lib/api/challenge";
+import type { CreateChallengeResponse } from "@/lib/challenge";
 
 export default function ChallengeCreateForm() {
   const router = useRouter();
@@ -45,11 +46,10 @@ export default function ChallengeCreateForm() {
       };
 
       console.log("🔍 챌린지 생성 시작:", challengeData);
-      const result = await createChallenge(challengeData);
+      const result: CreateChallengeResponse = await createChallenge(challengeData);
       console.log("✅ 챌린지 생성 성공:", result);
       
-      // API 응답 데이터를 URL 파라미터로 전달
-      const successUrl = `/challenge/success?title=${encodeURIComponent(trimmedTitle)}&goalTime=${goalTime}&startDate=${startDate}&endDate=${endDate}`;
+      const successUrl = `/challenge/success?challengeId=${result.data.challenge_id}&title=${encodeURIComponent(trimmedTitle)}&goalTime=${goalTime}&startDate=${startDate}&endDate=${endDate}`;
       console.log("🚀 성공 페이지로 이동:", successUrl);
       router.push(successUrl);
     } catch (error) {

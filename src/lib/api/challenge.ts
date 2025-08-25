@@ -23,7 +23,7 @@ export async function createChallenge(
 
     console.log("✅ 챌린지 생성 API 성공:", {
       data: responseData,
-      challengeId: responseData.challenge_id,
+      challengeId: responseData.data?.challenge_id,
       message: responseData.message
     });
 
@@ -54,20 +54,20 @@ export async function getChallenge(): Promise<GetChallengeResponse> {
 }
 
 export async function generateInviteUrl(
-  accessToken: string
+  challengeId: string
 ): Promise<InviteUrlResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/challenge/inviteUrl`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  try {
+    const { data } = await privateApi.post<InviteUrlResponse>(`/api/challenge/inviteUrl/${challengeId}`);
+    
+    console.log("✅ 초대 링크 생성 API 성공:", {
+      data: data,
+      url: data.data?.url
+    });
 
-  if (!response.ok) {
-    throw new Error("초대 링크 생성에 실패했습니다.");
+    return data;
+  } catch (error) {
+    console.error("❌ 초대 링크 생성 API 호출 실패:", error);
+    throw error;
   }
-
-  return response.json();
 }
 
