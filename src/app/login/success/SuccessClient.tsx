@@ -3,21 +3,19 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { getUserProfile } from "@/lib/api/user";
-import { useUserStore } from "@/stores/userStore";
 
 export default function SuccessClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { setUser, setTokens } = useUserStore();
+
+  const accessToken = searchParams.get("accessToken");
+  const refreshToken = searchParams.get("refreshToken");
+  const userParam = searchParams.get("user");
+  const characterIndexParam = searchParams.get("characterIndex");
+  const isNewUserParam = searchParams.get("isNewUser");
 
   useEffect(() => {
-    const accessToken = searchParams.get("accessToken");
-    const refreshToken = searchParams.get("refreshToken");
-    const userParam = searchParams.get("user");
-    const characterIndexParam = searchParams.get("characterIndex");
-    const isNewUserParam = searchParams.get("isNewUser");
-
-    console.log("🔍 SuccessClient 파라미터:", {
+    console.log("🔍 SuccessClient: URL 파라미터 확인", {
       accessToken: `${accessToken?.substring(0, 20)}...`,
       refreshToken: `${refreshToken?.substring(0, 20)}...`,
       userParam,
@@ -32,28 +30,11 @@ export default function SuccessClient() {
 
     (async () => {
       try {
-        // Zustand 스토어에 토큰 저장
-        setTokens(accessToken, refreshToken);
-
         // 쿠키에 토큰 저장 (SSR 사용)
         // biome-ignore lint/suspicious/noDocumentCookie: SSR을 위해 필요
         document.cookie = `accessToken=${accessToken}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
         // biome-ignore lint/suspicious/noDocumentCookie: SSR을 위해 필요
         document.cookie = `refreshToken=${refreshToken}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
-
-        if (userParam) {
-          try {
-            const userData = JSON.parse(userParam);
-            setUser(userData);
-            console.log("💾 기본 사용자 정보 저장 완료");
-          } catch (_) {
-            console.log("⚠️ 사용자 정보 파싱 실패");
-          }
-        }
-
-        if (characterIndexParam) {
-          localStorage.setItem("characterIndex", characterIndexParam);
-        }
 
         // 새 유저면 온보딩, 아니면 메인으로
         const isNew = isNewUserParam === "true";
@@ -69,27 +50,7 @@ export default function SuccessClient() {
             const profile = await getUserProfile();
             console.log("✅ 프로필 조회 성공:", profile);
 
-            // 프로필 정보를 사용자 정보와 합쳐서 저장
-            const fullUserInfo = {
-              id: profile.id,
-              email: userParam ? JSON.parse(userParam).email : "",
-              name: userParam ? JSON.parse(userParam).name : "",
-              nickname: profile.nickname,
-              goal: profile.goal,
-              screenTimeGoal: profile.screenTimeGoal,
-              characterIndex: profile.characterIndex,
-            };
-
-            // characterIndex가 있으면 localStorage에도 저장
-            if (profile.characterIndex) {
-              localStorage.setItem(
-                "characterIndex",
-                profile.characterIndex.toString()
-              );
-            }
-
-            setUser(fullUserInfo);
-            console.log("💾 Zustand 스토어에 사용자 정보 저장 완료");
+            console.log("💾 쿠키에 토큰 저장 완료");
             router.replace("/main");
           } catch (error: unknown) {
             // Axios 인터셉터에서 Error(message + status)로 래핑됨
@@ -109,7 +70,7 @@ export default function SuccessClient() {
         console.error("❌ 로그인 처리 중 오류:", _e);
       }
     })();
-  }, [router, searchParams, setUser, setTokens]);
+  }, [router, searchParams]);
 
   return (
     <div className='min-h-screen bg-primary flex items-center justify-center'>

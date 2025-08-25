@@ -13,7 +13,6 @@ import {
 } from "@/lib/goals";
 import { getOnboardingTitle, TOTAL_STEPS } from "@/lib/onboarding";
 import { saveOnboardingData } from "@/lib/onboardingStorage";
-import { useUserStore } from "@/stores/userStore";
 import {
   BackHeader,
   BottomBar,
@@ -27,7 +26,6 @@ import {
 
 export default function Onboarding() {
   const router = useRouter();
-  const { setOnboardingData, completeOnboarding } = useUserStore();
 
   const {
     nickname,
@@ -112,16 +110,6 @@ export default function Onboarding() {
         screenTimeGoal: { type: screenTimeType, custom: screenTimeCustom },
       });
 
-      // Zustand 스토어에 온보딩 데이터 저장
-      setOnboardingData({
-        nickname,
-        goal: { type: goalType, custom: goalCustom },
-        screenTimeGoal: { type: screenTimeType, custom: screenTimeCustom },
-      });
-
-      // 온보딩 완료 상태로 설정
-      completeOnboarding();
-
       // 결과 페이지에서 사용할 요약 정보를 세션에 저장
       const goalLabel =
         selectionType === "preset" && selectedIndex != null
@@ -157,8 +145,6 @@ export default function Onboarding() {
     selectedPresetIndex,
     presetHours,
     router,
-    setOnboardingData,
-    completeOnboarding,
   ]);
 
   const isStep1Valid = nickname.trim().length > 0;

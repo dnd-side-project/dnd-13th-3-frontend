@@ -26,7 +26,6 @@ export function useTimer() {
 
   useEffect(() => {
     setIsMounted(true);
-    localStorage.removeItem("timerState");
   }, []);
 
   // 브라우저 이탈 방지
@@ -41,19 +40,6 @@ export function useTimer() {
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [state.isRunning, state.isPaused]);
-
-  // localStorage에 상태 저장
-  useEffect(() => {
-    if (isMounted && (state.isRunning || state.isPaused)) {
-      localStorage.setItem(
-        "timerState",
-        JSON.stringify({
-          ...state,
-          startTime: startTimeRef.current,
-        })
-      );
-    }
-  }, [state, isMounted]);
 
   useAnimationFrame((_deltaTime) => {
     if (!state.isRunning) return;
@@ -104,7 +90,6 @@ export function useTimer() {
 
   const resetTimer = useCallback(() => {
     setState(INITIAL_TIMER_STATE);
-    localStorage.removeItem("timerState");
     startTimeRef.current = 0;
     lastUpdateTimeRef.current = 0;
   }, []);
