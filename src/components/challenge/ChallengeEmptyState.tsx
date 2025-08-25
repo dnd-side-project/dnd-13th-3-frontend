@@ -14,6 +14,11 @@ export default function ChallengeEmptyState({ userProfile }: ChallengeEmptyState
   
   const router = useRouter();
 
+  const getCharacterImage = (characterIndex?: number) => {
+    const index = characterIndex || 1;
+    return `/images/logos/ChallengingCharater${index}.svg`;
+  };
+
   const handleStartChallenge = () => {
     router.push("/challenge/create");
   };
@@ -36,8 +41,8 @@ export default function ChallengeEmptyState({ userProfile }: ChallengeEmptyState
           <div className='relative z-20 mb-20'>
             <div className='w-80 h-80 relative'>
               <Image
-                src='/images/logos/ChallengeIcon.svg'
-                alt='Challenge Icon'
+                src={getCharacterImage(userProfile?.characterIndex)}
+                alt='도전하는 캐릭터'
                 fill
                 className='object-contain'
               />
