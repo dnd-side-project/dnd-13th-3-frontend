@@ -7,6 +7,7 @@ interface UserState {
   user:
     | (UserInfo & {
         nickname?: string;
+        characterIndex?: number;
         goal?: {
           type: string;
           custom?: string | null;
@@ -39,6 +40,7 @@ interface UserState {
   setUser: (
     user: UserInfo & {
       nickname?: string;
+      characterIndex?: number;
       goal?: {
         type: string;
         custom?: string | null;
