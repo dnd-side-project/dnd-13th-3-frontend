@@ -26,7 +26,7 @@ export async function getUserProfile(): Promise<UserProfileResponse> {
     console.log("🔍 characterIndex 확인:", {
       value: data.characterIndex,
       type: typeof data.characterIndex,
-      exists: 'characterIndex' in data
+      exists: "characterIndex" in data,
     });
     return data;
   } catch (error) {
@@ -34,5 +34,3 @@ export async function getUserProfile(): Promise<UserProfileResponse> {
     throw error;
   }
 }
-
-

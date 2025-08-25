@@ -11,13 +11,13 @@ export default function MainHeader() {
   };
   return (
     <div className='flex justify-between items-center pt-4 px-screen-margin bg-white'>
-    <Image
-      src='/images/logos/MinuLogo2.svg'
-      alt='MINU Logo'
-      width={84}
-      height={24}
-      priority
-    />
+      <Image
+        src='/images/logos/MinuLogo2.svg'
+        alt='MINU Logo'
+        width={84}
+        height={24}
+        priority
+      />
       <button type='button' onClick={handleSettingClick}>
         <Image
           src='/images/logos/Setting2.svg'

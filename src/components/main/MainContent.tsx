@@ -13,22 +13,29 @@ import {
 import { TabSwitcher } from "@/components/timer";
 import { parseScreenTimeValue } from "@/lib/goals";
 import type { UserProfileResponse } from "@/types/auth";
-import { ScreenTimeResponse } from "@/types/screentime";
+import type { ScreenTimeResponse } from "@/types/screentime";
 
 interface MainContentProps {
   userProfile: UserProfileResponse | null;
   screenTimeData: ScreenTimeResponse | null;
 }
 
-export default function MainContent({ userProfile, screenTimeData }: MainContentProps) {
+export default function MainContent({
+  userProfile,
+  screenTimeData,
+}: MainContentProps) {
   const [isTimeEditModalOpen, setIsTimeEditModalOpen] = useState(false);
   const [isGoalEditModalOpen, setIsGoalEditModalOpen] = useState(false);
-  
-  const goal = userProfile?.goal?.custom || userProfile?.goal?.type || "혼자 있는 시간 디지털 없이 보내기";
-  const targetTime = userProfile?.screenTimeGoal?.type ? 
-    parseScreenTimeValue(userProfile.screenTimeGoal.type) : 
-    { hours: 7, minutes: 0 };
-  const todayScreenTime = screenTimeData?.data?.screenTimes?.[0]?.totalMinutes || 0;
+
+  const goal =
+    userProfile?.goal?.custom ||
+    userProfile?.goal?.type ||
+    "혼자 있는 시간 디지털 없이 보내기";
+  const targetTime = userProfile?.screenTimeGoal?.type
+    ? parseScreenTimeValue(userProfile.screenTimeGoal.type)
+    : { hours: 7, minutes: 0 };
+  const todayScreenTime =
+    screenTimeData?.data?.screenTimes?.[0]?.totalMinutes || 0;
 
   const openTimeEditModal = () => setIsTimeEditModalOpen(true);
   const closeTimeEditModal = () => setIsTimeEditModalOpen(false);
@@ -53,7 +60,7 @@ export default function MainContent({ userProfile, screenTimeData }: MainContent
     : "/images/logos/screentime.svg";
 
   return (
-          <div className='w-full h-[calc(100dvh-40px)] px-screen-margin bg-white overflow-y-auto flex flex-col'>
+    <div className='w-full h-[calc(100dvh-40px)] px-screen-margin bg-white overflow-y-auto flex flex-col'>
       {/* 상단 탭 스위처 */}
       <div className='flex pt-[20px]'>
         <TabSwitcher />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getUserProfile } from "@/lib/api/user";
 import { useUserStore } from "@/stores/userStore";
 
@@ -34,9 +34,11 @@ export default function SuccessClient() {
       try {
         // Zustand 스토어에 토큰 저장
         setTokens(accessToken, refreshToken);
-        
+
         // 쿠키에 토큰 저장 (SSR 사용)
+        // biome-ignore lint/suspicious/noDocumentCookie: SSR을 위해 필요
         document.cookie = `accessToken=${accessToken}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
+        // biome-ignore lint/suspicious/noDocumentCookie: SSR을 위해 필요
         document.cookie = `refreshToken=${refreshToken}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
 
         if (userParam) {
@@ -80,7 +82,10 @@ export default function SuccessClient() {
 
             // characterIndex가 있으면 localStorage에도 저장
             if (profile.characterIndex) {
-              localStorage.setItem("characterIndex", profile.characterIndex.toString());
+              localStorage.setItem(
+                "characterIndex",
+                profile.characterIndex.toString()
+              );
             }
 
             setUser(fullUserInfo);

@@ -24,10 +24,12 @@ privateApi.interceptors.request.use(async (config) => {
   if (typeof window !== "undefined") {
     // 클라이언트: 쿠키에서 토큰 가져오기
     try {
-      const cookies = document.cookie.split(';');
-      const accessTokenCookie = cookies.find(cookie => cookie.trim().startsWith('accessToken='));
+      const cookies = document.cookie.split(";");
+      const accessTokenCookie = cookies.find((cookie) =>
+        cookie.trim().startsWith("accessToken=")
+      );
       if (accessTokenCookie) {
-        accessToken = accessTokenCookie.split('=')[1];
+        accessToken = accessTokenCookie.split("=")[1];
       }
     } catch (error) {
       console.warn("클라이언트 쿠키에서 토큰을 가져올 수 없습니다:", error);

@@ -46,9 +46,10 @@ export default function ChallengeCreateForm() {
       };
 
       console.log("🔍 챌린지 생성 시작:", challengeData);
-      const result: CreateChallengeResponse = await createChallenge(challengeData);
+      const result: CreateChallengeResponse =
+        await createChallenge(challengeData);
       console.log("✅ 챌린지 생성 성공:", result);
-      
+
       const successUrl = `/challenge/success?challengeId=${result.data.challenge_id}&title=${encodeURIComponent(trimmedTitle)}&goalTime=${goalTime}&startDate=${startDate}&endDate=${endDate}`;
       console.log("🚀 성공 페이지로 이동:", successUrl);
       router.push(successUrl);

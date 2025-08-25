@@ -1,4 +1,8 @@
-import { ChallengeEmptyState, ChallengeHeader, ChallengeOngoing } from "@/components/challenge";
+import {
+  ChallengeEmptyState,
+  ChallengeHeader,
+  ChallengeOngoing,
+} from "@/components/challenge";
 import { getChallenge } from "@/lib/api/challenge";
 import { getUserProfile } from "@/lib/api/user";
 
@@ -7,20 +11,23 @@ export default async function ChallengePage() {
   let challengeData = null;
   let userProfile = null;
 
-  try {    
+  try {
     const [challengeResponse, userProfileResponse] = await Promise.all([
       getChallenge(),
-      getUserProfile()
+      getUserProfile(),
     ]);
-    
+
     console.log("🔍 Challenge 페이지: 챌린지 조회 결과:", challengeResponse);
-    console.log("🔍 Challenge 페이지: 사용자 프로필 조회 결과:", userProfileResponse);
-    
+    console.log(
+      "🔍 Challenge 페이지: 사용자 프로필 조회 결과:",
+      userProfileResponse
+    );
+
     hasChallenge = Boolean(
-      challengeResponse?.success && 
-      challengeResponse?.data?.challenges && 
-      Array.isArray(challengeResponse.data.challenges) &&
-      challengeResponse.data.challenges.length > 0
+      challengeResponse?.success &&
+        challengeResponse?.data?.challenges &&
+        Array.isArray(challengeResponse.data.challenges) &&
+        challengeResponse.data.challenges.length > 0
     );
     challengeData = hasChallenge ? challengeResponse.data.challenges[0] : null;
     userProfile = userProfileResponse;
@@ -36,7 +43,10 @@ export default async function ChallengePage() {
       <>
         <ChallengeHeader hasChallenge={true} />
         <div className='h-[calc(100dvh-40px)] bg-secondary overflow-y-auto'>
-          <ChallengeOngoing challenge={challengeData} userProfile={userProfile} />
+          <ChallengeOngoing
+            challenge={challengeData}
+            userProfile={userProfile}
+          />
         </div>
       </>
     );
@@ -45,7 +55,7 @@ export default async function ChallengePage() {
   return (
     <>
       <ChallengeHeader hasChallenge={false} />
-              <div className='h-[calc(100dvh-40px)] bg-primary overflow-y-auto'>
+      <div className='h-[calc(100dvh-40px)] bg-primary overflow-y-auto'>
         <ChallengeEmptyState userProfile={userProfile} />
       </div>
     </>

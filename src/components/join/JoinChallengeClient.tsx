@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { joinChallenge } from "@/lib/api/challenge";
 import type { JoinChallengeResponse } from "@/lib/challenge";
 
@@ -11,7 +11,8 @@ export default function JoinChallengeClient() {
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [challengeInfo, setChallengeInfo] = useState<JoinChallengeResponse | null>(null);
+  const [challengeInfo, setChallengeInfo] =
+    useState<JoinChallengeResponse | null>(null);
 
   const inviteCode = searchParams.get("code");
 
@@ -31,7 +32,10 @@ export default function JoinChallengeClient() {
         console.log("✅ 챌린지 참여 성공:", response);
       } catch (error) {
         console.error("❌ 챌린지 참여 실패:", error);
-        const errorMessage = error instanceof Error ? error.message : "챌린지 참여에 실패했습니다.";
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "챌린지 참여에 실패했습니다.";
         setError(errorMessage);
       } finally {
         setIsLoading(false);
@@ -57,7 +61,9 @@ export default function JoinChallengeClient() {
         <div className='flex-1 flex items-center justify-center px-6'>
           <div className='text-center'>
             <div className='w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4' />
-            <p className='text-white text-lg font-medium'>초대 코드를 확인하는 중...</p>
+            <p className='text-white text-lg font-medium'>
+              초대 코드를 확인하는 중...
+            </p>
           </div>
         </div>
       </div>
@@ -70,7 +76,9 @@ export default function JoinChallengeClient() {
         <div className='flex-1 flex items-center justify-center px-6'>
           <div className='text-center'>
             <div className='w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4' />
-            <p className='text-white text-lg font-medium'>챌린지에 참여하는 중...</p>
+            <p className='text-white text-lg font-medium'>
+              챌린지에 참여하는 중...
+            </p>
           </div>
         </div>
       </div>
@@ -97,6 +105,7 @@ export default function JoinChallengeClient() {
         </div>
         <div className='pb-8 px-6'>
           <button
+            type='button'
             onClick={handleGoHome}
             className='w-full px-6 py-3.5 bg-white text-primary rounded-xl font-semibold hover:bg-gray-100 transition-colors'
           >
@@ -122,21 +131,35 @@ export default function JoinChallengeClient() {
               />
             </div>
             <h1 className='text-white text-xl font-bold mb-3'>참여 성공!</h1>
-            <p className='text-white text-base mb-6 text-center'>{challengeInfo.data.message}</p>
-            
+            <p className='text-white text-base mb-6 text-center'>
+              {challengeInfo.data.message}
+            </p>
+
             <div className='bg-white/10 rounded-2xl p-5 mb-8'>
               <div className='space-y-4'>
                 <div className='flex justify-between items-center'>
-                  <span className='text-white/80 text-sm font-medium'>챌린지 제목</span>
-                  <span className='text-white font-semibold text-right flex-1 ml-4'>{challengeInfo.data.title}</span>
+                  <span className='text-white/80 text-sm font-medium'>
+                    챌린지 제목
+                  </span>
+                  <span className='text-white font-semibold text-right flex-1 ml-4'>
+                    {challengeInfo.data.title}
+                  </span>
                 </div>
                 <div className='flex justify-between items-center'>
-                  <span className='text-white/80 text-sm font-medium'>시작일</span>
-                  <span className='text-white font-semibold'>{challengeInfo.data.start_date}</span>
+                  <span className='text-white/80 text-sm font-medium'>
+                    시작일
+                  </span>
+                  <span className='text-white font-semibold'>
+                    {challengeInfo.data.start_date}
+                  </span>
                 </div>
                 <div className='flex justify-between items-center'>
-                  <span className='text-white/80 text-sm font-medium'>종료일</span>
-                  <span className='text-white font-semibold'>{challengeInfo.data.end_date}</span>
+                  <span className='text-white/80 text-sm font-medium'>
+                    종료일
+                  </span>
+                  <span className='text-white font-semibold'>
+                    {challengeInfo.data.end_date}
+                  </span>
                 </div>
               </div>
             </div>
@@ -144,6 +167,7 @@ export default function JoinChallengeClient() {
         </div>
         <div className='pb-8 px-6'>
           <button
+            type='button'
             onClick={handleGoToChallenge}
             className='w-full px-6 py-3.5 bg-white text-primary rounded-xl font-semibold hover:bg-gray-100 transition-colors'
           >

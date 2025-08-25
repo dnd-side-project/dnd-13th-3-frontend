@@ -7,7 +7,9 @@ interface ChallengeHeaderProps {
   hasChallenge: boolean;
 }
 
-export default function ChallengeHeader({ hasChallenge }: ChallengeHeaderProps) {
+export default function ChallengeHeader({
+  hasChallenge,
+}: ChallengeHeaderProps) {
   const router = useRouter();
 
   const handleSettingClick = () => {
@@ -48,31 +50,31 @@ export default function ChallengeHeader({ hasChallenge }: ChallengeHeaderProps) 
 
   return (
     <div className='flex justify-between items-center pt-4 px-screen-margin bg-primary'>
-        <Image
-          src='/images/logos/MinuLogo2.svg'
-          alt='MINU Logo'
-          width={84}
-          height={24}
-          priority
-        />
-         <div className='flex items-center gap-2'>
-          <button type='button'>
-            <Image
-              src='/images/logos/History.svg'
-              alt='Add'
-              width={24}
-              height={24}
-            />
-          </button>
-          <button type='button' onClick={handleSettingClick}>
-            <Image
-              src='/images/logos/Setting.svg'
-              alt='Settings'
-              width={24}
-              height={24}
-            />
-          </button>
-        </div>
+      <Image
+        src='/images/logos/MinuLogo2.svg'
+        alt='MINU Logo'
+        width={84}
+        height={24}
+        priority
+      />
+      <div className='flex items-center gap-2'>
+        <button type='button'>
+          <Image
+            src='/images/logos/History.svg'
+            alt='Add'
+            width={24}
+            height={24}
+          />
+        </button>
+        <button type='button' onClick={handleSettingClick}>
+          <Image
+            src='/images/logos/Setting.svg'
+            alt='Settings'
+            width={24}
+            height={24}
+          />
+        </button>
       </div>
+    </div>
   );
 }

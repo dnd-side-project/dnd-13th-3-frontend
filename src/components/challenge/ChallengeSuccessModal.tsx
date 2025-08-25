@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { generateInviteUrl } from "@/lib/api/challenge";
 
 export default function ChallengeSuccess() {
@@ -13,25 +13,30 @@ export default function ChallengeSuccess() {
   const [inviteUrl, setInviteUrl] = useState<string>("");
   const [isLinkGenerated, setIsLinkGenerated] = useState(false);
   const isGeneratingRef = useRef(false);
-  
+
   const challengeData = {
     challengeId: searchParams.get("challengeId") || "",
     title: searchParams.get("title") || "목표 없음",
     goalTimeHours: parseInt(searchParams.get("goalTime") || "0", 10),
     startDate: searchParams.get("startDate") || "",
-    endDate: searchParams.get("endDate") || ""
+    endDate: searchParams.get("endDate") || "",
   };
 
   useEffect(() => {
     const generateLink = async () => {
-      if (!challengeData.challengeId || isLinkGenerated || isGeneratingRef.current) return;
-      
+      if (
+        !challengeData.challengeId ||
+        isLinkGenerated ||
+        isGeneratingRef.current
+      )
+        return;
+
       isGeneratingRef.current = true;
       setIsLoading(true);
       try {
         const response = await generateInviteUrl(challengeData.challengeId);
         console.log("✅ 초대 링크 생성 성공:", response);
-        
+
         if (response.success && response.data?.url) {
           setInviteUrl(response.data.url);
           setIsLinkGenerated(true);
@@ -45,7 +50,7 @@ export default function ChallengeSuccess() {
     };
 
     generateLink();
-  }, [challengeData.challengeId]);
+  }, [challengeData.challengeId, isLinkGenerated]);
 
   const handleCopyLink = async () => {
     if (!inviteUrl) {

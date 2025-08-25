@@ -8,10 +8,12 @@ interface ChallengeEmptyStateProps {
   userProfile: UserProfileResponse | null;
 }
 
-export default function ChallengeEmptyState({ userProfile }: ChallengeEmptyStateProps) {
+export default function ChallengeEmptyState({
+  userProfile,
+}: ChallengeEmptyStateProps) {
   const nickname = userProfile?.nickname || "미누";
   const displayNickname = nickname.endsWith("님") ? nickname : `${nickname}님`;
-  
+
   const router = useRouter();
 
   const getCharacterImage = (characterIndex?: number) => {

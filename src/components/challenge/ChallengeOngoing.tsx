@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
+import { useState } from "react";
 import type { Challenge } from "@/lib/challenge";
 import type { UserProfileResponse } from "@/types/auth";
 
@@ -10,7 +10,10 @@ interface ChallengeOngoingProps {
   userProfile: UserProfileResponse | null;
 }
 
-export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOngoingProps) {
+export default function ChallengeOngoing({
+  challenge,
+  userProfile,
+}: ChallengeOngoingProps) {
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
 
   const sortedParticipants = [...challenge.participants].sort(
@@ -24,8 +27,6 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
   };
 
   const currentUser = challenge.participants[0];
-  
-  const currentUserNickname = userProfile?.nickname || currentUser.nickname;
 
   const getCharacterImage = (characterIndex?: number) => {
     const index = characterIndex || 1;
@@ -59,7 +60,7 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
         <div className='flex flex-col items-center justify-end w-full h-full relative'>
           <div className='absolute bottom-0 left-0 right-0 flex items-end justify-center'>
             <div className='w-full min-h-[334px] relative'>
-            <Image
+              <Image
                 src='/images/logos/ChallengeBack.svg'
                 alt='Challenge Background'
                 fill
@@ -90,7 +91,7 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
                       height={24}
                     />
                   </div>
-                  <div className="justify-start text-gray-500 text-sm font-medium ml-1">
+                  <div className='justify-start text-gray-500 text-sm font-medium ml-1'>
                     현재 누적 스크린타임
                   </div>
                 </div>
@@ -118,14 +119,15 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
       <div className='bg-white rounded-t-3xl flex-1 relative z-10 -mt-12 pb-40'>
         <div className='w-full h-16 pb-4 mx-auto pt-6 px-6'>
           <div className='w-full px-1.5 py-1 bg-gray-100 rounded-[30px] flex justify-between items-center relative'>
-            <div 
+            <div
               className={`absolute top-1 bottom-1 bg-white rounded-[30px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.09)] transition-all duration-300 ease-in-out ${
-                activeTab === "current" 
-                  ? "left-1.5 w-[calc(50%-0.75rem)]" 
+                activeTab === "current"
+                  ? "left-1.5 w-[calc(50%-0.75rem)]"
                   : "left-[calc(50%+0.75rem)] w-[calc(50%-0.75rem)]"
               }`}
             />
             <button
+              type='button'
               onClick={() => handleTabChange("current")}
               className={`relative z-10 flex-1 px-6 py-2 rounded-[30px] flex justify-center items-center transition-colors duration-300 ${
                 activeTab === "current"
@@ -136,6 +138,7 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
               현재 랭킹
             </button>
             <button
+              type='button'
               onClick={() => handleTabChange("past")}
               className={`relative z-10 flex-1 px-6 py-2 rounded-[30px] flex justify-center items-center transition-colors duration-300 ${
                 activeTab === "past"
@@ -153,14 +156,16 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
               const rank = index + 1;
               const hours = Math.floor(participant.current_time_minutes / 60);
               const minutes = participant.current_time_minutes % 60;
-              const timeText = hours > 0 ? `${hours}시간 ${minutes}분` : `${minutes}분`;
-              const isCurrentUser = participant.userId.toString() === userProfile?.id;
-              
+              const timeText =
+                hours > 0 ? `${hours}시간 ${minutes}분` : `${minutes}분`;
+              const isCurrentUser =
+                participant.userId.toString() === userProfile?.id;
+
               return (
-                <div 
-                  key={participant.userId} 
+                <div
+                  key={participant.userId}
                   className={`flex items-center gap-4 px-6 py-2 rounded-xl ${
-                    isCurrentUser ? 'bg-gray-50' : 'bg-white'
+                    isCurrentUser ? "bg-gray-50" : "bg-white"
                   }`}
                 >
                   <div className='flex-shrink-0'>
@@ -203,7 +208,9 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
                     />
                   </div>
                   <div className='flex-1'>
-                    <div className='font-medium text-gray-900'>{participant.nickname}</div>
+                    <div className='font-medium text-gray-900'>
+                      {participant.nickname}
+                    </div>
                     <div className='flex items-center justify-between'>
                       <div className='text-sm text-gray-600'>{timeText}</div>
                       <div className="justify-start text-gray-400 text-xs font-medium font-['Pretendard'] leading-none tracking-tight">
@@ -212,12 +219,14 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
                     </div>
                     <div className='mt-2'>
                       <div className='flex-1 h-2 relative rounded'>
-                        <div className={`w-full h-2 left-0 top-0 absolute rounded ${
-                          isCurrentUser ? 'bg-white' : 'bg-gray-100'
-                        }`} />
-                        <div 
+                        <div
+                          className={`w-full h-2 left-0 top-0 absolute rounded ${
+                            isCurrentUser ? "bg-white" : "bg-gray-100"
+                          }`}
+                        />
+                        <div
                           className={`h-2 left-0 top-0 absolute rounded transition-all duration-300 ${
-                            isCurrentUser ? 'bg-gray-500' : 'bg-gray-300'
+                            isCurrentUser ? "bg-gray-500" : "bg-gray-300"
                           }`}
                           style={{ width: `${participant.achievement_rate}%` }}
                         />

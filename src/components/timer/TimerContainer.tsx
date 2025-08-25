@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { useTimer } from "../../hooks/useTimer";
 import { saveTimerRecord } from "@/lib/api/timer";
+import { useTimer } from "../../hooks/useTimer";
 import ConfirmEndModal from "./ConfirmEndModal";
 import MissionSelectModal from "./MissionSelectModal";
 import ResultModal from "./ResultModal";
@@ -52,10 +52,10 @@ export default function TimerContainer() {
       const hours = Math.floor(totalSeconds / 3600);
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
-      
+
       const now = new Date();
       const startedAt = new Date(now.getTime() - result.elapsedTime);
-      
+
       await saveTimerRecord({
         category: result.mission,
         duration_hours: hours,
@@ -64,9 +64,8 @@ export default function TimerContainer() {
         started_at: startedAt.toISOString(),
         ended_at: now.toISOString(),
       });
-    } catch (error) {
-    }
-    
+    } catch (_error) {}
+
     setModalState((prev) => ({
       ...prev,
       showConfirmModal: false,
