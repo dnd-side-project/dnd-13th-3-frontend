@@ -21,13 +21,26 @@ export const privateApi = axios.create({
 privateApi.interceptors.request.use(async (config) => {
   let accessToken: string | undefined;
 
-  // SSR 환경에서는 쿠키에서 토큰 가져오기
-  try {
-    const { cookies } = await import("next/headers");
-    const cookieStore = await cookies();
-    accessToken = cookieStore.get("accessToken")?.value;
-  } catch (error) {
-    console.warn("쿠키에서 토큰을 가져올 수 없습니다:", error);
+  if (typeof window !== "undefined") {
+    // 클라이언트: 쿠키에서 토큰 가져오기
+    try {
+      const cookies = document.cookie.split(';');
+      const accessTokenCookie = cookies.find(cookie => cookie.trim().startsWith('accessToken='));
+      if (accessTokenCookie) {
+        accessToken = accessTokenCookie.split('=')[1];
+      }
+    } catch (error) {
+      console.warn("클라이언트 쿠키에서 토큰을 가져올 수 없습니다:", error);
+    }
+  } else {
+    // 서버: next/headers에서 토큰 가져오기
+    try {
+      const { cookies } = await import("next/headers");
+      const cookieStore = await cookies();
+      accessToken = cookieStore.get("accessToken")?.value;
+    } catch (error) {
+      console.warn("서버 쿠키에서 토큰을 가져올 수 없습니다:", error);
+    }
   }
 
   if (accessToken) {
