@@ -11,6 +11,7 @@ export interface Participant {
   current_time_minutes: number;
   achievement_rate: number;
   status: ChallengeStatus;
+  characterIndex: number;
 }
 
 // 챌린지 정보

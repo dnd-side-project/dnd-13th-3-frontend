@@ -115,7 +115,7 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
           </div>
         </div>
       </div>
-      <div className='bg-white rounded-t-3xl flex-1 relative z-30 -mt-12'>
+      <div className='bg-white rounded-t-3xl flex-1 relative z-10 -mt-12 pb-40'>
         <div className='w-full h-16 pb-4 mx-auto pt-6 px-6'>
           <div className='w-full px-1.5 py-1 bg-gray-100 rounded-[30px] flex justify-between items-center relative'>
             <div 
@@ -154,8 +154,6 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
               const hours = Math.floor(participant.current_time_minutes / 60);
               const minutes = participant.current_time_minutes % 60;
               const timeText = hours > 0 ? `${hours}시간 ${minutes}분` : `${minutes}분`;
-              
-              // 현재 사용자인지 확인
               const isCurrentUser = participant.userId.toString() === userProfile?.id;
               
               return (
@@ -196,10 +194,13 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
                       </div>
                     )}
                   </div>
-                  <div className='w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center'>
-                    <span className='text-lg font-bold text-blue-600'>
-                      {participant.nickname.charAt(0)}
-                    </span>
+                  <div className='w-12 h-12 relative'>
+                    <Image
+                      src={`/images/logos/Charater${participant.characterIndex || 1}.svg`}
+                      alt={`${participant.nickname}의 캐릭터`}
+                      fill
+                      className='object-contain'
+                    />
                   </div>
                   <div className='flex-1'>
                     <div className='font-medium text-gray-900'>{participant.nickname}</div>
