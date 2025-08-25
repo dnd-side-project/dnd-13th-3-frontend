@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { saveTimerRecord } from "@/lib/api/timer";
 import { useTimer } from "../../hooks/useTimer";
+import { saveTimerRecord } from "@/lib/api/timer";
 import ConfirmEndModal from "./ConfirmEndModal";
 import MissionSelectModal from "./MissionSelectModal";
 import ResultModal from "./ResultModal";
@@ -47,17 +47,15 @@ export default function TimerContainer() {
 
   const endTimer = useCallback(async () => {
     const result = timerEnd();
-
-    // 타이머 기록을 API로 저장
     try {
       const totalSeconds = Math.floor(result.elapsedTime / 1000);
       const hours = Math.floor(totalSeconds / 3600);
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
-
+      
       const now = new Date();
       const startedAt = new Date(now.getTime() - result.elapsedTime);
-
+      
       await saveTimerRecord({
         category: result.mission,
         duration_hours: hours,
@@ -66,12 +64,9 @@ export default function TimerContainer() {
         started_at: startedAt.toISOString(),
         ended_at: now.toISOString(),
       });
-
-      console.log("✅ 타이머 기록 저장 성공");
     } catch (error) {
-      console.error("❌ 타이머 기록 저장 실패:", error);
     }
-
+    
     setModalState((prev) => ({
       ...prev,
       showConfirmModal: false,
@@ -130,7 +125,7 @@ export default function TimerContainer() {
   }, [isRunning, isPaused]);
 
   return (
-    <div className='max-w-mobile mx-auto w-full h-full flex flex-col'>
+    <div className='max-w-mobile mx-auto w-full flex flex-col'>
       <TimerDisplay
         elapsedTime={elapsedTime}
         selectedMission={selectedMission}
@@ -138,7 +133,7 @@ export default function TimerContainer() {
         isModalOpen={modalState.showMissionModal}
       />
 
-      <div className='flex gap-3 mt-8 mb-4'>
+      <div className='flex gap-3 mt-8'>
         {buttonState.showStartButton ? (
           <button
             type='button'
