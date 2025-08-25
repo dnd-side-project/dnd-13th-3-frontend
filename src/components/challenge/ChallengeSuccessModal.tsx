@@ -1,27 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 export default function ChallengeSuccess() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLinkCopied, setIsLinkCopied] = useState(false);
-  const [challengeData, setChallengeData] = useState<{
-    title: string;
-    goalTimeHours: number;
-    startDate: string;
-    endDate: string;
-  } | null>(null);
-
-  useEffect(() => {
-    const storedData = localStorage.getItem("challengeData");
-    if (storedData) {
-      setChallengeData(JSON.parse(storedData));
-    } else {
-      router.push("/challenge");
-    }
-  }, [router]);
+  
+  // URL 파라미터에서 챌린지 데이터 가져오기
+  const challengeData = {
+    title: searchParams.get("title") || "목표 없음",
+    goalTimeHours: parseInt(searchParams.get("goalTime") || "0", 10),
+    startDate: searchParams.get("startDate") || "",
+    endDate: searchParams.get("endDate") || ""
+  };
 
   const handleCopyLink = async () => {
     try {
@@ -48,13 +42,7 @@ export default function ChallengeSuccess() {
     return `${year}.${month}.${day}`;
   };
 
-  if (!challengeData) {
-    return (
-      <div className='flex flex-col h-full bg-white items-center justify-center'>
-        <div className='text-gray-500'>로딩 중...</div>
-      </div>
-    );
-  }
+
 
   return (
     <div className='flex flex-col h-full bg-white'>
