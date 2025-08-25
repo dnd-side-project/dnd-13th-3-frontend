@@ -52,7 +52,7 @@ export default function ChallengeEmptyState({
           </div>
         </div>
       </div>
-      <div className='bg-white py-12 rounded-t-3xl relative z-30 -mt-8 px-screen-margin'>
+      <div className='bg-white py-12 rounded-t-3xl relative z-30 -mt-8 pb-40 px-screen-margin'>
         <div className='mb-8'>
           <div className='justify-start mx-auto'>
             <span className="text-gray-900 text-xl font-semibold font-['Pretendard'] leading-7">
