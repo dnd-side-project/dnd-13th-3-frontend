@@ -18,14 +18,14 @@ const INITIAL_TIMER_STATE: TimerState = {
 };
 
 export function useTimer() {
-  const startTimeRef = useRef<number>(0);
-  const lastUpdateTimeRef = useRef<number>(0);
-
   const [state, setState] = useState<TimerState>(INITIAL_TIMER_STATE);
-  const [isMounted, setIsMounted] = useState(false);
+  const startTimeRef = useRef(0);
+  const lastUpdateTimeRef = useRef(0);
 
   useEffect(() => {
-    setIsMounted(true);
+    // 컴포넌트 마운트 시 초기화
+    startTimeRef.current = 0;
+    lastUpdateTimeRef.current = 0;
   }, []);
 
   // 브라우저 이탈 방지

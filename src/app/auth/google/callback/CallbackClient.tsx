@@ -31,7 +31,9 @@ export default function CallbackClient() {
         const res = await loginWithGoogle({ code, redirectUrl });
 
         // 쿠키에 토큰 저장 (SSR 사용)
+        // biome-ignore lint/suspicious/noDocumentCookie: SSR을 위해 필요
         document.cookie = `accessToken=${res.accessToken}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
+        // biome-ignore lint/suspicious/noDocumentCookie: SSR을 위해 필요
         document.cookie = `refreshToken=${res.refreshToken}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
 
         // 기본적으로 온보딩으로 이동

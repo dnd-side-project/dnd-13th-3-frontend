@@ -70,7 +70,14 @@ export default function SuccessClient() {
         console.error("❌ 로그인 처리 중 오류:", _e);
       }
     })();
-  }, [router, searchParams]);
+  }, [
+    router,
+    accessToken,
+    refreshToken,
+    userParam,
+    characterIndexParam,
+    isNewUserParam,
+  ]);
 
   return (
     <div className='min-h-screen bg-primary flex items-center justify-center'>
