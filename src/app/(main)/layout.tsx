@@ -1,5 +1,5 @@
 
-import { BottomNavbar, Logo } from "@/components";
+import { BottomNavbar } from "@/components";
 
 export default function MainLayout({
   children,
