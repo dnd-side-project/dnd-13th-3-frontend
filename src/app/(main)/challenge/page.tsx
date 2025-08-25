@@ -16,7 +16,6 @@ export default async function ChallengePage() {
     console.log("🔍 Challenge 페이지: 챌린지 조회 결과:", challengeResponse);
     console.log("🔍 Challenge 페이지: 사용자 프로필 조회 결과:", userProfileResponse);
     
-    // 안전한 데이터 검증
     hasChallenge = Boolean(
       challengeResponse?.success && 
       challengeResponse?.data?.challenges && 
@@ -31,8 +30,6 @@ export default async function ChallengePage() {
     challengeData = null;
     userProfile = null;
   }
-
-  // 헤더는 ChallengeHeader 컴포넌트로 분리됨
 
   if (hasChallenge && challengeData) {
     return (

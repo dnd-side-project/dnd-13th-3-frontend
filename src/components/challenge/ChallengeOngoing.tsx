@@ -27,6 +27,11 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
   
   const currentUserNickname = userProfile?.nickname || currentUser.nickname;
 
+  const getCharacterImage = (characterIndex?: number) => {
+    const index = characterIndex || 1;
+    return `/images/logos/ChallengingCharater${index}.svg`;
+  };
+
   const handleTabChange = (tab: "current" | "past") => {
     setActiveTab(tab);
     // TODO: 지난 챌린지 탭 클릭 시 SSR로 데이터 패칭
@@ -66,7 +71,7 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
           <div className='relative z-20'>
             <div className='w-60 h-48 relative'>
               <Image
-                src='/images/logos/Challenging.svg'
+                src={getCharacterImage(userProfile?.characterIndex)}
                 alt='도전하는 캐릭터'
                 fill
                 className='object-contain'
