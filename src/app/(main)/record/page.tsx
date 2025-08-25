@@ -355,9 +355,10 @@ export default function RecordPage() {
 
                 {/* AI Feedback */}
                 <div className='flex flex-col gap-3 md:order-1'>
-                  <h3 className='m-0 text-label-1 text-gray-600 px-1'>
-                    AI 피드백
-                  </h3>
+                  <div className='flex items-center gap-1 text-label-1 text-gray-600 px-1'>
+                    <img src='/images/logos/Icon/Normal/AI.svg' alt='AI 로고' className='w-6 h-6' />
+                    <span>AI 피드백</span>
+                  </div>
                   <article className='bg-white rounded-xl p-5 flex flex-col gap-3 border border-gray-200 shadow-xs'>
                     <p className='m-0 text-body-2 text-gray-900 font-medium whitespace-pre-line'>
                       📊 오늘 평균 사용 시간 오늘은 총 3시간 20분 동안
