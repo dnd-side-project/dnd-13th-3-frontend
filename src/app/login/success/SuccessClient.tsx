@@ -10,8 +10,6 @@ export default function SuccessClient() {
   const searchParams = useSearchParams();
   const { setUser, setTokens } = useUserStore();
 
-  const [message, setMessage] = useState("로그인 성공! 이동 중...");
-
   useEffect(() => {
     const accessToken = searchParams.get("accessToken");
     const refreshToken = searchParams.get("refreshToken");
@@ -28,7 +26,7 @@ export default function SuccessClient() {
     });
 
     if (!accessToken || !refreshToken) {
-      setMessage("필수 토큰이 없어 로그인 처리를 완료할 수 없습니다.");
+      console.error("필수 토큰이 없어 로그인 처리를 완료할 수 없습니다.");
       return;
     }
 
@@ -36,7 +34,10 @@ export default function SuccessClient() {
       try {
         // Zustand 스토어에 토큰 저장
         setTokens(accessToken, refreshToken);
-        console.log("💾 토큰 저장 완료");
+        
+        // 쿠키에 토큰 저장 (SSR 사용)
+        document.cookie = `accessToken=${accessToken}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
+        document.cookie = `refreshToken=${refreshToken}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
 
         if (userParam) {
           try {
@@ -74,7 +75,13 @@ export default function SuccessClient() {
               nickname: profile.nickname,
               goal: profile.goal,
               screenTimeGoal: profile.screenTimeGoal,
+              characterIndex: profile.characterIndex,
             };
+
+            // characterIndex가 있으면 localStorage에도 저장
+            if (profile.characterIndex) {
+              localStorage.setItem("characterIndex", profile.characterIndex.toString());
+            }
 
             setUser(fullUserInfo);
             console.log("💾 Zustand 스토어에 사용자 정보 저장 완료");
@@ -95,16 +102,13 @@ export default function SuccessClient() {
         }
       } catch (_e) {
         console.error("❌ 로그인 처리 중 오류:", _e);
-        setMessage("로그인 정보 저장 중 오류가 발생했습니다.");
       }
     })();
   }, [router, searchParams, setUser, setTokens]);
 
   return (
-    <div className='min-h-screen flex items-center justify-center px-6'>
-      <div className='text-center'>
-        <p className='text-gray-700 text-sm'>{message}</p>
-      </div>
+    <div className='min-h-screen bg-primary flex items-center justify-center'>
+      <div className='w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin' />
     </div>
   );
 }
