@@ -18,17 +18,35 @@ export const privateApi = axios.create({
 });
 
 // privateApi에 토큰 인터셉터 추가
-privateApi.interceptors.request.use((config) => {
+privateApi.interceptors.request.use(async (config) => {
+  let accessToken: string | undefined;
+
   if (typeof window !== "undefined") {
-    // Zustand 스토어에서 토큰 가져오기
-    const { accessToken } =
-      require("@/stores/userStore").useUserStore.getState();
-    if (accessToken) {
-      config.headers = config.headers ?? {};
-      (config.headers as Record<string, string>).Authorization =
-        `Bearer ${accessToken}`;
+    // 클라이언트: Zustand 스토어에서 토큰 가져오기
+    try {
+      const { accessToken: storeToken } =
+        require("@/stores/userStore").useUserStore.getState();
+      accessToken = storeToken;
+    } catch (error) {
+      console.warn("Zustand 스토어에서 토큰을 가져올 수 없습니다:", error);
+    }
+  } else {
+    // 서버: 쿠키에서 토큰 가져오기
+    try {
+      const { cookies } = await import("next/headers");
+      const cookieStore = await cookies();
+      accessToken = cookieStore.get("accessToken")?.value;
+    } catch (error) {
+      console.warn("쿠키에서 토큰을 가져올 수 없습니다:", error);
     }
   }
+
+  if (accessToken) {
+    config.headers = config.headers ?? {};
+    (config.headers as Record<string, string>).Authorization =
+      `Bearer ${accessToken}`;
+  }
+
   return config;
 });
 
