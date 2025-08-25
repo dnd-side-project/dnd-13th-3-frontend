@@ -59,6 +59,24 @@ export interface InviteUrlResponse {
   };
 }
 
+// 챌린지 참여 요청
+export interface JoinChallengeRequest {
+  invite_code: string;
+}
+
+// 챌린지 참여 응답
+export interface JoinChallengeResponse {
+  success: boolean;
+  message: string;
+  data: {
+    message: string;
+    title: string;
+    challenge_id: number;
+    start_date: string;
+    end_date: string;
+  };
+}
+
 // 챌린지 폼 데이터
 export interface ChallengeFormData {
   title: string;

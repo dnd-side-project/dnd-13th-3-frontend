@@ -3,9 +3,9 @@ import type {
   CreateChallengeResponse,
   GetChallengeResponse,
   InviteUrlResponse,
+  JoinChallengeResponse,
 } from "@/lib/challenge";
 
-import { API_BASE_URL } from "@/lib/config";
 import { privateApi } from "@/lib/api/instances";
 
 export async function createChallenge(
@@ -67,6 +67,21 @@ export async function generateInviteUrl(
     return data;
   } catch (error) {
     console.error("❌ 초대 링크 생성 API 호출 실패:", error);
+    throw error;
+  }
+}
+
+export async function joinChallenge(
+  inviteCode: string
+): Promise<JoinChallengeResponse> {
+  try {
+    const { data } = await privateApi.post<JoinChallengeResponse>("/api/challenge/join", {
+      invite_code: inviteCode
+    });
+
+    return data;
+  } catch (error) {
+    console.error("❌ 챌린지 참여 API 호출 실패:", error);
     throw error;
   }
 }
