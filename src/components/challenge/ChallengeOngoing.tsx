@@ -91,7 +91,7 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
                     />
                   </div>
                   <div className="justify-start text-gray-500 text-sm font-medium ml-1">
-                    {currentUserNickname}님의 현재 누적 스크린타임
+                    현재 누적 스크린타임
                   </div>
                 </div>
               </div>
@@ -148,41 +148,46 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
           </div>
         </div>
         {activeTab === "current" && (
-          <div className='space-y-4'>
+          <div className='mt-6 overflow-y-auto'>
             {sortedParticipants.map((participant, index) => {
               const rank = index + 1;
               const hours = Math.floor(participant.current_time_minutes / 60);
               const minutes = participant.current_time_minutes % 60;
               const timeText = hours > 0 ? `${hours}시간 ${minutes}분` : `${minutes}분`;
               
+              // 현재 사용자인지 확인
+              const isCurrentUser = participant.userId.toString() === userProfile?.id;
+              
               return (
-                <div key={participant.userId} className='flex items-center gap-4 p-6 bg-gray-50 rounded-xl mt-6'>
+                <div 
+                  key={participant.userId} 
+                  className={`flex items-center gap-4 px-6 py-2 rounded-xl ${
+                    isCurrentUser ? 'bg-gray-50' : 'bg-white'
+                  }`}
+                >
                   <div className='flex-shrink-0'>
                     {rank === 1 && (
                       <Image
-                        src='/images/logos/Medal.svg'
+                        src='/images/logos/MedalFirst.svg'
                         alt='1위'
                         width={32}
                         height={32}
-                        className='text-yellow-500'
                       />
                     )}
                     {rank === 2 && (
                       <Image
-                        src='/images/logos/Medal.svg'
+                        src='/images/logos/MedalSecond.svg'
                         alt='2위'
                         width={32}
                         height={32}
-                        className='text-gray-400'
                       />
                     )}
                     {rank === 3 && (
                       <Image
-                        src='/images/logos/Medal.svg'
+                        src='/images/logos/MedalThird.svg'
                         alt='3위'
                         width={32}
                         height={32}
-                        className='text-orange-500'
                       />
                     )}
                     {rank > 3 && (
@@ -198,13 +203,25 @@ export default function ChallengeOngoing({ challenge, userProfile }: ChallengeOn
                   </div>
                   <div className='flex-1'>
                     <div className='font-medium text-gray-900'>{participant.nickname}</div>
-                    <div className='text-sm text-gray-600'>{timeText}</div>
-                  </div>
-                  <div className='text-right'>
-                    <div className='text-lg font-bold text-blue-600'>
-                      {participant.achievement_rate}%
+                    <div className='flex items-center justify-between'>
+                      <div className='text-sm text-gray-600'>{timeText}</div>
+                      <div className="justify-start text-gray-400 text-xs font-medium font-['Pretendard'] leading-none tracking-tight">
+                        {participant.achievement_rate}%
+                      </div>
                     </div>
-                    <div className='text-xs text-gray-500'>달성률</div>
+                    <div className='mt-2'>
+                      <div className='flex-1 h-2 relative rounded'>
+                        <div className={`w-full h-2 left-0 top-0 absolute rounded ${
+                          isCurrentUser ? 'bg-white' : 'bg-gray-100'
+                        }`} />
+                        <div 
+                          className={`h-2 left-0 top-0 absolute rounded transition-all duration-300 ${
+                            isCurrentUser ? 'bg-gray-500' : 'bg-gray-300'
+                          }`}
+                          style={{ width: `${participant.achievement_rate}%` }}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               );
