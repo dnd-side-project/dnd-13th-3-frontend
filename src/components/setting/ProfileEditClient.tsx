@@ -36,7 +36,7 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
       const isGoalChanged = goal !== (user?.goal?.custom || user?.goal?.type);
       const profileData = {
         goal: {
-          type: isGoalChanged ? "CUSTOM" : (user?.goal?.type || "NO_SCREEN") as "FOCUS_IMPROVEMENT" | "SLEEP_REGULARITY" | "HEALTH_CARE" | "NO_SCREEN" | "CUSTOM",
+          type: isGoalChanged ? "custom" : (user?.goal?.type || "NO_SCREEN") as "FOCUS_IMPROVEMENT" | "SLEEP_REGULARITY" | "HEALTH_CARE" | "NO_SCREEN" | "custom",
           custom: isGoalChanged ? goal : user?.goal?.custom || undefined,
         },
         nickname,
@@ -146,7 +146,7 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
                   type='text'
                   value={nickname}
                   onChange={(e) => setNickname(e.target.value)}
-                  className='w-full px-4 py-3.5 bg-white rounded-xl outline outline-1 outline-offset-[-1px] outline-gray-200 text-gray-600 text-base font-medium leading-normal tracking-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:outline-transparent'
+                  className='w-full px-4 py-3.5 bg-white rounded-xl outline outline-1 outline-offset-[-1px] outline-gray-200 text-gray-900 text-base font-medium leading-normal tracking-tight focus:outline-none focus:outline-2 focus:outline-gray-500'
                   placeholder='닉네임을 입력하세요'
                   maxLength={10}
                 />
@@ -178,7 +178,7 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
                 type='text'
                 value={goal}
                 onChange={(e) => setGoal(e.target.value)}
-                className='w-full px-4 py-3.5 bg-white rounded-xl outline outline-1 outline-offset-[-1px] outline-gray-200 text-gray-600 text-base font-medium leading-normal tracking-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:outline-transparent'
+                className='w-full px-4 py-3.5 bg-white rounded-xl outline outline-1 outline-offset-[-1px] outline-gray-200 text-gray-900 text-base font-medium leading-normal tracking-tight focus:outline-none focus:outline-2 focus:outline-gray-500'
                 placeholder='목표를 입력하세요'
               />
             </div>

@@ -3,7 +3,7 @@ export type GoalType =
   | "FOCUS_IMPROVEMENT"
   | "HEALTH_CARE"
   | "NO_SCREEN"
-  | "CUSTOM";
+  | "custom";
 
 export function mapGoalPresetToEnum(label: string): GoalType {
   switch (label) {
@@ -16,7 +16,7 @@ export function mapGoalPresetToEnum(label: string): GoalType {
     case "혼자 있는 시간 디지털 없이 보내보기":
       return "NO_SCREEN";
     default:
-      return "CUSTOM";
+      return "custom";
   }
 }
 
@@ -33,7 +33,7 @@ export function mapGoalEnumToLabel(
       return "눈 건강을 지키고 싶어요";
     case "NO_SCREEN":
       return "혼자 있는 시간 디지털 없이 보내보기";
-    case "CUSTOM":
+    case "custom":
       return custom || "나만의 목표";
     default:
       return undefined;

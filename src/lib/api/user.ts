@@ -38,7 +38,7 @@ export async function getUserProfile(): Promise<UserProfileResponse> {
 // 사용자 프로필 수정
 export const updateUserProfile = async (profileData: {
   goal: {
-    type: "FOCUS_IMPROVEMENT" | "SLEEP_REGULARITY" | "HEALTH_CARE" | "NO_SCREEN" | "CUSTOM";
+    type: "FOCUS_IMPROVEMENT" | "SLEEP_REGULARITY" | "HEALTH_CARE" | "NO_SCREEN" | "custom";
     custom?: string;
   };
   nickname: string;
