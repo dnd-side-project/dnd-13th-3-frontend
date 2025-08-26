@@ -122,7 +122,7 @@ export default function RecordPage() {
               </div>
             </div>
           )}
-        </div>
+</div>
       </section>
 
       {/* Details */}
