@@ -36,3 +36,27 @@ export async function getUserProfile(): Promise<UserProfileResponse> {
     throw error;
   }
 }
+
+// 프로필 수정 (닉네임 제외 목표/시간/캐릭터 포함 가능)
+export type UpdateProfileRequest = {
+  goal?: {
+    type: string; // preset label string or "CUSTOM"
+    custom?: string | null; // only when type === "CUSTOM"
+  };
+  screenTimeGoal?: {
+    type: string; // "120" | "240" | "360" | "480" | "CUSTOM"
+    custom?: string | null; // only when type === "CUSTOM" (minutes as string)
+  };
+  nickname?: string;
+  characterIndex?: number;
+};
+
+export async function updateUserProfile(
+  body: UpdateProfileRequest
+): Promise<{ message: string }> {
+  const { data } = await privateApi.patch<{ message: string }>(
+    "/api/user/profile",
+    body
+  );
+  return data;
+}

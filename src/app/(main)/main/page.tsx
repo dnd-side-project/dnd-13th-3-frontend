@@ -1,6 +1,9 @@
 import { MainHeader } from "@/components/main";
 import MainContent from "@/components/main/MainContent";
-import { createOrUpdateScreenTime, getScreenTimeDay } from "@/lib/api/screentime";
+import {
+  createOrUpdateScreenTime,
+  getScreenTimeDay,
+} from "@/lib/api/screentime";
 import { getUserProfile } from "@/lib/api/user";
 
 // Ensure this page is rendered per request so cookies-based API calls work

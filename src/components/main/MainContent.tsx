@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { GoalTab } from "@/components/common";
 import {
@@ -11,7 +12,12 @@ import {
   TimeEditModal,
 } from "@/components/main";
 import { TabSwitcher } from "@/components/timer";
-import { mapGoalEnumToLabel, parseScreenTimeValue } from "@/lib/goals";
+import { updateUserProfile } from "@/lib/api/user";
+import {
+  mapGoalEnumToLabel,
+  mapGoalPresetToEnum,
+  parseScreenTimeValue,
+} from "@/lib/goals";
 import type { UserProfileResponse } from "@/types/auth";
 import type { ScreenTimeResponse } from "@/types/screentime";
 
@@ -24,6 +30,7 @@ export default function MainContent({
   userProfile,
   screenTimeData,
 }: MainContentProps) {
+  const router = useRouter();
   const [isTimeEditModalOpen, setIsTimeEditModalOpen] = useState(false);
   const [isGoalEditModalOpen, setIsGoalEditModalOpen] = useState(false);
 
@@ -43,14 +50,71 @@ export default function MainContent({
   const openGoalEditModal = () => setIsGoalEditModalOpen(true);
   const closeGoalEditModal = () => setIsGoalEditModalOpen(false);
 
-  const handleSaveTime = (_newHours: string, _newMinutes: string) => {
-    // TODO: API 호출로 시간 업데이트
-    closeTimeEditModal();
+  // Helpers to build current payload parts from existing profile
+  const buildCurrentGoalBody = () => {
+    const t = userProfile?.goal?.type; // enum string like FOCUS_IMPROVEMENT or CUSTOM
+    const c = userProfile?.goal?.custom ?? null;
+    if (!t) return undefined;
+    if (t === "CUSTOM") {
+      return { goal: { type: "CUSTOM", custom: c } } as const;
+    }
+    return { goal: { type: t, custom: null } } as const;
   };
 
-  const handleSaveGoal = (_newGoal: string) => {
-    // TODO: API 호출로 목표 업데이트
-    closeGoalEditModal();
+  const buildCurrentScreenTimeBody = () => {
+    const t = userProfile?.screenTimeGoal?.type;
+    const c = (userProfile?.screenTimeGoal as any)?.custom ?? null;
+    if (!t) return undefined;
+    // If numeric-like, treat as preset minutes; else custom
+    const isNumber = /^\d+$/.test(String(t));
+    if (isNumber) return { screenTimeGoal: { type: String(t), custom: null } };
+    return { screenTimeGoal: { type: "CUSTOM", custom: c } };
+  };
+
+  const buildIdentityBody = () => {
+    const nickname = userProfile?.nickname ?? "";
+    const characterIndex = userProfile?.characterIndex ?? 0;
+    return { nickname, characterIndex } as const;
+  };
+
+  const handleSaveTime = async (_newHours: string, _newMinutes: string) => {
+    try {
+      const h = parseInt(_newHours || "0", 10);
+      const m = parseInt(_newMinutes || "0", 10);
+      const total = h * 60 + m;
+      // Always use CUSTOM per backend requirement
+      const screenTimePart = {
+        screenTimeGoal: { type: "CUSTOM", custom: String(total) },
+      };
+      const goalPart = buildCurrentGoalBody();
+      const identityPart = buildIdentityBody();
+      const body = { ...identityPart, ...goalPart, ...screenTimePart } as any;
+      await updateUserProfile(body);
+      closeTimeEditModal();
+      router.refresh();
+    } catch (e) {
+      console.error("목표 시간 업데이트 실패", e);
+    }
+  };
+
+  const handleSaveGoal = async (_newGoal: string) => {
+    try {
+      // If matches one of preset labels, use that label as type; else custom
+      const mapped = mapGoalPresetToEnum(_newGoal);
+      const isPreset = mapped !== "CUSTOM";
+      const goalPart = isPreset
+        ? { goal: { type: mapped, custom: null } }
+        : { goal: { type: "CUSTOM", custom: _newGoal } };
+      const screenTimePart = buildCurrentScreenTimeBody();
+      const identityPart = buildIdentityBody();
+      const body = { ...identityPart, ...goalPart, ...screenTimePart } as any;
+
+      await updateUserProfile(body);
+      closeGoalEditModal();
+      router.refresh();
+    } catch (e) {
+      console.error("목표 업데이트 실패", e);
+    }
   };
 
   const goalScreenTime = targetTime.hours * 60 + targetTime.minutes;
