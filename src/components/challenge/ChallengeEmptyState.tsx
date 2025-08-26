@@ -40,6 +40,19 @@ export default function ChallengeEmptyState({
               />
             </div>
           </div>
+          
+          {/* ChallengeText.svg 말풍선 - 캐릭터 위에 절대 위치로 배치 */}
+          <div className='absolute bottom-[300px] transform -translate-x-1/3 z-25'>
+            <div className='w-[173px] h-[80px] relative'>
+              <Image
+                src='/images/logos/ChallengeText.svg'
+                alt='챌린지 제안 말풍선'
+                fill
+                className='object-contain'
+              />
+            </div>
+          </div>
+          
           <div className='relative z-20 mb-20'>
             <div className='w-80 h-80 relative'>
               <Image

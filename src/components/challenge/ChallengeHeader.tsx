@@ -51,7 +51,7 @@ export default function ChallengeHeader({
   return (
     <div className='flex justify-between items-center pt-4 px-screen-margin bg-primary'>
       <Image
-        src='/images/logos/MinuLogo2.svg'
+        src='/images/logos/MinuLogoWhite.svg'
         alt='MINU Logo'
         width={84}
         height={24}
