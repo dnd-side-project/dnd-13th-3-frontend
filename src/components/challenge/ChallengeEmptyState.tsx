@@ -77,9 +77,9 @@ export default function ChallengeEmptyState({
           <button
             type='button'
             onClick={onStartChallenge}
-            className='w-full px-2.5 py-3.5 bg-primary rounded-xl inline-flex justify-center items-center gap-2.5 hover:bg-blue-600 transition-colors'
+            className='w-full px-2.5 py-3.5 bg-primary rounded-xl inline-flex justify-center items-center gap-2.5'
           >
-            <div className="justify-center text-white text-base font-semibold font-['Pretendard'] leading-normal tracking-tight">
+            <div className="justify-center text-white text-base font-semibold">
               챌린지 시작하기
             </div>
           </button>
