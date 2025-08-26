@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { UserProfileResponse } from "@/types/auth";
+import { updateUserProfile } from "@/lib/api/user";
 
 interface ProfileEditClientProps {
   user: UserProfileResponse | null;
@@ -20,19 +21,39 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
       user?.goal?.type ||
       "혼자 있는 시간 디지털 없이 보내기"
   );
+  const [isLoading, setIsLoading] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
 
   const handleBack = () => {
     router.back();
   };
 
-  const handleSave = () => {
-    // TODO: API 호출
-    console.log("프로필 저장:", {
-      characterIndex: selectedCharacter,
-      nickname,
-      goal,
-    });
-    router.back();
+  const handleSave = async () => {
+    if (!user) return;
+    
+    setIsLoading(true);
+    try {
+      const isGoalChanged = goal !== (user?.goal?.custom || user?.goal?.type);
+      const profileData = {
+        goal: {
+          type: isGoalChanged ? "CUSTOM" : (user?.goal?.type || "NO_SCREEN") as "FOCUS_IMPROVEMENT" | "SLEEP_REGULARITY" | "HEALTH_CARE" | "NO_SCREEN" | "CUSTOM",
+          custom: isGoalChanged ? goal : user?.goal?.custom || undefined,
+        },
+        nickname,
+        characterIndex: selectedCharacter,
+      };
+      const response = await updateUserProfile(profileData);
+      console.log("프로필 저장 성공:", response);
+      setShowSuccessToast(true);
+      setTimeout(() => {
+        router.back();
+      }, 1000);
+    } catch (error) {
+      console.error("프로필 저장 실패:", error);
+      alert("프로필 저장에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getCharacterImage = (characterIndex: number) => {
@@ -167,12 +188,28 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
           <button
             type='button'
             onClick={handleSave}
-            className='w-full transition-colors btn-main btn-primary'
+            disabled={isLoading}
+            className='w-full transition-colors btn-main btn-primary disabled:opacity-50 disabled:cursor-not-allowed'
           >
             저장
           </button>
         </div>
       </div>
+      {showSuccessToast && (
+        <div className='fixed bottom-10 left-1/2 transform -translate-x-1/2 z-50'>
+          <div className='w-80 py-3 bg-neutral-900/90 rounded-lg inline-flex justify-center items-center gap-1.5'>
+            <Image
+              src='/images/logos/Check.svg'
+              alt='Check'
+              width={24}
+              height={24}
+            />
+            <div className='text-white text-sm font-medium'>
+              프로필을 수정했습니다.
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

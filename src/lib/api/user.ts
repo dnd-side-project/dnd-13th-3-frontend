@@ -34,3 +34,21 @@ export async function getUserProfile(): Promise<UserProfileResponse> {
     throw error;
   }
 }
+
+// 사용자 프로필 수정
+export const updateUserProfile = async (profileData: {
+  goal: {
+    type: "FOCUS_IMPROVEMENT" | "SLEEP_REGULARITY" | "HEALTH_CARE" | "NO_SCREEN" | "CUSTOM";
+    custom?: string;
+  };
+  nickname: string;
+  characterIndex: number;
+}) => {
+  try {
+    const response = await privateApi.patch("/api/users/profile", profileData);
+    return response.data;
+  } catch (error) {
+    console.error("프로필 수정 실패:", error);
+    throw error;
+  }
+};
