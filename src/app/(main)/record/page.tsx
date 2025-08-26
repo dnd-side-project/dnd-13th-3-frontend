@@ -7,6 +7,41 @@ type Segment = "today" | "week";
 export default function RecordPage() {
   const [segment, setSegment] = useState<Segment>("today");
 
+  // Weekly day selection state and mock data
+  type DayKey = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
+  const dayMeta: Record<DayKey, { short: string; full: string }> = {
+    mon: { short: "월", full: "월요일" },
+    tue: { short: "화", full: "화요일" },
+    wed: { short: "수", full: "수요일" },
+    thu: { short: "목", full: "목요일" },
+    fri: { short: "금", full: "금요일" },
+    sat: { short: "토", full: "토요일" },
+    sun: { short: "일", full: "일요일" },
+  };
+
+  const weekdayFromNow = (): DayKey => {
+    const idx = new Date().getDay(); // 0=Sun ... 6=Sat
+    return ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][
+      idx
+    ] as DayKey;
+  };
+
+  const [selectedDay, setSelectedDay] = useState<DayKey>(
+    weekdayFromNow() === "sun" ? "mon" : (weekdayFromNow() as DayKey)
+  );
+
+  const weeklyData: Record<DayKey, { hours: number; minutes: number; deltaMinutes: number }> = {
+    mon: { hours: 7, minutes: 10, deltaMinutes: 20 },
+    tue: { hours: 6, minutes: 35, deltaMinutes: -15 },
+    wed: { hours: 7, minutes: 28, deltaMinutes: 32 },
+    thu: { hours: 8, minutes: 2, deltaMinutes: -12 },
+    fri: { hours: 5, minutes: 54, deltaMinutes: 45 },
+    sat: { hours: 9, minutes: 5, deltaMinutes: -60 },
+    sun: { hours: 6, minutes: 12, deltaMinutes: 10 },
+  };
+
+  const formatHM = (h: number, m: number) => `${h}시간 ${String(m).padStart(2, "0")}분`;
+
   const dateLabel = useMemo(() => {
     const now = new Date();
     const formatted = new Intl.DateTimeFormat("ko-KR", {
@@ -69,56 +104,131 @@ export default function RecordPage() {
             <div className='w-full flex justify-center'>
               <div className='w-80 inline-flex justify-start items-center'>
                 {/* Mon */}
-                <div className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'>
-                  <div className='w-10 h-10 bg-indigo-100 rounded-full outline outline-1 outline-indigo-100' />
-                  <div className='text-center text-gray-400 text-caption-2 font-medium leading-none'>
+                <button
+                  type='button'
+                  onClick={() => setSelectedDay("mon")}
+                  className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
+                  aria-pressed={selectedDay === "mon"}
+                >
+                  <div
+                    className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
+                      selectedDay === "mon"
+                        ? "bg-indigo-200 outline-indigo-400"
+                        : "bg-indigo-100 outline-indigo-100 hover:outline-indigo-200"
+                    }`}
+                  />
+                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "mon" ? "text-gray-900" : "text-gray-400"}`}>
                     월
                   </div>
-                </div>
+                </button>
                 {/* Tue */}
-                <div className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'>
-                  <div className='w-10 h-10 bg-rose-200 rounded-full outline outline-1 outline-rose-200' />
-
-                  <div className='text-center text-gray-400 text-caption-2 font-medium leading-none'>
+                <button
+                  type='button'
+                  onClick={() => setSelectedDay("tue")}
+                  className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
+                  aria-pressed={selectedDay === "tue"}
+                >
+                  <div
+                    className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
+                      selectedDay === "tue"
+                        ? "bg-rose-300 outline-rose-400"
+                        : "bg-rose-200 outline-rose-200 hover:outline-rose-300"
+                    }`}
+                  />
+                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "tue" ? "text-gray-900" : "text-gray-400"}`}>
                     화
                   </div>
-                </div>
+                </button>
                 {/* Wed */}
-                <div className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'>
-                  <div className='w-10 h-10 bg-rose-200 rounded-full outline outline-1 outline-rose-200' />
-
-                  <div className='text-center text-gray-400 text-caption-2 font-medium leading-none'>
+                <button
+                  type='button'
+                  onClick={() => setSelectedDay("wed")}
+                  className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
+                  aria-pressed={selectedDay === "wed"}
+                >
+                  <div
+                    className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
+                      selectedDay === "wed"
+                        ? "bg-rose-300 outline-rose-400"
+                        : "bg-rose-200 outline-rose-200 hover:outline-rose-300"
+                    }`}
+                  />
+                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "wed" ? "text-gray-900" : "text-gray-400"}`}>
                     수
                   </div>
-                </div>
+                </button>
                 {/* Thu */}
-                <div className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'>
-                  <div className='w-10 h-10 bg-indigo-100 rounded-full outline outline-1 outline-indigo-100' />
-                  <div className='text-center text-gray-400 text-caption-2 font-medium leading-none'>
+                <button
+                  type='button'
+                  onClick={() => setSelectedDay("thu")}
+                  className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
+                  aria-pressed={selectedDay === "thu"}
+                >
+                  <div
+                    className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
+                      selectedDay === "thu"
+                        ? "bg-indigo-200 outline-indigo-400"
+                        : "bg-indigo-100 outline-indigo-100 hover:outline-indigo-200"
+                    }`}
+                  />
+                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "thu" ? "text-gray-900" : "text-gray-400"}`}>
                     목
                   </div>
-                </div>
+                </button>
                 {/* Fri */}
-                <div className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'>
-                  <div className='w-10 h-10 bg-indigo-100 rounded-full outline outline-1 outline-indigo-100' />
-                  <div className='text-center text-gray-400 text-caption-2 font-medium leading-none'>
+                <button
+                  type='button'
+                  onClick={() => setSelectedDay("fri")}
+                  className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
+                  aria-pressed={selectedDay === "fri"}
+                >
+                  <div
+                    className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
+                      selectedDay === "fri"
+                        ? "bg-indigo-200 outline-indigo-400"
+                        : "bg-indigo-100 outline-indigo-100 hover:outline-indigo-200"
+                    }`}
+                  />
+                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "fri" ? "text-gray-900" : "text-gray-400"}`}>
                     금
                   </div>
-                </div>
+                </button>
                 {/* Sat */}
-                <div className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'>
-                  <div className='w-10 h-10 bg-gray-400 rounded-full outline outline-1 outline-gray-200' />
-                  <div className='text-center text-gray-400 text-caption-2 font-medium leading-none'>
+                <button
+                  type='button'
+                  onClick={() => setSelectedDay("sat")}
+                  className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
+                  aria-pressed={selectedDay === "sat"}
+                >
+                  <div
+                    className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
+                      selectedDay === "sat"
+                        ? "bg-gray-500 outline-gray-400"
+                        : "bg-gray-400 outline-gray-200 hover:outline-gray-300"
+                    }`}
+                  />
+                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "sat" ? "text-gray-900" : "text-gray-400"}`}>
                     토
                   </div>
-                </div>
+                </button>
                 {/* Sun */}
-                <div className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'>
-                  <div className='w-10 h-10 bg-gray-400 rounded-full outline outline-1 outline-gray-200' />
-                  <div className='text-center text-gray-400 text-caption-2 font-medium leading-none'>
+                <button
+                  type='button'
+                  onClick={() => setSelectedDay("sun")}
+                  className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
+                  aria-pressed={selectedDay === "sun"}
+                >
+                  <div
+                    className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
+                      selectedDay === "sun"
+                        ? "bg-gray-500 outline-gray-400"
+                        : "bg-gray-400 outline-gray-200 hover:outline-gray-300"
+                    }`}
+                  />
+                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "sun" ? "text-gray-900" : "text-gray-400"}`}>
                     일
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           )}
@@ -231,7 +341,7 @@ export default function RecordPage() {
                   <h3 className='m-0 text-label-1 text-gray-600 px-1'>
                     인사이트
                   </h3>
-                  <article className='bg-white rounded-xl p-5 flex flex-col gap-6 border border-gray-200 shadow-xs'>
+                  <article className='bg-white rounded-xl p-5 flex flex-col gap-6 border border-gray-200 shadow-xs mb-[86px]'>
                     <div className='flex flex-col gap-2'>
                       <div className='flex items-center gap-1 text-label-1 text-gray-500'>
                         <img
@@ -264,7 +374,7 @@ export default function RecordPage() {
             </>
           ) : (
             <>
-              {/* Weekly Screentime card (same layout as daily) */}
+              {/* Weekly Screentime card (same layout as daily, dynamic by selected day) */}
               <div className='w-full flex justify-center'>
                 <article className='w-full bg-white rounded-xl p-5 sm:p-6 flex flex-col items-center gap-3 border border-gray-200 shadow-xs'>
                   <div className='w-9 h-9 rounded-md flex items-center justify-center'>
@@ -274,16 +384,18 @@ export default function RecordPage() {
                     />
                   </div>
                   <div className='text-center'>
-                    <p className='m-0 text-label-1 text-gray-600'>평균</p>
+                    <p className='m-0 text-label-1 text-gray-600'>{`${dayMeta[selectedDay].full}의 스크린타임`}</p>
                     <h2 className='m-0 text-title-2 text-gray-900 font-semibold'>
-                      7시간 28분
+                      {formatHM(weeklyData[selectedDay].hours, weeklyData[selectedDay].minutes)}
                     </h2>
                   </div>
                   <div className='bg-gray-100 border border-white rounded-2xl px-3 py-2 inline-flex items-center gap-1 text-caption-1 text-gray-600 font-medium'>
                     <span className='w-0 h-0 border-l-4 border-r-4 border-transparent border-t-5 border-t-primary [border-top-width:5px]' />
                     목표보다{" "}
-                    <span className='text-primary font-semibold'>32분</span> 덜
-                    사용했어요!
+                    <span className='text-primary font-semibold'>
+                      {Math.abs(weeklyData[selectedDay].deltaMinutes)}분
+                    </span>{" "}
+                    {weeklyData[selectedDay].deltaMinutes >= 0 ? "덜" : "더"} 사용했어요!
                   </div>
                 </article>
               </div>
@@ -359,8 +471,8 @@ export default function RecordPage() {
                     <img src='/images/logos/Icon/Normal/AI.svg' alt='AI 로고' className='w-6 h-6' />
                     <span>AI 피드백</span>
                   </div>
-                  <article className='bg-white rounded-xl p-5 flex flex-col gap-3 border border-gray-200 shadow-xs'>
-                    <p className='m-0 text-body-2 text-gray-900 font-medium whitespace-pre-line'>
+                  <article className='bg-white rounded-xl p-5 flex flex-col gap-3 border border-gray-200 shadow-xs mb-[86px]'>
+                    <p className='m-0 text-body-2 text-gray-900 font-pretendard whitespace-pre-line'>
                       📊 오늘 평균 사용 시간 오늘은 총 3시간 20분 동안
                       스마트폰을 사용했어요. 하루 중 오후 10시부터 자정까지
                       집중적으로 사용했어요. 🧾 오늘 사용 요약 그중 절반 이상이
