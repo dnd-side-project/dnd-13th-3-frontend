@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GoalTab } from "@/components/common";
 import {
   GoalEditModal,
@@ -38,8 +38,10 @@ export default function MainContent({
     userProfile?.goal?.custom ??
     mapGoalEnumToLabel(userProfile?.goal?.type, userProfile?.goal?.custom) ??
     "혼자 있는 시간 디지털 없이 보내기";
-  const targetTime = userProfile?.screenTimeGoal?.type
-    ? parseScreenTimeValue(userProfile.screenTimeGoal.type)
+
+  // 항상 userProfile에서 직접 targetTime을 계산
+  const targetTime = userProfile?.screenTimeGoal
+    ? parseScreenTimeValue(userProfile.screenTimeGoal)
     : { hours: 7, minutes: 0 };
   const todayScreenTime =
     screenTimeData?.data?.screenTimes?.[0]?.totalMinutes || 0;
@@ -81,17 +83,25 @@ export default function MainContent({
     try {
       const h = parseInt(_newHours || "0", 10);
       const m = parseInt(_newMinutes || "0", 10);
-      const total = h * 60 + m;
-      // Always use CUSTOM per backend requirement
+      const totalMinutes = h * 60 + m;
+      
       const screenTimePart = {
-        screenTimeGoal: { type: "CUSTOM", custom: String(total) },
+        screenTimeGoal: { 
+          type: "CUSTOM", 
+          custom: String(totalMinutes) 
+        }
       };
+      
       const goalPart = buildCurrentGoalBody();
       const identityPart = buildIdentityBody();
-      const body = { ...identityPart, ...goalPart, ...screenTimePart } as any;
-      await updateUserProfile(body);
+      const body = { ...identityPart, ...goalPart, ...screenTimePart };
+      
+      // Update server and refresh data
+      await updateUserProfile(body as any);
       closeTimeEditModal();
-      router.refresh();
+      
+      // Trigger a refresh of the page data
+      window.location.reload();
     } catch (e) {
       console.error("목표 시간 업데이트 실패", e);
     }

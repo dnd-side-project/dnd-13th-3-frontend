@@ -54,9 +54,16 @@ export type UpdateProfileRequest = {
 export async function updateUserProfile(
   body: UpdateProfileRequest
 ): Promise<{ message: string }> {
-  const { data } = await privateApi.patch<{ message: string }>(
-    "/api/user/profile",
-    body
-  );
-  return data;
+  console.log("🔄 updateUserProfile 요청 데이터:", JSON.stringify(body, null, 2));
+  try {
+    const { data } = await privateApi.patch<{ message: string }>(
+      "/api/user/profile",
+      body
+    );
+    console.log("✅ updateUserProfile 성공:", data);
+    return data;
+  } catch (error) {
+    console.error("❌ updateUserProfile 실패:", error);
+    throw error;
+  }
 }
