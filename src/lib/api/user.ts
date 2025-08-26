@@ -28,7 +28,9 @@ export async function getUserProfile(): Promise<UserProfileResponse> {
       type: typeof data.characterIndex,
       exists: "characterIndex" in data,
     });
-    return data;
+    // Return a plain JSON-serializable clone to avoid RSC serialization issues
+    const plain = JSON.parse(JSON.stringify(data)) as UserProfileResponse;
+    return plain;
   } catch (error) {
     console.error("❌ getUserProfile API 실패:", error);
     throw error;

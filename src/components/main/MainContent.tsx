@@ -11,7 +11,7 @@ import {
   TimeEditModal,
 } from "@/components/main";
 import { TabSwitcher } from "@/components/timer";
-import { parseScreenTimeValue } from "@/lib/goals";
+import { mapGoalEnumToLabel, parseScreenTimeValue } from "@/lib/goals";
 import type { UserProfileResponse } from "@/types/auth";
 import type { ScreenTimeResponse } from "@/types/screentime";
 
@@ -28,8 +28,8 @@ export default function MainContent({
   const [isGoalEditModalOpen, setIsGoalEditModalOpen] = useState(false);
 
   const goal =
-    userProfile?.goal?.custom ||
-    userProfile?.goal?.type ||
+    userProfile?.goal?.custom ??
+    mapGoalEnumToLabel(userProfile?.goal?.type, userProfile?.goal?.custom) ??
     "혼자 있는 시간 디지털 없이 보내기";
   const targetTime = userProfile?.screenTimeGoal?.type
     ? parseScreenTimeValue(userProfile.screenTimeGoal.type)
@@ -59,6 +59,22 @@ export default function MainContent({
     ? "/images/logos/screentimeOver.svg"
     : "/images/logos/screentime.svg";
 
+  // Temporary debug logs
+  const nicknameProp = userProfile?.nickname ?? "미누";
+  if (nicknameProp === "미누") {
+    console.warn(
+      "[MainContent] Nickname fallback used. userProfile?.nickname:",
+      userProfile?.nickname
+    );
+  }
+  console.log("[MainContent] userProfile:", userProfile);
+  console.log("[MainContent] derived:", {
+    nickname: userProfile?.nickname,
+    goal,
+    targetTime,
+    todayScreenTime,
+  });
+
   return (
     <div className='w-full h-[calc(100dvh-40px)] px-screen-margin bg-white overflow-y-auto flex flex-col'>
       {/* 상단 탭 스위처 */}
@@ -69,7 +85,7 @@ export default function MainContent({
       {/* 메인 콘텐츠 */}
       <div className='pt-[16px] mb-[100px] flex flex-col relative'>
         <div className='z-20 relative'>
-          <GoalTab nickname={userProfile?.nickname || "미누"} />
+          <GoalTab nickname={nicknameProp} />
         </div>
 
         <div className='flex flex-col items-center justify-center relative mt-5'>
@@ -90,7 +106,7 @@ export default function MainContent({
               goal={goal}
               openModal={openGoalEditModal}
               todayScreenTime={todayScreenTime}
-              nickname={userProfile?.nickname || "미누"}
+              nickname={nicknameProp}
             />
             <ProgressSection
               todayScreenTime={todayScreenTime}
