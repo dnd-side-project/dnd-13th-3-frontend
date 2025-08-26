@@ -1,10 +1,6 @@
 import { SettingPageClient } from "@/components/setting/SettingPageClient";
 import { getUserProfile } from "@/lib/api/user";
 
-// This route reads cookies on the server via getUserProfile().
-// Mark it dynamic so Next.js doesn't attempt to pre-render it statically.
-export const dynamic = "force-dynamic";
-
 export default async function SettingPage() {
   let user = null;
   try {

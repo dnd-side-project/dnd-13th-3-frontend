@@ -6,9 +6,6 @@ import {
 import { getChallenge } from "@/lib/api/challenge";
 import { getUserProfile } from "@/lib/api/user";
 
-// This route performs server-side calls that read cookies; mark as dynamic.
-export const dynamic = "force-dynamic";
-
 export default async function ChallengePage() {
   let hasChallenge = false;
   let challengeData = null;
