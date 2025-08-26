@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { MainHeader } from "@/components/main";
 
 type Segment = "today" | "week";
 
@@ -57,7 +58,8 @@ export default function RecordPage() {
 
   return (
     <div className='w-full min-h-[100dvh] bg-white overflow-y-auto flex flex-col pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]'>
-      {/* Page Header (provided by (main)/layout via <Logo />) */}
+      {/* Page Header */}
+      <MainHeader />
 
       {/* Report Controls */}
       <section className='w-full px-screen-margin'>
