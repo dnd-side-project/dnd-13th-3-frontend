@@ -1,28 +1,21 @@
-"use client";
-
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import type { UserProfileResponse } from "@/types/auth";
 
 interface ChallengeEmptyStateProps {
   userProfile: UserProfileResponse | null;
+  onStartChallenge: () => void;
 }
 
 export default function ChallengeEmptyState({
   userProfile,
+  onStartChallenge,
 }: ChallengeEmptyStateProps) {
   const nickname = userProfile?.nickname || "미누";
   const displayNickname = nickname.endsWith("님") ? nickname : `${nickname}님`;
 
-  const router = useRouter();
-
   const getCharacterImage = (characterIndex?: number) => {
     const index = characterIndex || 1;
     return `/images/logos/ChallengingCharater${index}.svg`;
-  };
-
-  const handleStartChallenge = () => {
-    router.push("/challenge/create");
   };
 
   return (
@@ -83,7 +76,7 @@ export default function ChallengeEmptyState({
         <div className='w-full flex justify-center'>
           <button
             type='button'
-            onClick={handleStartChallenge}
+            onClick={onStartChallenge}
             className='w-full px-2.5 py-3.5 bg-primary rounded-xl inline-flex justify-center items-center gap-2.5 hover:bg-blue-600 transition-colors'
           >
             <div className="justify-center text-white text-base font-semibold font-['Pretendard'] leading-normal tracking-tight">

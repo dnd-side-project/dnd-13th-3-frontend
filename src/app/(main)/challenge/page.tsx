@@ -1,8 +1,8 @@
 import {
-  ChallengeEmptyState,
   ChallengeHeader,
   ChallengeOngoing,
 } from "@/components/challenge";
+import ChallengeEmptyStateClient from "@/components/challenge/ChallengeEmptyStateClient";
 import { getChallenge } from "@/lib/api/challenge";
 import { getUserProfile } from "@/lib/api/user";
 
@@ -56,7 +56,7 @@ export default async function ChallengePage() {
     <>
       <ChallengeHeader hasChallenge={false} />
       <div className='h-[calc(100dvh-40px)] bg-primary overflow-y-auto'>
-        <ChallengeEmptyState userProfile={userProfile} />
+        <ChallengeEmptyStateClient userProfile={userProfile} />
       </div>
     </>
   );
