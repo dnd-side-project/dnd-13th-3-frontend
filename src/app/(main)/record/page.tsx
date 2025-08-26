@@ -21,16 +21,17 @@ export default function RecordPage() {
 
   const weekdayFromNow = (): DayKey => {
     const idx = new Date().getDay(); // 0=Sun ... 6=Sat
-    return ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][
-      idx
-    ] as DayKey;
+    return ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][idx] as DayKey;
   };
 
   const [selectedDay, setSelectedDay] = useState<DayKey>(
     weekdayFromNow() === "sun" ? "mon" : (weekdayFromNow() as DayKey)
   );
 
-  const weeklyData: Record<DayKey, { hours: number; minutes: number; deltaMinutes: number }> = {
+  const weeklyData: Record<
+    DayKey,
+    { hours: number; minutes: number; deltaMinutes: number }
+  > = {
     mon: { hours: 7, minutes: 10, deltaMinutes: 20 },
     tue: { hours: 6, minutes: 35, deltaMinutes: -15 },
     wed: { hours: 7, minutes: 28, deltaMinutes: 32 },
@@ -40,7 +41,8 @@ export default function RecordPage() {
     sun: { hours: 6, minutes: 12, deltaMinutes: 10 },
   };
 
-  const formatHM = (h: number, m: number) => `${h}시간 ${String(m).padStart(2, "0")}분`;
+  const formatHM = (h: number, m: number) =>
+    `${h}시간 ${String(m).padStart(2, "0")}분`;
 
   const dateLabel = useMemo(() => {
     const now = new Date();
@@ -117,7 +119,9 @@ export default function RecordPage() {
                         : "bg-indigo-100 outline-indigo-100 hover:outline-indigo-200"
                     }`}
                   />
-                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "mon" ? "text-gray-900" : "text-gray-400"}`}>
+                  <div
+                    className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "mon" ? "text-gray-900" : "text-gray-400"}`}
+                  >
                     월
                   </div>
                 </button>
@@ -135,7 +139,9 @@ export default function RecordPage() {
                         : "bg-rose-200 outline-rose-200 hover:outline-rose-300"
                     }`}
                   />
-                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "tue" ? "text-gray-900" : "text-gray-400"}`}>
+                  <div
+                    className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "tue" ? "text-gray-900" : "text-gray-400"}`}
+                  >
                     화
                   </div>
                 </button>
@@ -153,7 +159,9 @@ export default function RecordPage() {
                         : "bg-rose-200 outline-rose-200 hover:outline-rose-300"
                     }`}
                   />
-                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "wed" ? "text-gray-900" : "text-gray-400"}`}>
+                  <div
+                    className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "wed" ? "text-gray-900" : "text-gray-400"}`}
+                  >
                     수
                   </div>
                 </button>
@@ -171,7 +179,9 @@ export default function RecordPage() {
                         : "bg-indigo-100 outline-indigo-100 hover:outline-indigo-200"
                     }`}
                   />
-                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "thu" ? "text-gray-900" : "text-gray-400"}`}>
+                  <div
+                    className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "thu" ? "text-gray-900" : "text-gray-400"}`}
+                  >
                     목
                   </div>
                 </button>
@@ -189,7 +199,9 @@ export default function RecordPage() {
                         : "bg-indigo-100 outline-indigo-100 hover:outline-indigo-200"
                     }`}
                   />
-                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "fri" ? "text-gray-900" : "text-gray-400"}`}>
+                  <div
+                    className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "fri" ? "text-gray-900" : "text-gray-400"}`}
+                  >
                     금
                   </div>
                 </button>
@@ -207,7 +219,9 @@ export default function RecordPage() {
                         : "bg-gray-400 outline-gray-200 hover:outline-gray-300"
                     }`}
                   />
-                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "sat" ? "text-gray-900" : "text-gray-400"}`}>
+                  <div
+                    className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "sat" ? "text-gray-900" : "text-gray-400"}`}
+                  >
                     토
                   </div>
                 </button>
@@ -225,14 +239,16 @@ export default function RecordPage() {
                         : "bg-gray-400 outline-gray-200 hover:outline-gray-300"
                     }`}
                   />
-                  <div className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "sun" ? "text-gray-900" : "text-gray-400"}`}>
+                  <div
+                    className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "sun" ? "text-gray-900" : "text-gray-400"}`}
+                  >
                     일
                   </div>
                 </button>
               </div>
             </div>
           )}
-</div>
+        </div>
       </section>
 
       {/* Details */}
@@ -386,7 +402,10 @@ export default function RecordPage() {
                   <div className='text-center'>
                     <p className='m-0 text-label-1 text-gray-600'>{`${dayMeta[selectedDay].full}의 스크린타임`}</p>
                     <h2 className='m-0 text-title-2 text-gray-900 font-semibold'>
-                      {formatHM(weeklyData[selectedDay].hours, weeklyData[selectedDay].minutes)}
+                      {formatHM(
+                        weeklyData[selectedDay].hours,
+                        weeklyData[selectedDay].minutes
+                      )}
                     </h2>
                   </div>
                   <div className='bg-gray-100 border border-white rounded-2xl px-3 py-2 inline-flex items-center gap-1 text-caption-1 text-gray-600 font-medium'>
@@ -395,7 +414,8 @@ export default function RecordPage() {
                     <span className='text-primary font-semibold'>
                       {Math.abs(weeklyData[selectedDay].deltaMinutes)}분
                     </span>{" "}
-                    {weeklyData[selectedDay].deltaMinutes >= 0 ? "덜" : "더"} 사용했어요!
+                    {weeklyData[selectedDay].deltaMinutes >= 0 ? "덜" : "더"}{" "}
+                    사용했어요!
                   </div>
                 </article>
               </div>
@@ -468,7 +488,11 @@ export default function RecordPage() {
                 {/* AI Feedback */}
                 <div className='flex flex-col gap-3 md:order-1'>
                   <div className='flex items-center gap-1 text-label-1 text-gray-600 px-1'>
-                    <img src='/images/logos/Icon/Normal/AI.svg' alt='AI 로고' className='w-6 h-6' />
+                    <img
+                      src='/images/logos/Icon/Normal/AI.svg'
+                      alt='AI 로고'
+                      className='w-6 h-6'
+                    />
                     <span>AI 피드백</span>
                   </div>
                   <article className='bg-white rounded-xl p-5 flex flex-col gap-3 border border-gray-200 shadow-xs mb-[86px]'>
