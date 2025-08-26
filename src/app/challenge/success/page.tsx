@@ -1,5 +1,5 @@
-import { ChallengeSuccess } from "@/components/challenge";
 import { Suspense } from "react";
+import { ChallengeSuccess } from "@/components/challenge";
 
 export default async function ChallengeSuccessPage() {
   return (
