@@ -1,10 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { createChallenge } from "@/lib/api/challenge";
 import type { CreateChallengeResponse } from "@/lib/challenge";
-import Image from "next/image";
 
 export default function ChallengeCreateForm() {
   const router = useRouter();
@@ -134,7 +134,7 @@ export default function ChallengeCreateForm() {
                       height={15}
                     />
                     24시간 이상은 입력이 불가합니다
-                  </div>         
+                  </div>
                 )}
               </div>
             </div>

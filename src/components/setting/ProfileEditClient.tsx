@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import type { UserProfileResponse } from "@/types/auth";
 import { updateUserProfile } from "@/lib/api/user";
+import type { UserProfileResponse } from "@/types/auth";
 
 interface ProfileEditClientProps {
   user: UserProfileResponse | null;
@@ -30,13 +30,20 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
 
   const handleSave = async () => {
     if (!user) return;
-    
+
     setIsLoading(true);
     try {
       const isGoalChanged = goal !== (user?.goal?.custom || user?.goal?.type);
       const profileData = {
         goal: {
-          type: isGoalChanged ? "custom" : (user?.goal?.type || "NO_SCREEN") as "FOCUS_IMPROVEMENT" | "SLEEP_REGULARITY" | "HEALTH_CARE" | "NO_SCREEN" | "custom",
+          type: isGoalChanged
+            ? "custom"
+            : ((user?.goal?.type || "NO_SCREEN") as
+                | "FOCUS_IMPROVEMENT"
+                | "SLEEP_REGULARITY"
+                | "HEALTH_CARE"
+                | "NO_SCREEN"
+                | "custom"),
           custom: isGoalChanged ? goal : user?.goal?.custom || undefined,
         },
         nickname,
@@ -60,18 +67,6 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
     return `/images/logos/Charater${characterIndex}.svg`;
   };
 
-  const getCharacterColors = (characterIndex: number) => {
-    const colors = {
-      1: { border: "border-primary", bg: "bg-primary" },
-      2: { border: "border-green-500", bg: "bg-green-500" },
-      3: { border: "border-yellow-500", bg: "bg-yellow-500" },
-      4: { border: "border-purple-500", bg: "bg-purple-500" },
-      5: { border: "border-pink-500", bg: "bg-pink-500" },
-      6: { border: "border-orange-500", bg: "bg-orange-500" },
-    };
-    return colors[characterIndex as keyof typeof colors] || colors[1];
-  };
-
   if (!user) {
     return null;
   }
@@ -87,6 +82,7 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
                 alt='뒤로가기'
                 width={12}
                 height={22}
+                priority
               />
             </button>
             <h1 className='absolute left-1/2 transform -translate-x-1/2 text-lg font-semibold text-gray-900'>
@@ -98,9 +94,8 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
               <h2 className='text-base font-medium text-gray-900 mb-4'>
                 프로필 캐릭터
               </h2>
-              <div className='grid grid-cols-6 gap-3 items-center'>
+              <div className='flex flex-wrap gap-5'>
                 {[1, 2, 3, 4, 5, 6].map((index) => {
-                  const colors = getCharacterColors(index);
                   const isSelected = selectedCharacter === index;
 
                   return (
@@ -108,27 +103,27 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
                       type='button'
                       key={index}
                       onClick={() => setSelectedCharacter(index)}
-                      className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                        isSelected ? `${colors.border} border-2` : ""
+                      className={`relative w-[68px] h-[68px] rounded-full flex items-center justify-center transition-all flex-shrink-0 ${
+                        isSelected ? "border-primary border-2" : ""
                       }`}
                     >
                       <Image
                         src={getCharacterImage(index)}
                         alt={`캐릭터 ${index}`}
-                        width={48}
-                        height={48}
+                        width={68}
+                        height={68}
                         className='rounded-full object-cover'
+                        priority
                       />
                       {isSelected && (
-                        <div
-                          className={`absolute -top-1 -right-1 w-6 h-6 ${colors.bg} rounded-full flex items-center justify-center z-10`}
-                        >
+                        <div className='absolute -top-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center z-10'>
                           <Image
                             src='/images/logos/Check.svg'
                             alt='선택됨'
                             width={16}
                             height={16}
                             className='w-4 h-4'
+                            priority
                           />
                         </div>
                       )}
