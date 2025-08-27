@@ -44,14 +44,7 @@ export default async function HomePage() {
   return (
     <>
       <MainHeader />
-      <MainContent
-        userProfile={
-          userProfile ? JSON.parse(JSON.stringify(userProfile)) : null
-        }
-        screenTimeData={
-          screenTimeData ? JSON.parse(JSON.stringify(screenTimeData)) : null
-        }
-      />
+      <MainContent userProfile={userProfile} screenTimeData={screenTimeData} />
     </>
   );
 }

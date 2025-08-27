@@ -18,10 +18,16 @@ import {
   mapGoalPresetToEnum,
   parseScreenTimeValue,
 } from "@/lib/goals";
-import type { UserProfileResponse, ProfileRegistrationRequest } from "@/types/auth";
+import type {
+  ProfileRegistrationRequest,
+  UserProfileResponse,
+} from "@/types/auth";
 import type { ScreenTimeResponse } from "@/types/screentime";
 
-type UpdateProfileBody = Omit<ProfileRegistrationRequest, 'nickname' | 'goal' | 'screenTimeGoal'> & {
+type UpdateProfileBody = Omit<
+  ProfileRegistrationRequest,
+  "nickname" | "goal" | "screenTimeGoal"
+> & {
   nickname: string;
   goal?: {
     type: string;
@@ -79,7 +85,7 @@ export default function MainContent({
   const buildCurrentScreenTimeBody = () => {
     const screenTimeGoal = userProfile?.screenTimeGoal;
     if (!screenTimeGoal?.type) return undefined;
-    
+
     const { type, custom } = screenTimeGoal;
     // If numeric-like, treat as preset minutes; else custom
     const isNumber = /^\d+$/.test(type);
@@ -108,10 +114,10 @@ export default function MainContent({
 
       const goalPart = buildCurrentGoalBody();
       const identityPart = buildIdentityBody();
-      const body: UpdateProfileBody = { 
-        ...identityPart, 
-        ...goalPart, 
-        ...screenTimePart 
+      const body: UpdateProfileBody = {
+        ...identityPart,
+        ...goalPart,
+        ...screenTimePart,
       };
 
       // Update server and refresh data
