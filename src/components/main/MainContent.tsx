@@ -18,8 +18,21 @@ import {
   mapGoalPresetToEnum,
   parseScreenTimeValue,
 } from "@/lib/goals";
-import type { UserProfileResponse } from "@/types/auth";
+import type { UserProfileResponse, ProfileRegistrationRequest } from "@/types/auth";
 import type { ScreenTimeResponse } from "@/types/screentime";
+
+type UpdateProfileBody = Omit<ProfileRegistrationRequest, 'nickname' | 'goal' | 'screenTimeGoal'> & {
+  nickname: string;
+  goal?: {
+    type: string;
+    custom: string | null;
+  };
+  screenTimeGoal?: {
+    type: string;
+    custom: string | null;
+  };
+  characterIndex?: number;
+};
 
 interface MainContentProps {
   userProfile: UserProfileResponse | null;
@@ -64,13 +77,14 @@ export default function MainContent({
   };
 
   const buildCurrentScreenTimeBody = () => {
-    const t = userProfile?.screenTimeGoal?.type;
-    const c = (userProfile?.screenTimeGoal as any)?.custom ?? null;
-    if (!t) return undefined;
+    const screenTimeGoal = userProfile?.screenTimeGoal;
+    if (!screenTimeGoal?.type) return undefined;
+    
+    const { type, custom } = screenTimeGoal;
     // If numeric-like, treat as preset minutes; else custom
-    const isNumber = /^\d+$/.test(String(t));
-    if (isNumber) return { screenTimeGoal: { type: String(t), custom: null } };
-    return { screenTimeGoal: { type: "CUSTOM", custom: c } };
+    const isNumber = /^\d+$/.test(type);
+    if (isNumber) return { screenTimeGoal: { type, custom: null } };
+    return { screenTimeGoal: { type: "CUSTOM", custom: custom ?? null } };
   };
 
   const buildIdentityBody = () => {
@@ -94,10 +108,14 @@ export default function MainContent({
 
       const goalPart = buildCurrentGoalBody();
       const identityPart = buildIdentityBody();
-      const body = { ...identityPart, ...goalPart, ...screenTimePart };
+      const body: UpdateProfileBody = { 
+        ...identityPart, 
+        ...goalPart, 
+        ...screenTimePart 
+      };
 
       // Update server and refresh data
-      await updateUserProfile(body as any);
+      await updateUserProfile(body);
       closeTimeEditModal();
 
       // Trigger a refresh of the page data
