@@ -194,12 +194,12 @@ export default function JoinChallengeClient() {
       <div className='min-h-screen flex flex-col bg-white'>
         <div className='flex-1 flex items-center justify-center px-6'>
           <div className='text-center w-full max-w-sm'>
-            <div className='w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg'>
+            <div className='w-[94px] h-[94px] flex items-center justify-center mx-auto mb-6'>
               <Image
                 src='/images/logos/Latter.svg'
                 alt='Success'
-                width={40}
-                height={40}
+                width={94}
+                height={94}
                 priority
               />
             </div>

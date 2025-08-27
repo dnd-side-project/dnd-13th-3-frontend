@@ -62,7 +62,7 @@ export function parseScreenTimeValue(
   if (typeof val === "object" && val !== null) {
     if (val.type === "CUSTOM" && val.custom) {
       const total = parseInt(val.custom, 10);
-      if (!isNaN(total)) {
+      if (!Number.isNaN(total)) {
         return { hours: Math.floor(total / 60), minutes: total % 60 };
       }
     } else if (/^\d+$/.test(val.type)) {
