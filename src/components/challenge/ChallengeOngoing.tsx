@@ -115,7 +115,7 @@ export default function ChallengeOngoing({
                       priority
                     />
                     <span className='text-blue-700 text-xs font-medium'>
-                      {Math.floor(challenge.goal_time_minutes / 60)}시간
+                      {Math.floor((challenge.goal_time_minutes * 7) / 60)}시간
                     </span>
                   </div>
                 </div>
@@ -227,7 +227,7 @@ export default function ChallengeOngoing({
                       <div className='flex items-center justify-between'>
                         <div className='text-sm text-gray-600'>{timeText}</div>
                         <div className="justify-start text-gray-400 text-xs font-medium font-['Pretendard'] leading-none tracking-tight">
-                          {participant.achievement_rate}%
+                          {Math.ceil((participant.current_time_minutes / (challenge.goal_time_minutes * 7)) * 100)}%
                         </div>
                       </div>
                       <div className='mt-2'>
@@ -242,7 +242,7 @@ export default function ChallengeOngoing({
                               isCurrentUser ? "bg-gray-500" : "bg-gray-300"
                             }`}
                             style={{
-                              width: `${participant.achievement_rate}%`,
+                              width: `${Math.round((participant.current_time_minutes / (challenge.goal_time_minutes * 7)) * 100)}%`,
                             }}
                           />
                         </div>
