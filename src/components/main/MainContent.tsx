@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GoalTab } from "@/components/common";
 import {
   GoalEditModal,
@@ -84,22 +84,22 @@ export default function MainContent({
       const h = parseInt(_newHours || "0", 10);
       const m = parseInt(_newMinutes || "0", 10);
       const totalMinutes = h * 60 + m;
-      
+
       const screenTimePart = {
-        screenTimeGoal: { 
-          type: "CUSTOM", 
-          custom: String(totalMinutes) 
-        }
+        screenTimeGoal: {
+          type: "CUSTOM",
+          custom: String(totalMinutes),
+        },
       };
-      
+
       const goalPart = buildCurrentGoalBody();
       const identityPart = buildIdentityBody();
       const body = { ...identityPart, ...goalPart, ...screenTimePart };
-      
+
       // Update server and refresh data
       await updateUserProfile(body as any);
       closeTimeEditModal();
-      
+
       // Trigger a refresh of the page data
       window.location.reload();
     } catch (e) {

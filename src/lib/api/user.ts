@@ -54,7 +54,10 @@ export type UpdateProfileRequest = {
 export async function updateUserProfile(
   body: UpdateProfileRequest
 ): Promise<{ message: string }> {
-  console.log("🔄 updateUserProfile 요청 데이터:", JSON.stringify(body, null, 2));
+  console.log(
+    "🔄 updateUserProfile 요청 데이터:",
+    JSON.stringify(body, null, 2)
+  );
   try {
     const { data } = await privateApi.patch<{ message: string }>(
       "/api/user/profile",

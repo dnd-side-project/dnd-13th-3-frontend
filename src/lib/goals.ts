@@ -50,15 +50,17 @@ export function formatScreenTimeCustom(hours: number, minutes: number): string {
   return `${total}MINUTES`;
 }
 
-export function parseScreenTimeValue(val?: string | { type: string; custom: string | null }): {
+export function parseScreenTimeValue(
+  val?: string | { type: string; custom: string | null }
+): {
   hours: number;
   minutes: number;
 } {
   if (!val) return { hours: 7, minutes: 0 };
-  
+
   // Handle object format { type: string, custom: string | null }
-  if (typeof val === 'object' && val !== null) {
-    if (val.type === 'CUSTOM' && val.custom) {
+  if (typeof val === "object" && val !== null) {
+    if (val.type === "CUSTOM" && val.custom) {
       const total = parseInt(val.custom, 10);
       if (!isNaN(total)) {
         return { hours: Math.floor(total / 60), minutes: total % 60 };
@@ -69,7 +71,7 @@ export function parseScreenTimeValue(val?: string | { type: string; custom: stri
     }
     return { hours: 7, minutes: 0 };
   }
-  
+
   // Handle string format
   const upper = String(val).toUpperCase();
   if (upper.endsWith("HOURS")) {
