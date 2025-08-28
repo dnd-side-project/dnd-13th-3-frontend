@@ -141,6 +141,7 @@ export interface JoinChallengeResponse {
     challenge_id: number;
     start_date: string;
     end_date: string;
+    goal_time_minutes: number;
   };
 }
 

@@ -226,15 +226,14 @@ export default function JoinChallengeClient() {
                 <div className='text-center justify-start text-gray-400 text-sm font-medium font-["Pretendard"] leading-tight tracking-tight'>
                   목표 시간
                 </div>
-                <div className='flex justify-start items-center'>
-                  <div className='text-center justify-start text-gray-800 text-sm font-medium font-["Pretendard"] leading-tight tracking-tight'>
-                    {/* TODO: API 응답에 goal_time_minutes가 없으므로 임시로 표시 */}
-                    목표 시간
-                  </div>
-                  <div className='justify-start text-gray-500 text-xs font-medium font-["Pretendard"] leading-none tracking-tight'>
-                    ・하루 목표 시간
-                  </div>
+                <div className='flex items-center gap-1'>
+                <span className='text-sm font-medium text-gray-900'>
+                  {Math.round((challengeInfo.data.goal_time_minutes / 60) * 7 * 10) / 10}시간
+                </span>
+                <div className="justify-start text-gray-500 text-xs font-medium font-['Pretendard'] leading-none tracking-tight">
+                  · 하루 {Math.round((challengeInfo.data.goal_time_minutes / 60) * 10) / 10}시간
                 </div>
+              </div>
               </div>
               <div className='w-72 inline-flex justify-between items-center'>
                 <div className='text-center justify-start text-gray-400 text-sm font-medium font-["Pretendard"] leading-tight tracking-tight'>
