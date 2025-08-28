@@ -188,7 +188,7 @@ export default function MainContent({
 
         <div className='flex flex-col items-center justify-center relative mt-5'>
           {/* 배경 이미지 */}
-          <div className='w-full min-h-96 relative z-0'>
+          <div className='w-full min-h-96 relative z-0 rounded-[16px] overflow-hidden'>
             <Image
               src={backgroundImageSrc}
               alt='Screen Time Background'

@@ -12,6 +12,10 @@ export default async function RecordPage() {
   const parsed = parseScreenTimeValue(profile?.screenTimeGoal);
   const goalMinutes = parsed.hours * 60 + parsed.minutes;
   return (
-    <RecordClient todayData={todayRes} weekData={weekRes} goalMinutes={goalMinutes} />
+    <RecordClient
+      todayData={todayRes}
+      weekData={weekRes}
+      goalMinutes={goalMinutes}
+    />
   );
 }

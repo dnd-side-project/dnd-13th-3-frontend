@@ -17,7 +17,11 @@ export interface RecordClientProps {
   goalMinutes: number; // from user profile target
 }
 
-export default function RecordClient({ todayData, weekData, goalMinutes }: RecordClientProps) {
+export default function RecordClient({
+  todayData,
+  weekData,
+  goalMinutes,
+}: RecordClientProps) {
   const [segment, setSegment] = useState<Segment>("today");
 
   const dayMeta: Record<DayKey, { short: string; full: string }> = {
@@ -46,7 +50,8 @@ export default function RecordClient({ todayData, weekData, goalMinutes }: Recor
     return { hours, minutes };
   };
 
-  const formatHM = (h: number, m: number) => `${h}시간 ${String(m).padStart(2, "0")}분`;
+  const formatHM = (h: number, m: number) =>
+    `${h}시간 ${String(m).padStart(2, "0")}분`;
 
   const formatAppTime = (minutes: number) => {
     if (minutes < 60) return `${minutes}분`;
@@ -328,7 +333,11 @@ export default function RecordClient({ todayData, weekData, goalMinutes }: Recor
                     </div>
                     {todayDelta < 0 ? (
                       <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-100 inline-flex justify-center items-center gap-0.5'>
-                        <img src='/images/logos/Icon/Normal/over.svg' alt='초과 아이콘' className='w-3 h-3 mt-1' />
+                        <img
+                          src='/images/logos/Icon/Normal/over.svg'
+                          alt='초과 아이콘'
+                          className='w-3 h-[10px] mt-1'
+                        />
                         <div className='text-center justify-start'>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
@@ -337,13 +346,18 @@ export default function RecordClient({ todayData, weekData, goalMinutes }: Recor
                             {Math.abs(todayDelta)}분
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
-                            {" "}더 사용했어요!
+                            {" "}
+                            더 사용했어요!
                           </span>
                         </div>
                       </div>
                     ) : (
                       <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-white inline-flex justify-center items-center gap-0.5'>
-                        <img src='/images/logos/Icon/Normal/under.svg' alt='미만 아이콘' className='w-3 h-3 mt-1' />
+                        <img
+                          src='/images/logos/Icon/Normal/under.svg'
+                          alt='미만 아이콘'
+                          className='w-3 h-[10px] mt-1'
+                        />
                         <div className='text-center justify-start'>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
@@ -352,7 +366,8 @@ export default function RecordClient({ todayData, weekData, goalMinutes }: Recor
                             {Math.abs(todayDelta)}분
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
-                            {" "}덜 사용했어요!
+                            {" "}
+                            덜 사용했어요!
                           </span>
                         </div>
                       </div>
@@ -482,7 +497,11 @@ export default function RecordClient({ todayData, weekData, goalMinutes }: Recor
                     </div>
                     {selectedDelta < 0 ? (
                       <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-100 inline-flex justify-center items-center gap-0.5'>
-                        <img src='/images/logos/Icon/Normal/over.svg' alt='초과 아이콘' className='w-3 h-3 mt-1' />
+                        <img
+                          src='/images/logos/Icon/Normal/over.svg'
+                          alt='초과 아이콘'
+                          className='w-3 h-[10px] mt-1'
+                        />
                         <div className='text-center justify-start'>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
@@ -491,13 +510,18 @@ export default function RecordClient({ todayData, weekData, goalMinutes }: Recor
                             {Math.abs(selectedDelta)}분
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
-                            {" "}더 사용했어요!
+                            {" "}
+                            더 사용했어요!
                           </span>
                         </div>
                       </div>
                     ) : (
                       <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-white inline-flex justify-center items-center gap-0.5'>
-                        <img src='/images/logos/Icon/Normal/under.svg' alt='미만 아이콘' className='w-3 h-3 mt-1' />
+                        <img
+                          src='/images/logos/Icon/Normal/under.svg'
+                          alt='미만 아이콘'
+                          className='w-3 h-[10px] mt-1'
+                        />
                         <div className='text-center justify-start'>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
@@ -506,7 +530,8 @@ export default function RecordClient({ todayData, weekData, goalMinutes }: Recor
                             {Math.abs(selectedDelta)}분
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
-                            {" "}덜 사용했어요!
+                            {" "}
+                            덜 사용했어요!
                           </span>
                         </div>
                       </div>
