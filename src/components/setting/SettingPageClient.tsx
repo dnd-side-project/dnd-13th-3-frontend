@@ -187,7 +187,7 @@ export function SettingPageClient({ user }: SettingPageClientProps) {
           </button>
         </div>
       </div>
-      
+
       {showLogoutModal && (
         <LogoutModal onClose={() => setShowLogoutModal(false)} />
       )}

@@ -32,9 +32,10 @@ export default function ChallengeOngoing({
     return hours > 0 ? `${hours}시간 ${mins}분` : `${mins}분`;
   };
 
-  const currentUser = challenge.participants.find(
-    participant => participant.userId.toString() === userProfile?.id
-  ) || null;
+  const currentUser =
+    challenge.participants.find(
+      (participant) => participant.userId.toString() === userProfile?.id
+    ) || null;
 
   const getCharacterImage = (characterIndex?: number) => {
     const index = characterIndex || 1;
@@ -117,7 +118,10 @@ export default function ChallengeOngoing({
                       priority
                     />
                     <span className='text-blue-700 text-xs font-medium'>
-                      {Math.round((challenge.goal_time_minutes * 7) / 60 * 10) / 10}시간
+                      {Math.round(
+                        ((challenge.goal_time_minutes * 7) / 60) * 10
+                      ) / 10}
+                      시간
                     </span>
                   </div>
                 </div>
@@ -227,15 +231,23 @@ export default function ChallengeOngoing({
                         {participant.nickname}
                       </div>
                       <div className='flex items-center justify-between'>
-                        <div className={`text-sm ${participant.current_time_minutes > (challenge.goal_time_minutes * 7) ? 'text-red-400' : 'text-gray-600'}`}>
+                        <div
+                          className={`text-sm ${participant.current_time_minutes > (challenge.goal_time_minutes * 7) ? "text-red-400" : "text-gray-600"}`}
+                        >
                           {timeText}
                         </div>
-                        <div className={`justify-start text-xs font-medium font-['Pretendard'] leading-none tracking-tight ${participant.current_time_minutes > (challenge.goal_time_minutes * 7) ? 'text-red-400' : 'text-gray-400'}`}>
-                          {Math.min(100, Math.ceil(
-                            (participant.current_time_minutes /
-                              (challenge.goal_time_minutes * 7)) *
-                              100
-                          ))}%
+                        <div
+                          className={`justify-start text-xs font-medium font-['Pretendard'] leading-none tracking-tight ${participant.current_time_minutes > (challenge.goal_time_minutes * 7) ? "text-red-400" : "text-gray-400"}`}
+                        >
+                          {Math.min(
+                            100,
+                            Math.ceil(
+                              (participant.current_time_minutes /
+                                (challenge.goal_time_minutes * 7)) *
+                                100
+                            )
+                          )}
+                          %
                         </div>
                       </div>
                       <div className='mt-2'>

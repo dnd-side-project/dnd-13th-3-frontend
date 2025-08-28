@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { logout } from "@/lib/api/auth";
 
 interface LogoutModalProps {
@@ -22,7 +22,6 @@ export default function LogoutModal({ onClose }: LogoutModalProps) {
       setTimeout(() => {
         router.push("/login");
       }, 2000);
-      
     } catch (error) {
       console.error("로그아웃 실패:", error);
       router.push("/login");
