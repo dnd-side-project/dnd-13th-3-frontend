@@ -68,6 +68,7 @@ export default function RecordClient({
   };
   const todayHM = minutesToHM(todayRecord.totalMinutes);
   const todayDelta = goalMinutes - todayRecord.totalMinutes; // +: under goal, -: over
+  const todayDeltaHM = minutesToHM(Math.abs(todayDelta));
 
   // Derived weekly values for selected day
   const selectedDayRecord = (() => {
@@ -93,6 +94,7 @@ export default function RecordClient({
   })();
   const selectedHM = minutesToHM(selectedDayRecord.totalMinutes);
   const selectedDelta = goalMinutes - selectedDayRecord.totalMinutes;
+  const selectedDeltaHM = minutesToHM(Math.abs(selectedDelta));
 
   const dateLabel = useMemo(() => {
     const now = new Date();
@@ -111,7 +113,7 @@ export default function RecordClient({
       <MainHeader />
 
       {/* Scrollable content area (excludes header) */}
-      <div className='w-full h-[calc(100dvh-40px)] px-screen-margin bg-white overflow-y-auto flex flex-col'>
+      <div className='w-full h-[calc(100dvh-40px)] px-screen-margin bg-white overflow-y-auto flex flex-col font-pretendard'>
         {/* Report Controls */}
         <section className='w-full'>
           <div className='w-full max-w-[1100px] mx-auto mt-4 flex flex-col items-center gap-6 sm:gap-7'>
@@ -343,7 +345,7 @@ export default function RecordClient({
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
                           </span>
                           <span className='text-rose-500 text-caption-1 font-medium leading-none tracking-tight'>
-                            {Math.abs(todayDelta)}분
+                            {formatHM(todayDeltaHM.hours, todayDeltaHM.minutes)}
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             {" "}
@@ -363,7 +365,7 @@ export default function RecordClient({
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
                           </span>
                           <span className='text-indigo-500 text-caption-1 font-medium leading-none tracking-tight'>
-                            {Math.abs(todayDelta)}분
+                            {formatHM(todayDeltaHM.hours, todayDeltaHM.minutes)}
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             {" "}
@@ -507,7 +509,7 @@ export default function RecordClient({
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
                           </span>
                           <span className='text-rose-500 text-caption-1 font-medium leading-none tracking-tight'>
-                            {Math.abs(selectedDelta)}분
+                            {formatHM(selectedDeltaHM.hours, selectedDeltaHM.minutes)}
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             {" "}
@@ -527,7 +529,7 @@ export default function RecordClient({
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
                           </span>
                           <span className='text-indigo-500 text-caption-1 font-medium leading-none tracking-tight'>
-                            {Math.abs(selectedDelta)}분
+                            {formatHM(selectedDeltaHM.hours, selectedDeltaHM.minutes)}
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             {" "}
