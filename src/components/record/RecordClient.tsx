@@ -328,7 +328,7 @@ export default function RecordClient({ todayData, weekData, goalMinutes }: Recor
                     </div>
                     {todayDelta < 0 ? (
                       <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-100 inline-flex justify-center items-center gap-0.5'>
-                        <img src='/images/logos/Icon/Normal/over.svg' alt='초과 아이콘' className='w-4 h-4 mt-1' />
+                        <img src='/images/logos/Icon/Normal/over.svg' alt='초과 아이콘' className='w-3 h-3 mt-1' />
                         <div className='text-center justify-start'>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
@@ -343,7 +343,7 @@ export default function RecordClient({ todayData, weekData, goalMinutes }: Recor
                       </div>
                     ) : (
                       <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-white inline-flex justify-center items-center gap-0.5'>
-                        <img src='/images/logos/Icon/Normal/under.svg' alt='미만 아이콘' className='w-4 h-4 mt-1' />
+                        <img src='/images/logos/Icon/Normal/under.svg' alt='미만 아이콘' className='w-3 h-3 mt-1' />
                         <div className='text-center justify-start'>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
@@ -482,7 +482,7 @@ export default function RecordClient({ todayData, weekData, goalMinutes }: Recor
                     </div>
                     {selectedDelta < 0 ? (
                       <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-100 inline-flex justify-center items-center gap-0.5'>
-                        <img src='/images/logos/Icon/Normal/over.svg' alt='초과 아이콘' className='w-4 h-4 mt-1' />
+                        <img src='/images/logos/Icon/Normal/over.svg' alt='초과 아이콘' className='w-3 h-3 mt-1' />
                         <div className='text-center justify-start'>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
@@ -497,7 +497,7 @@ export default function RecordClient({ todayData, weekData, goalMinutes }: Recor
                       </div>
                     ) : (
                       <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-white inline-flex justify-center items-center gap-0.5'>
-                        <img src='/images/logos/Icon/Normal/under.svg' alt='미만 아이콘' className='w-4 h-4 mt-1' />
+                        <img src='/images/logos/Icon/Normal/under.svg' alt='미만 아이콘' className='w-3 h-3 mt-1' />
                         <div className='text-center justify-start'>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
