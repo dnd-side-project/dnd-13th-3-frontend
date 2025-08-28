@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { MainHeader } from "@/components/main";
+import { getAIFeedback } from "@/lib/api/aiFeedback";
+import type { AIFeedbackResponse } from "@/types/aiFeedback";
 import type {
   ScreenTimeResponse,
   ScreenTimeWeekResponse,
@@ -17,12 +19,34 @@ export interface RecordClientProps {
   goalMinutes: number; // from user profile target
 }
 
+type DayStatus = "OVER" | "UNDER" | "NO_DATA";
+
+interface BaseDayRecord {
+  date: string;
+  totalMinutes: number;
+  status?: DayStatus;
+  appTimes?:
+    | Array<{ appName: string; minutes: number }>
+    | Record<string, number>;
+}
+
+interface DayRecord extends Omit<BaseDayRecord, "status"> {
+  status: DayStatus;
+  appTimes: Record<string, number>;
+}
+
 export default function RecordClient({
   todayData,
   weekData,
   goalMinutes,
 }: RecordClientProps) {
   const [segment, setSegment] = useState<Segment>("today");
+  const [selectedDay, setSelectedDay] = useState<DayKey>("mon");
+  const [aiFeedback, setAIFeedback] = useState<
+    AIFeedbackResponse["data"] | null
+  >(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const dayMeta: Record<DayKey, { short: string; full: string }> = {
     mon: { short: "월", full: "월요일" },
@@ -34,78 +58,90 @@ export default function RecordClient({
     sun: { short: "일", full: "일요일" },
   };
 
-  const weekdayFromNow = (): DayKey => {
-    const idx = new Date().getDay(); // 0=Sun ... 6=Sat
-    return ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][idx] as DayKey;
-  };
+  // Initialize selectedDay to current day on component mount
+  useEffect(() => {
+    const weekdayFromNow = (): DayKey => {
+      const idx = new Date().getDay(); // 0=Sun ... 6=Sat
+      const day = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][
+        idx
+      ] as DayKey;
+      return day === "sun" ? "mon" : day; // Default to Monday if Sunday
+    };
+    setSelectedDay(weekdayFromNow());
+  }, []);
 
-  const [selectedDay, setSelectedDay] = useState<DayKey>(
-    weekdayFromNow() === "sun" ? "mon" : (weekdayFromNow() as DayKey)
-  );
-
-  type DayStatus = 'OVER' | 'UNDER' | 'NO_DATA';
+  type DayStatus = "OVER" | "UNDER" | "NO_DATA";
 
   const getDayStatus = (day: DayKey): DayStatus => {
-    if (!weekData?.data?.dailyRecords) return 'NO_DATA';
-    
+    if (!weekData?.data?.dailyRecords) return "NO_DATA";
+
     const dayMap: Record<DayKey, number> = {
-      sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6
+      sun: 0,
+      mon: 1,
+      tue: 2,
+      wed: 3,
+      thu: 4,
+      fri: 5,
+      sat: 6,
     };
-    
+
     const dayRecord = weekData.data.dailyRecords.find(
-      r => new Date(r.date).getDay() === dayMap[day]
+      (r) => new Date(r.date).getDay() === dayMap[day]
     );
-    
-    return (dayRecord?.status as DayStatus) || 'NO_DATA';
+
+    return (dayRecord?.status as DayStatus) || "NO_DATA";
   };
-  
+
   const getDayIcon = (day: DayKey, isSelected: boolean): string => {
     const status = getDayStatus(day);
-    const basePath = '/images/logos';
-    
+    const basePath = "/images/logos";
+
     if (isSelected) {
-      return status === 'OVER' 
+      return status === "OVER"
         ? `${basePath}/Red.svg`
-        : status === 'UNDER'
+        : status === "UNDER"
           ? `${basePath}/Blue.svg`
           : `${basePath}/Default.svg`;
     }
-    
-    return status === 'OVER'
+
+    return status === "OVER"
       ? `${basePath}/Red_BW.svg`
-      : status === 'UNDER'
+      : status === "UNDER"
         ? `${basePath}/Blue_BW.svg`
         : `${basePath}/Default.svg`;
   };
-  
-  const getDayButtonStyle = (day: DayKey, isSelected: boolean): React.CSSProperties => {
+
+  const getDayButtonStyle = (
+    day: DayKey,
+    isSelected: boolean
+  ): React.CSSProperties => {
     const status = getDayStatus(day);
     const style: React.CSSProperties = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '40px',
-      height: '40px',
-      outline: '2px solid',
-      transition: 'all 0.3s ease',
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: "40px",
+      height: "40px",
+      outline: "2px solid",
+      transition: "all 0.3s ease",
     };
-    
+
     if (isSelected) {
-      if (status === 'OVER') {
-        style.backgroundColor = '#FEE2E2';
-        style.outlineColor = '#FCA5A5';
-      } else if (status === 'UNDER') {
-        style.backgroundColor = '#E0E7FF';
-        style.outlineColor = '#93C5FD';
+      if (status === "OVER") {
+        style.backgroundColor = "#FEE2E2";
+        style.outlineColor = "#FCA5A5";
+      } else if (status === "UNDER") {
+        style.backgroundColor = "#E0E7FF";
+        style.outlineColor = "#93C5FD";
       } else {
-        style.backgroundColor = '#F3F4F6';
-        style.outlineColor = '#9CA3AF';
+        style.backgroundColor = "#F3F4F6";
+        style.outlineColor = "#9CA3AF";
       }
     } else {
-      style.backgroundColor = '#F3F4F6';
-      style.outlineColor = '#E5E7EB';
+      style.backgroundColor = "#F3F4F6";
+      style.outlineColor = "#E5E7EB";
     }
-    
+
     return style;
   };
 
@@ -126,18 +162,57 @@ export default function RecordClient({
     return min > 0 ? `${h}시간 ${min}분` : `${h}시간`;
   };
 
-  // Derived today values
-  const todayRecord = todayData?.data?.screenTimes?.[0] ?? {
-    date: new Date().toISOString().split("T")[0],
-    totalMinutes: 0,
-    appTimes: { instagram: 0, youtube: 0, kakaotalk: 0, chrome: 0 },
+  // Helper to normalize appTimes to Record<string, number>
+  const normalizeAppTimes = (
+    record: BaseDayRecord | undefined
+  ): Record<string, number> => {
+    if (!record?.appTimes) return {};
+
+    if (Array.isArray(record.appTimes)) {
+      return record.appTimes.reduce<Record<string, number>>(
+        (acc, { appName, minutes }) => {
+          acc[appName] = minutes;
+          return acc;
+        },
+        {}
+      );
+    }
+
+    return { ...record.appTimes };
   };
+
+  // Helper to safely cast a partial record to DayRecord
+  const toDayRecord = (record: Partial<BaseDayRecord>): DayRecord => {
+    const baseRecord: BaseDayRecord = {
+      date: record.date || new Date().toISOString().split("T")[0],
+      totalMinutes: record.totalMinutes || 0,
+      status: record.status || "NO_DATA",
+      appTimes: record.appTimes,
+    };
+
+    return {
+      ...baseRecord,
+      status: baseRecord.status as DayStatus,
+      appTimes: normalizeAppTimes(baseRecord),
+    };
+  };
+
+  // Derived today values
+  const todayRecord: DayRecord = useMemo(() => {
+    const todayDataRecord = todayData?.data?.screenTimes?.[0];
+    if (!todayDataRecord) return toDayRecord({});
+
+    return toDayRecord({
+      ...todayDataRecord,
+      status: (todayDataRecord as any).status || "NO_DATA",
+    });
+  }, [todayData]);
   const todayHM = minutesToHM(todayRecord.totalMinutes);
   const todayDelta = goalMinutes - todayRecord.totalMinutes; // +: under goal, -: over
   const todayDeltaHM = minutesToHM(Math.abs(todayDelta));
 
   // Derived weekly values for selected day
-  const selectedDayRecord = (() => {
+  const selectedDayRecord = useMemo<DayRecord>(() => {
     const recs = weekData?.data?.dailyRecords ?? [];
     const dayMap: Record<DayKey, number> = {
       sun: 0,
@@ -150,25 +225,100 @@ export default function RecordClient({
     };
     const want = dayMap[selectedDay];
     const found = recs.find((r) => new Date(r.date).getDay() === want);
-    return (
-      found ?? {
-        date: "",
-        totalMinutes: 0,
-        appTimes: { instagram: 0, youtube: 0, kakaotalk: 0, chrome: 0 },
-      }
-    );
-  })();
+
+    return toDayRecord({
+      ...found,
+      status: found?.status as DayStatus,
+    });
+  }, [selectedDay, weekData]);
+
   const selectedHM = minutesToHM(selectedDayRecord.totalMinutes);
   const selectedDelta = goalMinutes - selectedDayRecord.totalMinutes;
   const selectedDeltaHM = minutesToHM(Math.abs(selectedDelta));
 
-  // Logs: weekly screentime diagnostics
+  // Fetch AI feedback when segment or selected day changes
   useEffect(() => {
-    if (!weekData) {
-      console.warn("[Record] weekData is null or undefined while rendering RecordClient");
-      return;
-    }
-  }, [weekData]);
+    const fetchAIFeedback = async () => {
+      // Skip if we don't have the required data
+      const hasRequiredData = segment === "today" 
+        ? !!selectedDayRecord.date
+        : !!weekData?.data?.startDate;
+
+      if (!hasRequiredData) {
+        console.log('Skipping AI feedback fetch - missing required data', {
+          segment,
+          hasSelectedDate: !!selectedDayRecord.date,
+          hasStartDate: !!weekData?.data?.startDate
+        });
+        return;
+      }
+
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const isToday = segment === "today";
+        const date = isToday
+          ? new Date().toISOString().split("T")[0]
+          : selectedDayRecord.date;
+
+        console.log('Fetching AI feedback with params:', {
+          period: isToday ? "day" : "week",
+          date: isToday ? date : undefined,
+          startDate: isToday ? undefined : weekData?.data?.startDate,
+          type: "screentime"
+        });
+
+        const response = await getAIFeedback({
+          period: isToday ? "day" : "week",
+          date: isToday ? date : undefined,
+          startDate: isToday ? undefined : weekData?.data?.startDate,
+          type: "screentime",
+        });
+
+        console.log('AI feedback response:', response);
+
+        if (!response) {
+          throw new Error('No response received from AI feedback API');
+        }
+
+        if (response.success && response.data) {
+          // Ensure the response data matches our expected structure
+          const {
+            feedback = "",
+            insights = [],
+            recommendations = [],
+          } = response.data;
+          
+          setAIFeedback({
+            feedback: feedback,
+            insights: Array.isArray(insights) ? insights : [],
+            recommendations: Array.isArray(recommendations) ? recommendations : [],
+            period: isToday ? "day" : "week",
+            type: "screentime",
+            date: isToday ? date : undefined,
+            startDate: isToday ? undefined : weekData?.data?.startDate,
+          });
+        } else {
+          const errorMessage = response?.message || 'Unknown error occurred';
+          console.error("Failed to load AI feedback:", errorMessage);
+          setError(`AI 피드백을 불러오는 데 실패했습니다: ${errorMessage}`);
+        }
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+        console.error("Error fetching AI feedback:", errorMessage, err);
+        setError(`AI 피드백을 불러오는 중 오류가 발생했습니다: ${errorMessage}`);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAIFeedback().catch(err => {
+      console.error('Unhandled error in fetchAIFeedback:', err);
+      setError(`처리되지 않은 오류가 발생했습니다: ${err.message}`);
+      setIsLoading(false);
+    });
+  }, [segment, selectedDay, weekData?.data?.startDate, selectedDayRecord.date]);
 
   useEffect(() => {
     if (segment === "week") {
@@ -189,7 +339,14 @@ export default function RecordClient({
       hours: selectedHM.hours,
       minutes: selectedHM.minutes,
     });
-  }, [segment, selectedDay, selectedDayRecord?.date, selectedDayRecord?.totalMinutes, selectedHM.hours, selectedHM.minutes]);
+  }, [
+    segment,
+    selectedDay,
+    selectedDayRecord?.date,
+    selectedDayRecord?.totalMinutes,
+    selectedHM.hours,
+    selectedHM.minutes,
+  ]);
 
   const dateLabel = useMemo(() => {
     const now = new Date();
@@ -255,7 +412,17 @@ export default function RecordClient({
             ) : (
               <div className='w-full flex justify-center'>
                 <div className='w-80 inline-flex justify-start items-center'>
-                  {(["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as DayKey[]).map((day) => (
+                  {(
+                    [
+                      "mon",
+                      "tue",
+                      "wed",
+                      "thu",
+                      "fri",
+                      "sat",
+                      "sun",
+                    ] as DayKey[]
+                  ).map((day) => (
                     <button
                       key={day}
                       type='button'
@@ -263,12 +430,12 @@ export default function RecordClient({
                       className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
                       aria-pressed={selectedDay === day}
                     >
-                      <div 
+                      <div
                         className='w-10 h-10 rounded-full outline outline-2 transition-all flex items-center justify-center'
                         style={getDayButtonStyle(day, selectedDay === day)}
                       >
-                        <img 
-                          src={getDayIcon(day, selectedDay === day)} 
+                        <img
+                          src={getDayIcon(day, selectedDay === day)}
                           alt={`${dayMeta[day].full} 상태`}
                           className='w-full h-full'
                         />
@@ -489,7 +656,10 @@ export default function RecordClient({
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
                           </span>
                           <span className='text-rose-500 text-caption-1 font-medium leading-none tracking-tight'>
-                            {formatHM(selectedDeltaHM.hours, selectedDeltaHM.minutes)}
+                            {formatHM(
+                              selectedDeltaHM.hours,
+                              selectedDeltaHM.minutes
+                            )}
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             {" "}
@@ -509,7 +679,10 @@ export default function RecordClient({
                             하루 목표 {Math.floor(goalMinutes / 60)}시간보다{" "}
                           </span>
                           <span className='text-indigo-500 text-caption-1 font-medium leading-none tracking-tight'>
-                            {formatHM(selectedDeltaHM.hours, selectedDeltaHM.minutes)}
+                            {formatHM(
+                              selectedDeltaHM.hours,
+                              selectedDeltaHM.minutes
+                            )}
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
                             {" "}
@@ -599,17 +772,71 @@ export default function RecordClient({
                       <span>AI 피드백</span>
                     </div>
                     <article className='bg-white rounded-xl p-5 flex flex-col gap-3 border border-gray-200 shadow-xs mb-[86px]'>
-                      <p className='m-0 text-body-2 text-gray-900 font-pretendard whitespace-pre-line'>
-                        📊 오늘 평균 사용 시간 오늘은 총 3시간 20분 동안
-                        스마트폰을 사용했어요. 하루 중 오후 10시부터 자정까지
-                        집중적으로 사용했어요. 🧾 오늘 사용 요약 그중 절반
-                        이상이 SNS와 엔터테인먼트에 쓰였어요. 특히 유튜브와
-                        인스타그램 사용 시간이 길었네요. 생산성 앱은 30분 정도로
-                        유지됐어요. 💡 추천 행동 오늘은 자기 전 30분만
-                        스마트폰을 내려두는 걸 목표로 해볼까요? 눈이 편안해질
-                        거예요. 또는 SNS 앱을 하루 한 번만 열어보는 것도 좋은
-                        시작이에요.
-                      </p>
+                      {isLoading ? (
+                        <div className='flex justify-center items-center h-32'>
+                          <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600'></div>
+                        </div>
+                      ) : error ? (
+                        <p className='text-red-500 text-center'>{error}</p>
+                      ) : aiFeedback ? (
+                        <div className='space-y-4'>
+                          <p className='m-0 text-body-2 text-gray-900 whitespace-pre-line'>
+                            {aiFeedback.feedback}
+                          </p>
+
+                          {aiFeedback.insights.length > 0 && (
+                            <div className='mt-4'>
+                              <h4 className='font-medium text-gray-700 mb-2'>
+                                주요 인사이트
+                              </h4>
+                              <ul className='space-y-3'>
+                                {aiFeedback.insights.map((insight, index) => (
+                                  <li
+                                    key={index}
+                                    className='bg-gray-50 p-3 rounded-lg'
+                                  >
+                                    <p className='font-medium text-gray-800'>
+                                      {insight.title}
+                                    </p>
+                                    <p className='text-gray-600 mt-1'>
+                                      {insight.content}
+                                    </p>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+
+                          {aiFeedback.recommendations.length > 0 && (
+                            <div className='mt-4'>
+                              <h4 className='font-medium text-gray-700 mb-2'>
+                                추천 사항
+                              </h4>
+                              <ul className='space-y-3'>
+                                {aiFeedback.recommendations.map(
+                                  (rec, index) => (
+                                    <li
+                                      key={index}
+                                      className='bg-indigo-50 p-3 rounded-lg'
+                                    >
+                                      <p className='font-medium text-indigo-800'>
+                                        {rec.title}
+                                      </p>
+                                      <p className='text-indigo-600 mt-1'>
+                                        {rec.content}
+                                      </p>
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <p className='text-gray-500 text-center'>
+                          AI 피드백을 불러오는 중입니다...
+                        </p>
+                      )}
                     </article>
                   </div>
                 </div>
