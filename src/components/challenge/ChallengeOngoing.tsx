@@ -227,7 +227,12 @@ export default function ChallengeOngoing({
                       <div className='flex items-center justify-between'>
                         <div className='text-sm text-gray-600'>{timeText}</div>
                         <div className="justify-start text-gray-400 text-xs font-medium font-['Pretendard'] leading-none tracking-tight">
-                          {Math.ceil((participant.current_time_minutes / (challenge.goal_time_minutes * 7)) * 100)}%
+                          {Math.ceil(
+                            (participant.current_time_minutes /
+                              (challenge.goal_time_minutes * 7)) *
+                              100
+                          )}
+                          %
                         </div>
                       </div>
                       <div className='mt-2'>

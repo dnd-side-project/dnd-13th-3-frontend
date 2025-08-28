@@ -34,24 +34,24 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
     setIsLoading(true);
     try {
       const isGoalChanged = goal !== (user?.goal?.custom || user?.goal?.type);
+
       const profileData = {
-        goal: {
-          type: isGoalChanged
-            ? "custom"
-            : ((user?.goal?.type || "NO_SCREEN") as
-                | "FOCUS_IMPROVEMENT"
-                | "SLEEP_REGULARITY"
-                | "HEALTH_CARE"
-                | "NO_SCREEN"
-                | "custom"),
-          custom: isGoalChanged ? goal : user?.goal?.custom || undefined,
-        },
         nickname,
         characterIndex: selectedCharacter,
+        goal: {
+          type: isGoalChanged ? "custom" : user?.goal?.type || "NO_SCREEN",
+          custom: isGoalChanged ? goal : user?.goal?.custom || null,
+        },
+        screenTimeGoal: user?.screenTimeGoal || {
+          type: "CUSTOM",
+          custom: null,
+        },
       };
+
       const response = await updateUserProfile(profileData);
       console.log("프로필 저장 성공:", response);
       setShowSuccessToast(true);
+
       setTimeout(() => {
         router.back();
       }, 1000);
@@ -194,10 +194,11 @@ export function ProfileEditClient({ user }: ProfileEditClientProps) {
         <div className='fixed bottom-10 left-1/2 transform -translate-x-1/2 z-50'>
           <div className='w-80 py-3 bg-neutral-900/90 rounded-lg inline-flex justify-center items-center gap-1.5'>
             <Image
-              src='/images/logos/Check.svg'
-              alt='Check'
+              src='/images/logos/CopyLink.svg'
+              alt='CopyLink'
               width={24}
               height={24}
+              priority
             />
             <div className='text-white text-sm font-medium'>
               프로필을 수정했습니다.
