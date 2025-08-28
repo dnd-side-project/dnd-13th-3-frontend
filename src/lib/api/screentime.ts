@@ -77,8 +77,55 @@ export const getScreenTimeDay = async (
 
 // 주간 스크린타임 조회
 export const getScreenTimeWeek = async (): Promise<ScreenTimeWeekResponse> => {
-  const { data } = await privateApi.get<ScreenTimeWeekResponse>(
-    "/api/screentime?period=week"
-  );
-  return data;
+  console.log("[API] Fetching weekly screentime data...");
+  try {
+    const { data } = await privateApi.get<ScreenTimeWeekResponse>(
+      "/api/screentime?period=week"
+    );
+
+    // Log summary info
+    console.log("[API] Weekly screentime response:", {
+      success: data.success,
+      message: data.message,
+      period: data.data?.period,
+      dateRange: data.data
+        ? `${data.data.startDate} ~ ${data.data.endDate}`
+        : "N/A",
+      totalMinutes: data.data?.totalMinutes,
+      averageMinutes: data.data?.averageMinutes,
+      dailyRecordsCount: data.data?.dailyRecords?.length || 0,
+      weeklyAppTotals: data.data?.weeklyAppTotals,
+    });
+
+    // Log detailed daily records with status
+    if (data.data?.dailyRecords?.length) {
+      console.group("Daily Records Status:");
+      data.data.dailyRecords.forEach((record) => {
+        console.log(`[${record.date}] ${record.dayOfWeek}:`, {
+          totalMinutes: record.totalMinutes,
+          status: record.status,
+          appTimes: record.appTimes,
+        });
+      });
+      console.groupEnd();
+    }
+
+    return data;
+  } catch (error: unknown) {
+    const errorInfo = error as {
+      response?: {
+        status?: number;
+        data?: unknown;
+      };
+      message?: string;
+    };
+
+    console.error("[API] Error fetching weekly screentime:", {
+      error,
+      message: errorInfo.message || "Unknown error",
+      status: errorInfo.response?.status,
+      data: errorInfo.response?.data,
+    });
+    throw error;
+  }
 };

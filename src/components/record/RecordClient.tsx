@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MainHeader } from "@/components/main";
 import type {
   ScreenTimeResponse,
@@ -42,6 +42,72 @@ export default function RecordClient({
   const [selectedDay, setSelectedDay] = useState<DayKey>(
     weekdayFromNow() === "sun" ? "mon" : (weekdayFromNow() as DayKey)
   );
+
+  type DayStatus = 'OVER' | 'UNDER' | 'NO_DATA';
+
+  const getDayStatus = (day: DayKey): DayStatus => {
+    if (!weekData?.data?.dailyRecords) return 'NO_DATA';
+    
+    const dayMap: Record<DayKey, number> = {
+      sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6
+    };
+    
+    const dayRecord = weekData.data.dailyRecords.find(
+      r => new Date(r.date).getDay() === dayMap[day]
+    );
+    
+    return (dayRecord?.status as DayStatus) || 'NO_DATA';
+  };
+  
+  const getDayIcon = (day: DayKey, isSelected: boolean): string => {
+    const status = getDayStatus(day);
+    const basePath = '/images/logos';
+    
+    if (isSelected) {
+      return status === 'OVER' 
+        ? `${basePath}/Red.svg`
+        : status === 'UNDER'
+          ? `${basePath}/Blue.svg`
+          : `${basePath}/Default.svg`;
+    }
+    
+    return status === 'OVER'
+      ? `${basePath}/Red_BW.svg`
+      : status === 'UNDER'
+        ? `${basePath}/Blue_BW.svg`
+        : `${basePath}/Default.svg`;
+  };
+  
+  const getDayButtonStyle = (day: DayKey, isSelected: boolean): React.CSSProperties => {
+    const status = getDayStatus(day);
+    const style: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '40px',
+      height: '40px',
+      outline: '2px solid',
+      transition: 'all 0.3s ease',
+    };
+    
+    if (isSelected) {
+      if (status === 'OVER') {
+        style.backgroundColor = '#FEE2E2';
+        style.outlineColor = '#FCA5A5';
+      } else if (status === 'UNDER') {
+        style.backgroundColor = '#E0E7FF';
+        style.outlineColor = '#93C5FD';
+      } else {
+        style.backgroundColor = '#F3F4F6';
+        style.outlineColor = '#9CA3AF';
+      }
+    } else {
+      style.backgroundColor = '#F3F4F6';
+      style.outlineColor = '#E5E7EB';
+    }
+    
+    return style;
+  };
 
   // Helpers
   const minutesToHM = (totalMinutes: number) => {
@@ -95,6 +161,35 @@ export default function RecordClient({
   const selectedHM = minutesToHM(selectedDayRecord.totalMinutes);
   const selectedDelta = goalMinutes - selectedDayRecord.totalMinutes;
   const selectedDeltaHM = minutesToHM(Math.abs(selectedDelta));
+
+  // Logs: weekly screentime diagnostics
+  useEffect(() => {
+    if (!weekData) {
+      console.warn("[Record] weekData is null or undefined while rendering RecordClient");
+      return;
+    }
+  }, [weekData]);
+
+  useEffect(() => {
+    if (segment === "week") {
+      const count = weekData?.data?.dailyRecords?.length ?? 0;
+      console.log("[Record] View weekly screentime", {
+        totalDays: count,
+        goalMinutes,
+      });
+    }
+  }, [segment, weekData, goalMinutes]);
+
+  useEffect(() => {
+    if (segment !== "week") return;
+    console.log("[Record] Weekly selected day", {
+      selectedDay,
+      date: selectedDayRecord?.date,
+      totalMinutes: selectedDayRecord?.totalMinutes,
+      hours: selectedHM.hours,
+      minutes: selectedHM.minutes,
+    });
+  }, [segment, selectedDay, selectedDayRecord?.date, selectedDayRecord?.totalMinutes, selectedHM.hours, selectedHM.minutes]);
 
   const dateLabel = useMemo(() => {
     const now = new Date();
@@ -160,146 +255,31 @@ export default function RecordClient({
             ) : (
               <div className='w-full flex justify-center'>
                 <div className='w-80 inline-flex justify-start items-center'>
-                  {/* Mon */}
-                  <button
-                    type='button'
-                    onClick={() => setSelectedDay("mon")}
-                    className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
-                    aria-pressed={selectedDay === "mon"}
-                  >
-                    <div
-                      className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
-                        selectedDay === "mon"
-                          ? "bg-indigo-200 outline-indigo-400"
-                          : "bg-indigo-100 outline-indigo-100 hover:outline-indigo-200"
-                      }`}
-                    />
-                    <div
-                      className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "mon" ? "text-gray-900" : "text-gray-400"}`}
+                  {(["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as DayKey[]).map((day) => (
+                    <button
+                      key={day}
+                      type='button'
+                      onClick={() => setSelectedDay(day)}
+                      className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
+                      aria-pressed={selectedDay === day}
                     >
-                      월
-                    </div>
-                  </button>
-                  {/* Tue */}
-                  <button
-                    type='button'
-                    onClick={() => setSelectedDay("tue")}
-                    className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
-                    aria-pressed={selectedDay === "tue"}
-                  >
-                    <div
-                      className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
-                        selectedDay === "tue"
-                          ? "bg-rose-300 outline-rose-400"
-                          : "bg-rose-200 outline-rose-200 hover:outline-rose-300"
-                      }`}
-                    />
-                    <div
-                      className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "tue" ? "text-gray-900" : "text-gray-400"}`}
-                    >
-                      화
-                    </div>
-                  </button>
-                  {/* Wed */}
-                  <button
-                    type='button'
-                    onClick={() => setSelectedDay("wed")}
-                    className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
-                    aria-pressed={selectedDay === "wed"}
-                  >
-                    <div
-                      className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
-                        selectedDay === "wed"
-                          ? "bg-rose-300 outline-rose-400"
-                          : "bg-rose-200 outline-rose-200 hover:outline-rose-300"
-                      }`}
-                    />
-                    <div
-                      className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "wed" ? "text-gray-900" : "text-gray-400"}`}
-                    >
-                      수
-                    </div>
-                  </button>
-                  {/* Thu */}
-                  <button
-                    type='button'
-                    onClick={() => setSelectedDay("thu")}
-                    className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
-                    aria-pressed={selectedDay === "thu"}
-                  >
-                    <div
-                      className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
-                        selectedDay === "thu"
-                          ? "bg-indigo-200 outline-indigo-400"
-                          : "bg-indigo-100 outline-indigo-100 hover:outline-indigo-200"
-                      }`}
-                    />
-                    <div
-                      className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "thu" ? "text-gray-900" : "text-gray-400"}`}
-                    >
-                      목
-                    </div>
-                  </button>
-                  {/* Fri */}
-                  <button
-                    type='button'
-                    onClick={() => setSelectedDay("fri")}
-                    className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
-                    aria-pressed={selectedDay === "fri"}
-                  >
-                    <div
-                      className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
-                        selectedDay === "fri"
-                          ? "bg-indigo-200 outline-indigo-400"
-                          : "bg-indigo-100 outline-indigo-100 hover:outline-indigo-200"
-                      }`}
-                    />
-                    <div
-                      className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "fri" ? "text-gray-900" : "text-gray-400"}`}
-                    >
-                      금
-                    </div>
-                  </button>
-                  {/* Sat */}
-                  <button
-                    type='button'
-                    onClick={() => setSelectedDay("sat")}
-                    className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
-                    aria-pressed={selectedDay === "sat"}
-                  >
-                    <div
-                      className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
-                        selectedDay === "sat"
-                          ? "bg-gray-500 outline-gray-400"
-                          : "bg-gray-400 outline-gray-200 hover:outline-gray-300"
-                      }`}
-                    />
-                    <div
-                      className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "sat" ? "text-gray-900" : "text-gray-400"}`}
-                    >
-                      토
-                    </div>
-                  </button>
-                  {/* Sun */}
-                  <button
-                    type='button'
-                    onClick={() => setSelectedDay("sun")}
-                    className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
-                    aria-pressed={selectedDay === "sun"}
-                  >
-                    <div
-                      className={`w-10 h-10 rounded-full outline outline-2 transition-all ${
-                        selectedDay === "sun"
-                          ? "bg-gray-500 outline-gray-400"
-                          : "bg-gray-400 outline-gray-200 hover:outline-gray-300"
-                      }`}
-                    />
-                    <div
-                      className={`text-center text-caption-2 font-medium leading-none ${selectedDay === "sun" ? "text-gray-900" : "text-gray-400"}`}
-                    >
-                      일
-                    </div>
-                  </button>
+                      <div 
+                        className='w-10 h-10 rounded-full outline outline-2 transition-all flex items-center justify-center'
+                        style={getDayButtonStyle(day, selectedDay === day)}
+                      >
+                        <img 
+                          src={getDayIcon(day, selectedDay === day)} 
+                          alt={`${dayMeta[day].full} 상태`}
+                          className='w-full h-full'
+                        />
+                      </div>
+                      <div
+                        className={`text-center text-caption-2 font-medium leading-none ${selectedDay === day ? "text-gray-900" : "text-gray-400"}`}
+                      >
+                        {dayMeta[day].short}
+                      </div>
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
