@@ -216,8 +216,8 @@ export function ChallengeDetailClient({
                         height={36}
                       />
                     ) : (
-                      <div className='w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center'>
-                        <span className='text-white text-xs font-bold'>
+                      <div className='w-9 h-9 flex items-center justify-center'>
+                        <span className='text-primary text-base font-medium'>
                           {rank}
                         </span>
                       </div>
