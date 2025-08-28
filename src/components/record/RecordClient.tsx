@@ -240,15 +240,16 @@ export default function RecordClient({
   useEffect(() => {
     const fetchAIFeedback = async () => {
       // Skip if we don't have the required data
-      const hasRequiredData = segment === "today" 
-        ? !!selectedDayRecord.date
-        : !!weekData?.data?.startDate;
+      const hasRequiredData =
+        segment === "today"
+          ? !!selectedDayRecord.date
+          : !!weekData?.data?.startDate;
 
       if (!hasRequiredData) {
-        console.log('Skipping AI feedback fetch - missing required data', {
+        console.log("Skipping AI feedback fetch - missing required data", {
           segment,
           hasSelectedDate: !!selectedDayRecord.date,
-          hasStartDate: !!weekData?.data?.startDate
+          hasStartDate: !!weekData?.data?.startDate,
         });
         return;
       }
@@ -262,11 +263,11 @@ export default function RecordClient({
           ? new Date().toISOString().split("T")[0]
           : selectedDayRecord.date;
 
-        console.log('Fetching AI feedback with params:', {
+        console.log("Fetching AI feedback with params:", {
           period: isToday ? "day" : "week",
           date: isToday ? date : undefined,
           startDate: isToday ? undefined : weekData?.data?.startDate,
-          type: "screentime"
+          type: "screentime",
         });
 
         const response = await getAIFeedback({
@@ -276,10 +277,10 @@ export default function RecordClient({
           type: "screentime",
         });
 
-        console.log('AI feedback response:', response);
+        console.log("AI feedback response:", response);
 
         if (!response) {
-          throw new Error('No response received from AI feedback API');
+          throw new Error("No response received from AI feedback API");
         }
 
         if (response.success && response.data) {
@@ -289,32 +290,37 @@ export default function RecordClient({
             insights = [],
             recommendations = [],
           } = response.data;
-          
+
           setAIFeedback({
             feedback: feedback,
             insights: Array.isArray(insights) ? insights : [],
-            recommendations: Array.isArray(recommendations) ? recommendations : [],
+            recommendations: Array.isArray(recommendations)
+              ? recommendations
+              : [],
             period: isToday ? "day" : "week",
             type: "screentime",
             date: isToday ? date : undefined,
             startDate: isToday ? undefined : weekData?.data?.startDate,
           });
         } else {
-          const errorMessage = response?.message || 'Unknown error occurred';
+          const errorMessage = response?.message || "Unknown error occurred";
           console.error("Failed to load AI feedback:", errorMessage);
           setError(`AI 피드백을 불러오는 데 실패했습니다: ${errorMessage}`);
         }
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+        const errorMessage =
+          err instanceof Error ? err.message : "Unknown error";
         console.error("Error fetching AI feedback:", errorMessage, err);
-        setError(`AI 피드백을 불러오는 중 오류가 발생했습니다: ${errorMessage}`);
+        setError(
+          `AI 피드백을 불러오는 중 오류가 발생했습니다: ${errorMessage}`
+        );
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchAIFeedback().catch(err => {
-      console.error('Unhandled error in fetchAIFeedback:', err);
+    fetchAIFeedback().catch((err) => {
+      console.error("Unhandled error in fetchAIFeedback:", err);
       setError(`처리되지 않은 오류가 발생했습니다: ${err.message}`);
       setIsLoading(false);
     });
