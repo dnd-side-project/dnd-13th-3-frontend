@@ -134,7 +134,7 @@ export function SettingPageClient({ user }: SettingPageClientProps) {
           >
             <div
               className={`w-12 h-7 left-0 top-0 absolute rounded-full transition-colors duration-200 ${
-                isNotificationEnabled ? "bg-indigo-500" : "bg-gray-300"
+                isNotificationEnabled ? "bg-gray-300" : "bg-primary"
               }`}
             ></div>
             <div
