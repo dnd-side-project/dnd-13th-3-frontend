@@ -48,7 +48,7 @@ const ProgressSection = ({
         ></div>
         <div
           className={`absolute ${isOverTime ? "bottom-4" : "bottom-2"} transition-all duration-500 z-30`}
-          style={{ left: `calc(${characterPosition}% - 12px)` }}
+          style={{ left: `calc(${characterPosition}% - 10%)` }}
         >
           <Image
             src={characterImageSrc}
