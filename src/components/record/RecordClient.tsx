@@ -453,7 +453,8 @@ export default function RecordClient({
                     ] as DayKey[]
                   ).map((day) => {
                     const hasData = availableDays.has(day);
-                    const isSelected = !suppressWeekActive && selectedDay === day;
+                    const isSelected =
+                      !suppressWeekActive && selectedDay === day;
                     return (
                       <button
                         key={day}
@@ -681,7 +682,11 @@ export default function RecordClient({
                       />
                     </div>
                     <div className='text-center'>
-                      <p className='m-0 text-label-1 text-gray-600'>{`${dayMeta[selectedDay].full}의 스크린타임`}</p>
+                      <p className='m-0 text-label-1 text-gray-600'>
+                        {suppressWeekActive
+                          ? "평균"
+                          : `${dayMeta[selectedDay].full}의 스크린타임`}
+                      </p>
                       <h2 className='m-0 text-title-2 text-gray-900 font-semibold'>
                         {formatHM(selectedHM.hours, selectedHM.minutes)}
                       </h2>
@@ -822,9 +827,34 @@ export default function RecordClient({
                         <p className='text-red-500 text-center'>{error}</p>
                       ) : aiFeedback ? (
                         <div className='space-y-4'>
-                          <p className='m-0 text-body-2 text-gray-900 whitespace-pre-line'>
-                            {aiFeedback.feedback}
-                          </p>
+                          <div className='space-y-3'>
+                            {(() => {
+                              const raw = aiFeedback.feedback as unknown;
+                              const text =
+                                typeof raw === "string"
+                                  ? raw
+                                  : Array.isArray(raw)
+                                    ? raw
+                                        .filter((x) => typeof x === "string")
+                                        .join("\n\n")
+                                    : "";
+                              const cleaned = text
+                                .replace(/\\n/g, " ")
+                                .replace(/\r/g, "");
+                              return cleaned
+                                .split(/\n+/)
+                                .map((p) => p.trim())
+                                .filter((p) => p.length > 0)
+                                .map((paragraph) => (
+                                  <p
+                                    key={paragraph}
+                                    className='m-0 text-body-2 text-gray-900'
+                                  >
+                                    {paragraph}
+                                  </p>
+                                ));
+                            })()}
+                          </div>
 
                           {aiFeedback.insights.length > 0 && (
                             <div className='mt-4'>
