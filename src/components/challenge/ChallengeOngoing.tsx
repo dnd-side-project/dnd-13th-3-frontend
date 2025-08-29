@@ -261,7 +261,7 @@ export default function ChallengeOngoing({
                           {timeText}
                         </div>
                         <div
-                          className={`justify-start text-xs font-medium font-['Pretendard'] leading-none tracking-tight ${participant.current_time_minutes > (challenge.goal_time_minutes * 7) ? "text-red-400" : "text-gray-400"}`}
+                          className={`justify-start text-xs font-medium leading-none tracking-tight ${participant.current_time_minutes > (challenge.goal_time_minutes * 7) ? "text-red-400" : "text-gray-400"}`}
                         >
                           {Math.min(
                             100,
