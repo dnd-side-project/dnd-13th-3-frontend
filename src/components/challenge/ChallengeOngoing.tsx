@@ -97,11 +97,12 @@ export default function ChallengeOngoing({
               </div>
             </div>
             <div className='relative z-20'>
-              <div className='w-60 h-48 relative'>
+              <div className='w-[120px] h-48 relative'>
                 <Image
                   src={getCharacterImage(userProfile?.characterIndex)}
                   alt='도전하는 캐릭터'
-                  fill
+                  width={120}  
+                  height={120} 
                   className='object-contain'
                   priority
                 />
