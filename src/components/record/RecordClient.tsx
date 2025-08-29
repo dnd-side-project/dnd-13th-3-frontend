@@ -550,7 +550,7 @@ export default function RecordClient({
                         </div>
                       </div>
                     ) : (
-                      <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-white inline-flex justify-center items-center gap-0.5'>
+                      <div className='px-3 py-2 bg-gray-100 rounded-3xl outline outline-1 outline-offset-[-1px] outline-gray-100 inline-flex justify-center items-center gap-0.5'>
                         <img
                           src='/images/logos/Icon/Normal/under.svg'
                           alt='미만 아이콘'
@@ -729,7 +729,7 @@ export default function RecordClient({
                         </div>
                       </div>
                     ) : (
-                      <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-white inline-flex justify-center items-center gap-0.5'>
+                      <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-100 inline-flex justify-center items-center gap-0.5'>
                         <img
                           src='/images/logos/Icon/Normal/under.svg'
                           alt='미만 아이콘'
