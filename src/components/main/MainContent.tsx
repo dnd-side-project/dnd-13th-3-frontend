@@ -215,7 +215,7 @@ export default function MainContent({
         </div>
 
         {/* 통계 카드 */}
-        <div className='flex justify-center mt-3'>
+        <div className='flex justify-center mt-3 w-[335px] mx-auto'>
           <StatsCards
             targetTime={targetTime}
             openModal={openTimeEditModal}
