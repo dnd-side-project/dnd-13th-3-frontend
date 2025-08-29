@@ -3,7 +3,7 @@ export type GoalType =
   | "FOCUS_IMPROVEMENT"
   | "HEALTH_CARE"
   | "NO_SCREEN"
-  | "CUSTOM";
+  | "custom";
 
 export function mapGoalPresetToEnum(label: string): GoalType {
   switch (label) {
@@ -16,7 +16,7 @@ export function mapGoalPresetToEnum(label: string): GoalType {
     case "혼자 있는 시간 디지털 없이 보내보기":
       return "NO_SCREEN";
     default:
-      return "CUSTOM";
+      return "custom";
   }
 }
 
@@ -32,22 +32,12 @@ export function mapGoalEnumToLabel(
     case "HEALTH_CARE":
       return "눈 건강을 지키고 싶어요";
     case "NO_SCREEN":
-      return "혼자 있는 시간 디지털 없이 보내보기";
-    case "CUSTOM":
+      return "혼자 있는 시간 디지털 없이 보내기";
+    case "custom":
       return custom || "나만의 목표";
     default:
       return undefined;
   }
-}
-
-export function mapPresetHoursToEnum(hours: number): string {
-  return `${hours}HOURS`;
-}
-
-export function formatScreenTimeCustom(hours: number, minutes: number): string {
-  if (minutes === 0) return `${hours}HOURS`;
-  const total = hours * 60 + minutes;
-  return `${total}MINUTES`;
 }
 
 export function parseScreenTimeValue(
@@ -62,7 +52,7 @@ export function parseScreenTimeValue(
   if (typeof val === "object" && val !== null) {
     if (val.type === "CUSTOM" && val.custom) {
       const total = parseInt(val.custom, 10);
-      if (!isNaN(total)) {
+      if (!Number.isNaN(total)) {
         return { hours: Math.floor(total / 60), minutes: total % 60 };
       }
     } else if (/^\d+$/.test(val.type)) {
