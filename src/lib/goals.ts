@@ -32,7 +32,7 @@ export function mapGoalEnumToLabel(
     case "HEALTH_CARE":
       return "눈 건강을 지키고 싶어요";
     case "NO_SCREEN":
-      return "혼자 있는 시간 디지털 없이 보내기";
+      return "혼자 있는 시간 디지털 없이 보내보기";
     case "custom":
       return custom || "나만의 목표";
     default:
