@@ -135,7 +135,7 @@ export default function ChallengeOngoing({
                   <button
                     type='button'
                     onClick={handleInviteClick}
-                    className='px-[12px] py-[6px] bg-indigo-300 rounded-2xl inline-flex justify-center items-center gap-0.5 overflow-hidden hover:bg-indigo-400 transition-colors'
+                    className='px-[12px] py-[6px] bg-indigo-300 rounded-[46px] inline-flex justify-center items-center gap-0.5 overflow-hidden hover:bg-indigo-400 transition-colors'
                   >
                     <Image
                       src='/images/logos/AddPeople.svg'
