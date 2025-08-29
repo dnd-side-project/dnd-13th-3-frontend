@@ -253,6 +253,12 @@ export default function RecordClient({
   const selectedDelta = goalMinutes - selectedDayRecord.totalMinutes;
   const selectedDeltaHM = minutesToHM(Math.abs(selectedDelta));
 
+  // Weekly average values
+  const averageMinutes = Math.round(weekData?.data?.averageMinutes ?? 0);
+  const averageHM = minutesToHM(averageMinutes);
+  const averageDelta = goalMinutes - averageMinutes;
+  const averageDeltaHM = minutesToHM(Math.abs(averageDelta));
+
   // Fetch AI feedback when segment or selected day changes
   useEffect(() => {
     const fetchAIFeedback = async () => {
@@ -688,10 +694,12 @@ export default function RecordClient({
                           : `${dayMeta[selectedDay].full}의 스크린타임`}
                       </p>
                       <h2 className='m-0 text-title-2 text-gray-900 font-semibold'>
-                        {formatHM(selectedHM.hours, selectedHM.minutes)}
+                        {suppressWeekActive
+                          ? formatHM(averageHM.hours, averageHM.minutes)
+                          : formatHM(selectedHM.hours, selectedHM.minutes)}
                       </h2>
                     </div>
-                    {selectedDelta < 0 ? (
+                    {(suppressWeekActive ? averageDelta : selectedDelta) < 0 ? (
                       <div className='px-3 py-2 bg-gray-100 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-100 inline-flex justify-center items-center gap-0.5'>
                         <img
                           src='/images/logos/Icon/Normal/over.svg'
@@ -704,8 +712,14 @@ export default function RecordClient({
                           </span>
                           <span className='text-rose-500 text-caption-1 font-medium leading-none tracking-tight'>
                             {formatHM(
-                              selectedDeltaHM.hours,
-                              selectedDeltaHM.minutes
+                              (suppressWeekActive
+                                ? averageDeltaHM
+                                : selectedDeltaHM
+                              ).hours,
+                              (suppressWeekActive
+                                ? averageDeltaHM
+                                : selectedDeltaHM
+                              ).minutes
                             )}
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
@@ -727,8 +741,14 @@ export default function RecordClient({
                           </span>
                           <span className='text-indigo-500 text-caption-1 font-medium leading-none tracking-tight'>
                             {formatHM(
-                              selectedDeltaHM.hours,
-                              selectedDeltaHM.minutes
+                              (suppressWeekActive
+                                ? averageDeltaHM
+                                : selectedDeltaHM
+                              ).hours,
+                              (suppressWeekActive
+                                ? averageDeltaHM
+                                : selectedDeltaHM
+                              ).minutes
                             )}
                           </span>
                           <span className='text-gray-500 text-caption-1 font-medium leading-none tracking-tight'>
