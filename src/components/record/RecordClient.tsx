@@ -487,7 +487,7 @@ export default function RecordClient({
                           />
                         </div>
                         <div
-                          className={`text-center text-caption-2 font-medium leading-none ${
+                          className={`text-center text-caption-1 font-medium leading-none ${
                             isSelected ? "text-gray-900" : "text-gray-400"
                           }`}
                         >
