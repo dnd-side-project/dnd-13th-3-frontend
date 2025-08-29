@@ -205,7 +205,7 @@ export default function ChallengeOngoing({
                   <div
                     key={participant.userId}
                     className={`flex items-center gap-4 px-6 py-2 ${
-                      isCurrentUser ? "bg-gray-50" : "bg-white"
+                      isCurrentUser ? "bg-gray-100" : "bg-white"
                     }`}
                   >
                     <div className='flex-shrink-0'>
