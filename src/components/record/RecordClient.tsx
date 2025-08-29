@@ -441,7 +441,7 @@ export default function RecordClient({
               </button>
             </div>
             {segment === "today" ? (
-              <p className='m-0 text-body-1 font-medium text-gray-700 text-center'>
+              <p className='m-0 text-body-1 text-[18px] font-medium text-gray-700 text-center '>
                 {dateLabel}
               </p>
             ) : (
