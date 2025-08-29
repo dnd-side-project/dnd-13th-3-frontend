@@ -16,7 +16,7 @@ type DayKey = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
 export interface RecordClientProps {
   todayData: ScreenTimeResponse | null;
   weekData: ScreenTimeWeekResponse | null;
-  goalMinutes: number; // from user profile target
+  goalMinutes: number;
 }
 
 type DayStatus = "OVER" | "UNDER" | "NO_DATA";
@@ -58,14 +58,13 @@ export default function RecordClient({
     sun: { short: "일", full: "일요일" },
   };
 
-  // Initialize selectedDay to current day on component mount
   useEffect(() => {
     const weekdayFromNow = (): DayKey => {
-      const idx = new Date().getDay(); // 0=Sun ... 6=Sat
+      const idx = new Date().getDay();
       const day = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][
         idx
       ] as DayKey;
-      return day === "sun" ? "mon" : day; // Default to Monday if Sunday
+      return day === "sun" ? "mon" : day;
     };
     setSelectedDay(weekdayFromNow());
   }, []);
@@ -145,7 +144,6 @@ export default function RecordClient({
     return style;
   };
 
-  // Helpers
   const minutesToHM = (totalMinutes: number) => {
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
@@ -162,7 +160,6 @@ export default function RecordClient({
     return min > 0 ? `${h}시간 ${min}분` : `${h}시간`;
   };
 
-  // Helper to normalize appTimes to Record<string, number>
   const normalizeAppTimes = (
     record: BaseDayRecord | undefined
   ): Record<string, number> => {
@@ -181,7 +178,6 @@ export default function RecordClient({
     return { ...record.appTimes };
   };
 
-  // Helper to safely cast a partial record to DayRecord
   const toDayRecord = (record: Partial<BaseDayRecord>): DayRecord => {
     const baseRecord: BaseDayRecord = {
       date: record.date || new Date().toISOString().split("T")[0],
@@ -208,10 +204,21 @@ export default function RecordClient({
     });
   }, [todayData]);
   const todayHM = minutesToHM(todayRecord.totalMinutes);
-  const todayDelta = goalMinutes - todayRecord.totalMinutes; // +: under goal, -: over
+  const todayDelta = goalMinutes - todayRecord.totalMinutes;
   const todayDeltaHM = minutesToHM(Math.abs(todayDelta));
 
-  // Derived weekly values for selected day
+  const availableDays = useMemo(() => {
+    const days = new Set<DayKey>();
+    weekData?.data?.dailyRecords?.forEach((record) => {
+      const day = new Date(record.date).getDay();
+      const dayKey = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][
+        day
+      ] as DayKey;
+      days.add(dayKey);
+    });
+    return days;
+  }, [weekData]);
+
   const selectedDayRecord = useMemo<DayRecord>(() => {
     const recs = weekData?.data?.dailyRecords ?? [];
     const dayMap: Record<DayKey, number> = {
@@ -223,14 +230,22 @@ export default function RecordClient({
       fri: 5,
       sat: 6,
     };
-    const want = dayMap[selectedDay];
+
+    // If selected day has no data, find the first available day
+    let currentDay = selectedDay;
+    if (!availableDays.has(selectedDay) && availableDays.size > 0) {
+      currentDay = Array.from(availableDays)[0] as DayKey;
+      setSelectedDay(currentDay);
+    }
+
+    const want = dayMap[currentDay];
     const found = recs.find((r) => new Date(r.date).getDay() === want);
 
     return toDayRecord({
       ...found,
       status: found?.status as DayStatus,
     });
-  }, [selectedDay, weekData]);
+  }, [selectedDay, weekData, availableDays]);
 
   const selectedHM = minutesToHM(selectedDayRecord.totalMinutes);
   const selectedDelta = goalMinutes - selectedDayRecord.totalMinutes;
@@ -428,31 +443,40 @@ export default function RecordClient({
                       "sat",
                       "sun",
                     ] as DayKey[]
-                  ).map((day) => (
-                    <button
-                      key={day}
-                      type='button'
-                      onClick={() => setSelectedDay(day)}
-                      className='flex-1 p-1 inline-flex flex-col justify-start items-center gap-1'
-                      aria-pressed={selectedDay === day}
-                    >
-                      <div
-                        className='w-10 h-10 rounded-full outline outline-2 transition-all flex items-center justify-center'
-                        style={getDayButtonStyle(day, selectedDay === day)}
+                  ).map((day) => {
+                    const hasData = availableDays.has(day);
+                    const isSelected = selectedDay === day;
+                    return (
+                      <button
+                        key={day}
+                        type='button'
+                        onClick={() => hasData && setSelectedDay(day)}
+                        className={`flex-1 p-1 inline-flex flex-col justify-start items-center gap-1 ${
+                          !hasData ? "opacity-30 cursor-not-allowed" : ""
+                        }`}
+                        aria-pressed={isSelected}
+                        disabled={!hasData}
                       >
-                        <img
-                          src={getDayIcon(day, selectedDay === day)}
-                          alt={`${dayMeta[day].full} 상태`}
-                          className='w-full h-full'
-                        />
-                      </div>
-                      <div
-                        className={`text-center text-caption-2 font-medium leading-none ${selectedDay === day ? "text-gray-900" : "text-gray-400"}`}
-                      >
-                        {dayMeta[day].short}
-                      </div>
-                    </button>
-                  ))}
+                        <div
+                          className='w-10 h-10 rounded-full outline outline-2 transition-all flex items-center justify-center'
+                          style={getDayButtonStyle(day, isSelected)}
+                        >
+                          <img
+                            src={getDayIcon(day, isSelected)}
+                            alt={`${dayMeta[day].full} ${hasData ? "" : "(데이터 없음)"}`}
+                            className='w-full h-full'
+                          />
+                        </div>
+                        <div
+                          className={`text-center text-caption-2 font-medium leading-none ${
+                            isSelected ? "text-gray-900" : "text-gray-400"
+                          }`}
+                        >
+                          {dayMeta[day].short}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
