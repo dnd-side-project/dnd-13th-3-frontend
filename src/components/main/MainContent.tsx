@@ -209,6 +209,7 @@ export default function MainContent({
             <ProgressSection
               todayScreenTime={todayScreenTime}
               goalScreenTime={targetTime.hours * 60 + targetTime.minutes}
+              characterIndex={userProfile?.characterIndex}
             />
           </div>
         </div>
