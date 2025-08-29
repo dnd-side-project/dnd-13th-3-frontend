@@ -50,13 +50,15 @@ export function parseScreenTimeValue(
 
   // Handle object format { type: string, custom: string | null }
   if (typeof val === "object" && val !== null) {
-    if (val.type === "CUSTOM" && val.custom) {
+    const typeString = String(val.type || "");
+    const typeUpper = typeString.toUpperCase();
+    if (typeUpper === "CUSTOM" && val.custom) {
       const total = parseInt(val.custom, 10);
       if (!Number.isNaN(total)) {
         return { hours: Math.floor(total / 60), minutes: total % 60 };
       }
-    } else if (/^\d+$/.test(val.type)) {
-      const total = parseInt(val.type, 10);
+    } else if (/^\d+$/.test(typeString)) {
+      const total = parseInt(typeString, 10);
       return { hours: Math.floor(total / 60), minutes: total % 60 };
     }
     return { hours: 7, minutes: 0 };
