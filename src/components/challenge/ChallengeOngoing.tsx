@@ -43,7 +43,7 @@ export default function ChallengeOngoing({
 
   const getCharacterImage = (characterIndex?: number) => {
     const index = characterIndex || 1;
-    return `/images/logos/ChallengingCharater${index}.svg`;
+    return `/images/logos/ChallengingChar${index}.svg`;
   };
 
   const handleTabChange = (tab: "current" | "past") => {
