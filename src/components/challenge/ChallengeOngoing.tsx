@@ -9,6 +9,7 @@ import type {
 import type { UserProfileResponse } from "@/types/auth";
 import { ChallengeHistoryTab } from "./ChallengeHistoryTab";
 import InviteFriendModal from "./InviteFriendModal";
+import ChallengeFullModal from "./ChallengeFullModal";
 
 interface ChallengeOngoingProps {
   challenge: CurrentChallenge;
@@ -23,6 +24,7 @@ export default function ChallengeOngoing({
 }: ChallengeOngoingProps) {
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
   const [showInviteModal, setShowInviteModal] = useState(false);
+  const [showFullModal, setShowFullModal] = useState(false);
 
   const sortedParticipants = [...challenge.participants].sort(
     (a, b) => a.current_time_minutes - b.current_time_minutes
@@ -49,11 +51,19 @@ export default function ChallengeOngoing({
   };
 
   const handleInviteClick = () => {
+    if (challenge.participants.length >= 6) {
+      setShowFullModal(true);
+      return;
+    }
     setShowInviteModal(true);
   };
 
   const handleCloseInviteModal = () => {
     setShowInviteModal(false);
+  };
+
+  const handleCloseFullModal = () => {
+    setShowFullModal(false);
   };
 
   return (
@@ -295,11 +305,14 @@ export default function ChallengeOngoing({
         </div>
       </div>
               {showInviteModal && (
-          <InviteFriendModal
-            onClose={handleCloseInviteModal}
-            inviteUrl={challenge.invite_url || ""}
-          />
-        )}
+                <InviteFriendModal
+                  onClose={handleCloseInviteModal}
+                  inviteUrl={challenge.invite_url || ""}
+                />
+              )}
+              {showFullModal && (
+                <ChallengeFullModal onClose={handleCloseFullModal} />
+              )}
     </div>
   );
 }
