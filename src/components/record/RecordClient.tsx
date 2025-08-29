@@ -42,6 +42,8 @@ export default function RecordClient({
 }: RecordClientProps) {
   const [segment, setSegment] = useState<Segment>("today");
   const [selectedDay, setSelectedDay] = useState<DayKey>("mon");
+  // 주간 탭에서 요일 활성 하이라이트를 숨길지 여부 (선택값과 무관한 UI 전용 상태)
+  const [suppressWeekActive, setSuppressWeekActive] = useState(false);
   const [aiFeedback, setAIFeedback] = useState<
     AIFeedbackResponse["data"] | null
   >(null);
@@ -401,7 +403,10 @@ export default function RecordClient({
                 aria-selected={segment === "today"}
                 aria-controls='panel-today'
                 id='tab-today'
-                onClick={() => setSegment("today")}
+                onClick={() => {
+                  setSegment("today");
+                  setSuppressWeekActive(false);
+                }}
                 className={`flex-1 py-2 rounded-full text-body-1 font-medium transition-colors ${
                   segment === "today"
                     ? "bg-white text-gray-900 shadow-sm font-semibold"
@@ -416,7 +421,10 @@ export default function RecordClient({
                 aria-selected={segment === "week"}
                 aria-controls='panel-week'
                 id='tab-week'
-                onClick={() => setSegment("week")}
+                onClick={() => {
+                  setSegment("week");
+                  setSuppressWeekActive(true);
+                }}
                 className={`flex-1 py-2 rounded-full text-body-1 font-medium transition-colors ${
                   segment === "week"
                     ? "bg-white text-gray-900 shadow-sm font-semibold"
@@ -445,12 +453,16 @@ export default function RecordClient({
                     ] as DayKey[]
                   ).map((day) => {
                     const hasData = availableDays.has(day);
-                    const isSelected = selectedDay === day;
+                    const isSelected = !suppressWeekActive && selectedDay === day;
                     return (
                       <button
                         key={day}
                         type='button'
-                        onClick={() => hasData && setSelectedDay(day)}
+                        onClick={() => {
+                          if (!hasData) return;
+                          setSelectedDay(day);
+                          setSuppressWeekActive(false);
+                        }}
                         className={`flex-1 p-1 inline-flex flex-col justify-start items-center gap-1 ${
                           !hasData ? "opacity-30 cursor-not-allowed" : ""
                         }`}
