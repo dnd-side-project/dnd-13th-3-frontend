@@ -597,7 +597,7 @@ export default function RecordClient({
                             alt='인스타그램 로고'
                             className='w-6 h-6'
                           />
-                          <span>인스타그램</span>
+                          <span>Instagram</span>
                         </div>
                         <span className='text-caption-1 text-gray-500'>
                           {formatAppTime(todayRecord.appTimes.instagram)}
@@ -611,7 +611,7 @@ export default function RecordClient({
                             alt='크롬 로고'
                             className='w-6 h-6'
                           />
-                          <span>크롬</span>
+                          <span>Chrome</span>
                         </div>
                         <span className='text-caption-1 text-gray-500'>
                           {formatAppTime(todayRecord.appTimes.chrome)}
@@ -771,7 +771,7 @@ export default function RecordClient({
                             alt='인스타그램 로고'
                             className='w-6 h-6'
                           />
-                          <span>인스타그램</span>
+                          <span>Instagram</span>
                         </div>
                         <span className='text-caption-1 text-gray-500'>
                           {formatAppTime(selectedDayRecord.appTimes.instagram)}
@@ -785,7 +785,7 @@ export default function RecordClient({
                             alt='크롬 로고'
                             className='w-6 h-6'
                           />
-                          <span>크롬</span>
+                          <span>Chrome</span>
                         </div>
                         <span className='text-caption-1 text-gray-500'>
                           {formatAppTime(selectedDayRecord.appTimes.chrome)}
