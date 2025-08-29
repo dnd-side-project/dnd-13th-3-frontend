@@ -78,7 +78,7 @@ export default function ChallengeOngoing({
               height={24}
               priority
             />
-            <span className='text-lg font-semibold text-gray-900'>
+            <span className='text-medium font-medium text-gray-800'>
               {challenge.title}
             </span>
           </div>
@@ -135,7 +135,7 @@ export default function ChallengeOngoing({
                   <button
                     type='button'
                     onClick={handleInviteClick}
-                    className='px-[12px] py-[6px] bg-indigo-300 rounded-[46px] inline-flex justify-center items-center gap-0.5 overflow-hidden hover:bg-indigo-400 transition-colors'
+                    className='h-[32px] my-auto px-3 py-1 bg-indigo-300 rounded-[46px] inline-flex justify-center items-center gap-1 overflow-hidden hover:bg-indigo-400 transition-colors'
                   >
                     <Image
                       src='/images/logos/AddPeople.svg'
@@ -145,7 +145,7 @@ export default function ChallengeOngoing({
                       priority
                     />
                     <span className='text-blue-700 text-xs font-medium'>
-                     친구 초대
+                     친구초대
                     </span>
                   </button>
                 </div>
