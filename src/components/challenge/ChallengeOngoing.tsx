@@ -174,7 +174,7 @@ export default function ChallengeOngoing({
                   : "text-gray-400 font-medium"
               }`}
             >
-              현재 랭킹
+              <span className='w-20 text-center'>현재 랭킹</span>
             </button>
             <button
               type='button'
@@ -185,7 +185,7 @@ export default function ChallengeOngoing({
                   : "text-gray-400 font-medium"
               }`}
             >
-              지난 챌린지
+              <span className='w-20 text-center'>지난 챌린지</span>
             </button>
           </div>
         </div>
