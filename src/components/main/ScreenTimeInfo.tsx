@@ -20,7 +20,7 @@ export default function ScreenTimeInfo({
       onClick={openModal}
     >
       <div className='absolute left-1/2 top-[16px] transform -translate-x-1/2 text-center'>
-        <div className='text-gray-500 text-sm font-medium font-pretendard whitespace-nowrap'>
+        <div className='text-gray-500 text-label-1 font-medium whitespace-nowrap'>
           오늘의 스크린타임
         </div>
         <div className='text-gray-900 text-3xl font-semibold font-pretendard leading-10 mt-[4px] whitespace-nowrap'>
