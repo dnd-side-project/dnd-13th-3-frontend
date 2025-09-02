@@ -1,310 +1,86 @@
-# DND 13th 3 Frontend
+<img width="1920" height="1080" alt="표지" src="https://github.com/user-attachments/assets/d4f4ab3a-6a07-4230-97ff-9c3dcedc7ae9" />
 
-DND 13th 3 프로젝트의 프론트엔드 애플리케이션입니다.
+## 기획 배경
+<img width="1920" height="1080" alt="Overview" src="https://github.com/user-attachments/assets/795b6ca6-8c1b-4d17-8933-84693dea60e6" />
 
-## 🚀 기술 스택
+> “스마트폰과 SNS를 멀리하는 게 너무 힘들어…”  
+> “혼자서는 작심삼일로 끝나버려…”  
+> “디지털 디톡스, 함께라면 가능하지 않을까?”  
 
-- **Framework**: Next.js 15.4.5 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS 4
-- **State Management**: Zustand
-- **Data Fetching**: TanStack Query (React Query)
-- **HTTP Client**: Axios
-- **Icons**: Lucide React
-- **Linting & Formatting**: Biome
-- **Package Manager**: npm
+**미누**는 혼자서 의지만으로 하기 어려운 디지털 디톡스를 **친구들과 함께, 지속적으로** 실천할 수 있도록 돕는 서비스입니다.  
+작심삼일이 아닌, **작은 습관이 모여 지속적인 변화를 만들어가는 경험**을 제공합니다.
 
-<br/>
+---
 
-## 📋 개발 환경 설정
+## 문제 정의
+📌 **사전 설문조사 결과**
 
-### 필수 요구사항
+* 디지털 디톡스를 실천하지 못하는 가장 큰 이유는 동기부여 부족과 의지 부족이였습니다.
+* 또한 기존 디지털 디톡스 앱들은 유료화된 핵심 기능, 일회성 기능, 피드백과 성취감 부족이라는 한계점을 가지고 있었습니다.
 
-- Node.js 18.17.0 이상
-- npm 9.0.0 이상
+<img width="1920" height="1080" alt="user survey" src="https://github.com/user-attachments/assets/88543efd-4576-4bfc-b4ca-0ec86127062d" />
+<img width="1920" height="1080" alt="copmetitor analysis" src="https://github.com/user-attachments/assets/a0d8069c-9025-4d21-8026-ead5ca3a9bd5" />
+<img width="1920" height="1080" alt="PROBLEM" src="https://github.com/user-attachments/assets/158763a4-d8e3-4bde-a700-b2503d5b69db" />
 
-### 설치 및 실행
+---
 
-```bash
-# 의존성 설치
-npm install
+## 개선 방안
 
-# 개발 서버 실행
-npm run dev
+* **핵심 기능 무료 제공**  
+* **챌린지 & AI 리포트**를 통한 지속적 동기 부여  
+* **개인 + 친구와 함께** 실천하는 디지털 디톡스  
+<img width="1920" height="1080" alt="SOLUTION" src="https://github.com/user-attachments/assets/c1d9fd39-53e9-486c-8c16-72539799aaa9" />
 
-# 빌드
-npm run build
+---
 
-# 프로덕션 서버 실행
-npm run start
-```
+## IA 구조
 
-개발 서버는 [http://localhost:3000](http://localhost:3000)에서 실행됩니다.
+1. 로그인 / 온보딩 → 목표 설정
+2. 메인 화면 → 목표 달성률 & 스크린타임 확인
+3. 리포트 → AI 피드백 리포트
+4. 챌린지 → 친구와 함께 도전
+5. 환경설정 → 맞춤 설정
+<img width="1920" height="1080" alt="IA" src="https://github.com/user-attachments/assets/4c7c183d-afb4-4470-9a14-9fdad8a31811" />
 
-<br/>
+---
 
-## 🛠️ 개발 도구
+## 브랜드 철학
 
-### Biome (Linting & Formatting)
+> **“시간과 나를 동시에 지키며, 하루를 더 가치 있게 만든다.”**  
+> 미누는 시간 관리와 자기 관리의 접점을 찾는 서비스입니다.
+<img width="1920" height="1080" alt="BRAND CONCEPT" src="https://github.com/user-attachments/assets/880df46b-7a8b-4c3c-9e79-5f060538b4c7" />
 
-이 프로젝트는 [Biome](https://biomejs.dev/)를 사용하여 코드 품질을 관리합니다.
+---
 
-#### 사용 가능한 스크립트
+## UI 미리보기
+<img width="1920" height="1080" alt="DESIGN SYSTEM" src="https://github.com/user-attachments/assets/4663c8ff-e537-442f-8484-6df4aacf4186" />
+<img width="1920" height="1080" alt="Onboarding" src="https://github.com/user-attachments/assets/f84145ed-f936-4367-b594-2f52b63d3f74" />
+<img width="1920" height="1080" alt="HOME" src="https://github.com/user-attachments/assets/05cb14e6-8fa1-4deb-8df3-e508a23b5784" />
+<img width="1920" height="1080" alt="Timer" src="https://github.com/user-attachments/assets/b4e703c2-f531-4965-9773-98ef612d07a5" />
+<img width="1920" height="1080" alt="report" src="https://github.com/user-attachments/assets/d2bb576b-b6e1-4b13-b704-063ac6189346" />
+<img width="1920" height="1080" alt="challenge 1" src="https://github.com/user-attachments/assets/a3ecb127-96ad-4309-8163-28b8ec48b2b8" />
+<img width="1920" height="1081" alt="challenge 2" src="https://github.com/user-attachments/assets/ad075078-ab7d-4ce9-b859-d1ac8a9c34a8" />
 
-```bash
-# 린트 체크
-npm run lint
+---
 
-# 린트 체크 + 자동 수정
-npm run lint:fix
+## Tech Stack
 
-# 포맷팅 체크
-npm run format
+[![Next.js](https://img.shields.io/badge/Next.js-v13-black?style=flat-square\&logo=nextdotjs)](https://nextjs.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-v3-green?style=flat-square\&logo=springboot)](https://spring.io/projects/spring-boot)
+[![MySQL](https://img.shields.io/badge/MySQL-v8-4479A1?style=flat-square\&logo=mysql\&logoColor=white)](https://www.mysql.com/)
 
-# 포맷팅 + 자동 수정
-npm run format:fix
-```
+* Frontend: **Next.js, TypeScript**
+* Backend: **Spring Boot**
+* Database: **MySQL**
+* Infra: **Cloud 배포 아키텍처**
+* 향후: **웹앱 → 크로스플랫폼 앱 패키징 예정**
 
-#### Biome 설정
+---
 
-- **설정 파일**: `biome.json`
-- **무시 파일**: `.biomeignore`
-- **포맷팅 규칙**: 
-  - 들여쓰기: 2칸 공백
-  - 줄 길이: 80자
-  - 따옴표: 작은따옴표
-  - 세미콜론: 항상 사용
-  - 후행 쉼표: ES5 스타일
+## TEAM
+<img width="1920" height="1080" alt="Frame 1707485911" src="https://github.com/user-attachments/assets/0e4af85e-89d1-4fd9-8fd5-e41c13388f17" />
 
-<br/>
+> **작심삼일이 아닌, 작은 습관이 모여 만드는 변화.
+> 나를 지키는 작은 습관, 미누였습니다.**
 
-## 📝 코딩 컨벤션
-
-### 1. 도메인 중심 폴더 구조 설계
-
-프로젝트는 도메인별로 폴더를 구성하여 관련 기능들을 함께 관리합니다.
-
-### 2. 네이밍 컨벤션
-
-#### TypeScript/JavaScript
-```typescript
-// 컴포넌트명 (PascalCase)
-export const UserProfile = () => { }
-
-// 함수명 (camelCase)
-const getUserById = (id: string) => { }
-
-// 변수명 (camelCase)
-const userService = new UserService();
-
-// 상수명 (UPPER_SNAKE_CASE)
-const JWT_TOKEN_VALIDITY = 3600;
-
-// 타입명 (PascalCase)
-interface UserResponse { }
-
-// 파일명 (camelCase)
-// userProfile.tsx, userService.ts
-```
-
-
-### 3. 프로젝트 구조
-
-```
-src/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx         # 루트 레이아웃
-│   ├── page.tsx           # 홈페이지
-│   ├── globals.css        # 전역 스타일
-│   ├── favicon.ico        # 파비콘
-│   ├── users/             # ex: 사용자 페이지
-│   │   ├── page.tsx       # 사용자 목록
-│   │   └── [id]/          # 동적 라우트
-│   │       └── page.tsx   # 사용자 상세
-│   └── api/               # API 라우트
-├── components/            # 재사용 가능한 컴포넌트
-├── hooks/                 # 커스텀 훅
-├── lib/                   # 유틸리티 함수
-├── types/                 # TypeScript 타입 정의
-├── stores/                # Zustand 스토어
-└── services/              # API 서비스
-```
-
-<br/>
-
-## 📝 커밋 컨벤션
-
-이 프로젝트는 [Conventional Commits](https://www.conventionalcommits.org/) 규칙을 따릅니다.
-
-### 커밋 메시지 형식
-
-```
-<type>(<scope>): <description>
-
-[optional body]
-
-[optional footer(s)]
-```
-
-### 타입
-
-- **✨ feat**: 새로운 기능 추가
-- **🐞 fix**: 버그 수정
-- **🐛 design**: CSS 등 사용자 UI 디자인 변경
-- **📝 docs**: 문서 수정
-- **💄 style**: 코드 포맷 변경(세미콜론, 들여쓰기 등)만 수정
-- **🤖 refactor**: 리팩토링, 파일 삭제, 수정, 이동 등
-- **✅ test**: 테스트 코드 관련 작업
-
-### 예시
-
-```bash
-✨ feat: 사용자 로그인 기능 추가
-🐞 fix: API 응답 처리 오류 수정
-🐛 design: 버튼 스타일 변경
-📝 docs: README 업데이트
-💄 style: 코드 포맷팅 적용
-🤖 refactor: 컴포넌트 구조 개선
-✅ test: 테스트 코드 추가
-```
-
-<br/>
-
-## 🌿 브랜치 전략
-
-### 브랜치 종류
-
-- **`main`** - 운영 버전 관리 브랜치
-- **`develop`** - 개발 버전 관리 브랜치
-- **`feature/*`** - 새 기능 개발하는 브랜치 (예: `feature/user-login`)
-- **`fix/*`** - 버그를 수정하기 위한 브랜치 (예: `fix/api-error`)
-- **`hotfix/*`** - 긴급 버그를 고치기 위한 브랜치 (예: `hotfix/critical-bug`)
-
-### 브랜치 생성 규칙
-
-```bash
-# 기능 개발
-git checkout -b feature/user-login
-
-# 버그 수정
-git checkout -b fix/api-error
-
-# 긴급 수정
-git checkout -b hotfix/critical-bug
-```
-
-<br/>
-
-## 🐛 이슈 템플릿
-
-### 기능 요청 이슈
-
-```markdown
-[FEAT] - 기능명
-
-## 목적
-- 이 기능이 왜 필요한지 설명
-
-## 구현
-- 구체적인 구현 방법 설명
-
-## 설명(Optional)
-- 추가 설명이 필요한 경우
-```
-
-### 버그 리포트 이슈
-
-```markdown
-[BUG] - 버그명
-
-## 목적
-- 버그 수정 목적
-
-## 구현
-- 버그 수정 방법
-
-## 설명(Optional)
-- 추가 설명이 필요한 경우
-```
-
-### 이슈 라벨
-
-| 라벨 | 설명 |
-| --- | --- |
-| `Feature` | 새 기능 |
-| `Bug` | 버그 수정 |
-| `Docs` | 문서 작업 |
-| `Test` | 테스트 작업 |
-| `Chore` | 설정 관련 작업 |
-| `Hotfix` | 긴급 수정 |
-| `priority: critical` | 즉시 확인 필요 |
-| `priority: high` | 빠른 확인 필요 |
-| `priority: medium` | 확인 필요 |
-| `priority: low` | 여유 있음 |
-
-<br/>
-
-## 🔄 Pull Request
-
-### PR 생성 전 체크리스트
-
-- [ ] 코드가 프로젝트의 코딩 스타일을 따르는가?
-- [ ] 새로운 기능에 대한 테스트가 포함되어 있는가?
-- [ ] 문서가 업데이트되었는가?
-- [ ] 커밋 메시지가 컨벤션을 따르는가?
-- [ ] Biome 린트 검사를 통과했는가? (`npm run lint`)
-- [ ] 로컬에서 빌드가 성공하는가? (`npm run build`)
-
-### PR 템플릿
-
-```markdown
-## 관련 이슈
-- 이슈 번호 또는 링크
-
-## 작업 내용
-- 변경된 내용을 간단히 설명
-
-## 리뷰 요구사항(Optional)
-- 특별히 리뷰해주길 원하는 부분
-```
-
-<br/>
-
-## 🎨 디자인 시스템
-
-이 프로젝트는 MINU 디자인 시스템을 따릅니다.
-
-### 색상 팔레트
-
-- **Gray Scale**: 50-900
-- **Blue Scale**: 50-900
-- **Red Scale**: 50-900
-- **Orange Scale**: 50-900
-- **Green Scale**: 50-900
-- **Teal Scale**: 50-900
-- **Purple Scale**: 50-900
-
-### 타이포그래피
-
-- **Display**: display-1, display-2
-- **Title**: title-1 ~ title-4
-- **Heading**: heading-1, heading-2, headline-1
-- **Body**: body-1, body-1-reading
-- **Label**: label-1, label-1-reading
-- **Caption**: caption-1, caption-2
-
-### 반응형 브레이크포인트
-
-- **Mobile**: 375px
-- **Tablet**: 768px
-- **Desktop**: 1024px
-
-<br/>
-
-## 📚 참고 자료
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [Biome Documentation](https://biomejs.dev/)
-- [Zustand Documentation](https://zustand-demo.pmnd.rs/)
-- [TanStack Query Documentation](https://tanstack.com/query/latest)
+---
