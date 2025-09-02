@@ -64,16 +64,23 @@
 ---
 
 ## Tech Stack
+### Frontend
+![Next.js](https://img.shields.io/badge/Next.js-15.4.5-black?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-State_Management-orange?style=for-the-badge&logo=zustand)
+![TanStack Query](https://img.shields.io/badge/TanStack_Query-React_Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-HTTP_Client-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
+![Lucide React](https://img.shields.io/badge/Lucide_React-Icons-49557A?style=for-the-badge&logo=lucide&logoColor=white)
+![Biome](https://img.shields.io/badge/Biome-Lint_&_Formatting-79D0F7?style=for-the-badge)
+![npm](https://img.shields.io/badge/npm-Package_Manager-CB3837?style=for-the-badge&logo=npm&logoColor=white)
 
-[![Next.js](https://img.shields.io/badge/Next.js-v13-black?style=flat-square\&logo=nextdotjs)](https://nextjs.org/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-v3-green?style=flat-square\&logo=springboot)](https://spring.io/projects/spring-boot)
-[![MySQL](https://img.shields.io/badge/MySQL-v8-4479A1?style=flat-square\&logo=mysql\&logoColor=white)](https://www.mysql.com/)
+### Backend
+![Java](https://img.shields.io/badge/Java-17-007396?style=for-the-badge&logo=java&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.8-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Spring Data JPA](https://img.shields.io/badge/Spring_Data_JPA-green?style=for-the-badge&logo=springboot&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 
-* Frontend: **Next.js, TypeScript**
-* Backend: **Spring Boot**
-* Database: **MySQL**
-* Infra: **Cloud 배포 아키텍처**
-* 향후: **웹앱 → 크로스플랫폼 앱 패키징 예정**
 
 ---
 
